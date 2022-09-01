@@ -113,7 +113,7 @@ namespace GenshinMod.UI
             // (These conditions usually refer to opening some other menu, so it'll auto close when we open them)
             if(Main.playerInventory || Main.inFancyUI || Main.InReforgeMenu || Main.InGuideCraftMenu || Main.hairWindow || Main.ingameOptionsWindow || Main.LocalPlayer.talkNPC != -1)
             {
-                UISystem.Instance.HideCharacterUI();
+                UISystem.Instance.HideUIs();
             }
         }
 

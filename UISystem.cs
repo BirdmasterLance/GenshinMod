@@ -69,19 +69,19 @@ namespace GenshinMod
 
         internal void ShowCharacterUI()
         {
-            characterListUI.OnInitialize(); // Remove later this is only for testing
+            //characterListUI.OnInitialize(); // Remove later this is only for testing
             GenshinInterface?.SetState(characterListUI);
             characterListUI.OpenMenu();
         }
 
-        internal void HideCharacterUI()
+        internal void ShowGachaUI()
         {
-            GenshinInterface?.SetState(null);
+            GenshinInterface?.SetState(gachaUI);
         }
 
-        internal bool IsCharacerUIActive()
+        internal void HideUIs()
         {
-            return GenshinInterface.CurrentState.Equals(characterListUI);
+            GenshinInterface?.SetState(null);
         }
     }
 }

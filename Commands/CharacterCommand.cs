@@ -32,58 +32,61 @@ namespace GenshinMod.Commands
 				if (args[0] == "list")
 				{
 					Main.NewText("You have: ");
-					string output = "";
-					foreach (string s in modPlayer.GetCharacters())
-					{
-						output += s + ", ";
-					}
+					string output = string.Join(", ", modPlayer.GetCharacters());
 					Main.NewText(output);
 				}
 				else if(args[0] == "active")
                 {
 					Main.NewText("Your active character is: " + modPlayer.activeCharacter);
                 }
-			}
-			else if(args.Length == 2)
-            {
-				// For later, make a global list of all characters?
-				List<string> characters = modPlayer.GetCharacters();
-				if (args[0] == "add")
+				else if(args[0] == "clear")
                 {
-					if(characters.Contains(args[1]))
-                    {
-						Main.NewText("You already have that character!");
-                    }
-					else
-                    {
-						Main.NewText("Added " + args[1]);
-						characters.Add(args[1]);
-                    }
+					modPlayer.GetCharacters().Clear();
+					Main.NewText("Removed all characters");
                 }
+			}
+			else if (args.Length > 1)
+            {
+				string character = "";
+				for(int i = 1; i < args.Length; i++)
+                {
+					character += args[i] + " ";
+                }
+				character = character.Substring(0, character.Length - 1);
+				if (args[0] == "add")
+				{
+					if (!modPlayer.AddCharacter(character))
+					{
+						Main.NewText("You already have that character!");
+					}
+					else
+					{
+						Main.NewText("Added " + character);
+					}
+				}
 				else if (args[0] == "remove")
 				{
-					if (!characters.Contains(args[1]))
+					if (!modPlayer.RemoveCharacter(character))
 					{
 						Main.NewText("You don't have that character!");
 					}
 					else
 					{
-						Main.NewText("Removed " + args[1]);
-						characters.Remove(args[1]);
+						Main.NewText("Removed " + character);
 					}
 				}
-				else if(args[0] == "active")
-                {
-					if (!characters.Contains(args[1]))
+				else if (args[0] == "active")
+				{
+					if (!modPlayer.ChangeActiveCharacter(character))
 					{
 						Main.NewText("You don't have that character!");
 					}
 					else
 					{
-						Main.NewText("Your active character is now: " + args[1]);
-						modPlayer.ChangeActiveCharacter(args[1]);
+						Main.NewText("Your active character is now: " + character);
 					}
 				}
+
 			}
 		}
     }

@@ -50,31 +50,77 @@ namespace GenshinMod
             activeCharacter = tag.Get<string>("activeChar");
         }
 
-        // Get the list of the characters the player has
+        /// <summary>
+        /// Get the string List of all the characters a player has.
+        /// </summary>
         public List<string> GetCharacters()
         {
             return characters;
         }
 
-        public void ChangeActiveCharacter(string character)
+        /// <summary>
+        /// Adds a character to the player's list of characters, if they don't have it.
+        /// </summary>
+        public bool AddCharacter(string character)
         {
+            if (characters.Contains(character))
+            {
+                return false;
+            }
+            else
+            {
+                characters.Add(character);
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Removes a character from the player's list of characters, if they have it.
+        /// </summary>
+        public bool RemoveCharacter(string character)
+        {
+            if (!characters.Contains(character))
+            {
+                return false;
+            }
+            else
+            {
+
+                characters.Remove(character);
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Changes the player's active character, as well as change their sprite.
+        /// </summary>
+        public bool ChangeActiveCharacter(string character)
+        {
+            if (!characters.Contains(character))
+            {
+                return false;
+            }
             activeCharacter = character;
             replaceTexture = true;
             Main.NewText($"Your active character is: {activeCharacter}");
 
-            // Handles equipping the correct texture for the character
-            int equipSlotHead = EquipLoader.GetEquipSlot(GenshinMod.Instance, activeCharacter, EquipType.Head);
-            int equipSlotBody = EquipLoader.GetEquipSlot(GenshinMod.Instance, activeCharacter, EquipType.Body);
-            int equipSlotLegs = EquipLoader.GetEquipSlot(GenshinMod.Instance, activeCharacter, EquipType.Legs);
+            // TODO: when sprites are added, enable all of this code
 
-            // Determines whether we show the head, body, and legs
-            ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
-            ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
-            ArmorIDs.Body.Sets.HidesBottomSkin[equipSlotBody] = true;
-            ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;
-            ArmorIDs.Legs.Sets.HidesTopSkin[equipSlotLegs] = true;
-            ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;         
-            ArmorIDs.Legs.Sets.OverridesLegs[equipSlotLegs] = true;
+            // Handles equipping the correct texture for the character
+            //int equipSlotHead = EquipLoader.GetEquipSlot(GenshinMod.Instance, activeCharacter, EquipType.Head);
+            //int equipSlotBody = EquipLoader.GetEquipSlot(GenshinMod.Instance, activeCharacter, EquipType.Body);
+            //int equipSlotLegs = EquipLoader.GetEquipSlot(GenshinMod.Instance, activeCharacter, EquipType.Legs);
+
+            //// Determines whether we show the head, body, and legs
+            //ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
+            //ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
+            //ArmorIDs.Body.Sets.HidesBottomSkin[equipSlotBody] = true;
+            //ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;
+            //ArmorIDs.Legs.Sets.HidesTopSkin[equipSlotLegs] = true;
+            //ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;         
+            //ArmorIDs.Legs.Sets.OverridesLegs[equipSlotLegs] = true;
+
+            return true;
         }
 
         public void RemoveActiveCharacter()
