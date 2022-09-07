@@ -8,8 +8,9 @@ namespace GenshinMod
 {
     class PlayerCharacterCode : ModPlayer
     {
-        private List<string> characters;
-        public string activeCharacter;
+        private List<Character> characters;
+        public List<Character> partyCharacters;
+        public Character activeCharacter;
 
         public bool replaceTexture; // Checks if we want to replace the texture
 
@@ -20,7 +21,8 @@ namespace GenshinMod
 
         public override void Initialize()
         {
-            characters = new List<string>();
+            characters = new List<Character>();
+            partyCharacters = new List<Character>();
         }
 
         public override void SaveData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
@@ -32,6 +34,15 @@ namespace GenshinMod
             else
             {
                 tag.Set("characters", characters);
+            }
+
+            if(tag.ContainsKey("partyCharacters"))
+            {
+                tag.Add("partyCharacters", partyCharacters);
+            }
+            else
+            {
+                tag.Set("partyCharacters", partyCharacters);
             }
 
             if (tag.ContainsKey("activeChar"))
@@ -46,16 +57,45 @@ namespace GenshinMod
 
         public override void LoadData(TagCompound tag)
         {
-            characters = (List<string>)tag.GetList<string>("characters");
-            activeCharacter = tag.Get<string>("activeChar");
+            characters = (List<Character>)tag.GetList<Character>("characters");
+            partyCharacters = (List<Character>)tag.GetList<Character>("partyCharacters");
+            activeCharacter = tag.Get<Character>("activeChar");
         }
 
         /// <summary>
         /// Get the string List of all the characters a player has.
         /// </summary>
-        public List<string> GetCharacters()
+        public List<Character> GetCharacters()
         {
             return characters;
+        }
+
+        /// <summary>
+        /// Returns the character class based on the name provided.
+        /// </summary>
+        public Character GetCharacter(string character)
+        {
+            foreach(Character c in characters)
+            {
+                if(c.Name == character)
+                { return c; }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Returns true or false depending on if the player has said character.
+        /// </summary>
+        public bool HasCharacter(string character)
+        {
+            foreach(Character c in characters)
+            {
+                if(c.Name == character)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>
@@ -63,13 +103,13 @@ namespace GenshinMod
         /// </summary>
         public bool AddCharacter(string character)
         {
-            if (characters.Contains(character))
+            if (HasCharacter(character))
             {
-                return false;
+                return false; // TODO: let the game/player know that they can raise the constellation of this character at this point
             }
             else
             {
-                characters.Add(character);
+                characters.Add(new Character(character));
                 return true;
             }
         }
@@ -79,16 +119,32 @@ namespace GenshinMod
         /// </summary>
         public bool RemoveCharacter(string character)
         {
-            if (!characters.Contains(character))
+            if (!HasCharacter(character))
             {
                 return false;
             }
             else
             {
 
-                characters.Remove(character);
+                characters.Remove(GetCharacter(character));
                 return true;
             }
+        }
+
+        public List<Character> GetPartyCharacters()
+        {
+            return partyCharacters;
+        }
+
+        public void ChangePartyCharacters(string character, int slot)
+        {
+            if (slot >= 4) return;
+            if(character == "Remove" || character == "None")
+            {
+                partyCharacters.RemoveAt(slot);
+            }
+            if (!HasCharacter(character)) return;
+            partyCharacters.Insert(slot, GetCharacter(character));
         }
 
         /// <summary>
@@ -96,13 +152,13 @@ namespace GenshinMod
         /// </summary>
         public bool ChangeActiveCharacter(string character)
         {
-            if (!characters.Contains(character))
+            if (!HasCharacter(character))
             {
                 return false;
             }
-            activeCharacter = character;
+            activeCharacter = GetCharacter(character);
             replaceTexture = true;
-            Main.NewText($"Your active character is: {activeCharacter}");
+            Main.NewText($"Your active character is: {activeCharacter.Name}");
 
             // TODO: when sprites are added, enable all of this code
 
@@ -126,7 +182,7 @@ namespace GenshinMod
         public void RemoveActiveCharacter()
         {
             replaceTexture = false;
-            activeCharacter = "None";
+            activeCharacter = null;
             Main.NewText($"Removed active character");
         }
 
@@ -181,9 +237,9 @@ namespace GenshinMod
                 // Replaces the player's head/body/legs with the correct equipment
                 // We find the equipment based on its name when we loaded it all in GenshinTest.cs
                 //var exampleCostume = ModContent.GetInstance<CharacterCostume>();
-                Player.head = EquipLoader.GetEquipSlot(Mod, activeCharacter, EquipType.Head);
-                Player.body = EquipLoader.GetEquipSlot(Mod, activeCharacter, EquipType.Body);
-                Player.legs = EquipLoader.GetEquipSlot(Mod, activeCharacter, EquipType.Legs);
+                Player.head = EquipLoader.GetEquipSlot(Mod, activeCharacter.Name, EquipType.Head);
+                Player.body = EquipLoader.GetEquipSlot(Mod, activeCharacter.Name, EquipType.Body);
+                Player.legs = EquipLoader.GetEquipSlot(Mod, activeCharacter.Name, EquipType.Legs);
             }
         }
     }

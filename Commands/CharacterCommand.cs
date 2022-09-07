@@ -32,12 +32,16 @@ namespace GenshinMod.Commands
 				if (args[0] == "list")
 				{
 					Main.NewText("You have: ");
-					string output = string.Join(", ", modPlayer.GetCharacters());
+					string output = "";
+					foreach(Character c in modPlayer.GetCharacters())
+                    {
+						output += c.Name + ", ";
+                    }
 					Main.NewText(output);
 				}
 				else if(args[0] == "active")
                 {
-					Main.NewText("Your active character is: " + modPlayer.activeCharacter);
+					Main.NewText("Your active character is: " + modPlayer.activeCharacter.Name);
                 }
 				else if(args[0] == "clear")
                 {

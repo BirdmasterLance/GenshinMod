@@ -1,4 +1,6 @@
-﻿using Terraria;
+﻿using GenshinMod.Buffs;
+using GenshinMod.Items;
+using Terraria;
 using Terraria.GameInput;
 using Terraria.ModLoader;
 
@@ -8,17 +10,23 @@ namespace GenshinMod
     {
         public static ModKeybind CharacterUIHotKey;
 		public static ModKeybind GachaUIHotKey;
+		public static ModKeybind ElementalSkill;
+		public static ModKeybind ElementalBurst;
 
 		public override void Load()
 		{
-			CharacterUIHotKey = KeybindLoader.RegisterKeybind(Mod, "Character Menu", "G");
-			GachaUIHotKey = KeybindLoader.RegisterKeybind(Mod, "Gacha Menu", "H");
+			CharacterUIHotKey = KeybindLoader.RegisterKeybind(Mod, "Character Menu", Microsoft.Xna.Framework.Input.Keys.C);
+			GachaUIHotKey = KeybindLoader.RegisterKeybind(Mod, "Gacha Menu", Microsoft.Xna.Framework.Input.Keys.H);
+			ElementalSkill = KeybindLoader.RegisterKeybind(Mod, "Elemental Skill", Microsoft.Xna.Framework.Input.Keys.E);
+			ElementalBurst = KeybindLoader.RegisterKeybind(Mod, "Elemental Burst", Microsoft.Xna.Framework.Input.Keys.Q);
 		}
 
 		public override void Unload()
 		{
 			CharacterUIHotKey = null;
 			GachaUIHotKey = null;
+			ElementalSkill= null;
+			ElementalBurst = null;
 		}
 	}
 
@@ -50,6 +58,29 @@ namespace GenshinMod
 					UISystem.Instance.HideUIs();
 				}
 			}
+
+			
+			if(Main.myPlayer == Player.whoAmI)
+            {
+				if (Keybinds.ElementalSkill.JustPressed && Collision.CanHitLine(Main.player[Main.myPlayer].position, 0, 0, Main.MouseWorld, 0, 0))
+				{
+					if(Main.player[Main.myPlayer].GetModPlayer<PlayerCharacterCode>().activeCharacter.Name == "Yanfei")
+                    {
+						Projectile proj = Main.projectile[ModContent.ProjectileType<YanfeiSkill>()];
+						Projectile.NewProjectile(Projectile.InheritSource(proj), Main.MouseWorld, Microsoft.Xna.Framework.Vector2.Zero, ModContent.ProjectileType<YanfeiSkill>(), 50, proj.knockBack, Main.myPlayer);
+					}
+				}
+
+				if (Keybinds.ElementalBurst.JustPressed)
+				{
+					if (Main.player[Main.myPlayer].GetModPlayer<PlayerCharacterCode>().activeCharacter.Name == "Yanfei")
+					{
+						Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<BrillianceBuff>(), 900);
+						Projectile proj = Main.projectile[ModContent.ProjectileType<YanfeiBurst>()];
+						Projectile.NewProjectile(Projectile.InheritSource(proj), Main.player[Main.myPlayer].position, Microsoft.Xna.Framework.Vector2.Zero, ModContent.ProjectileType<YanfeiBurst>(), 70, proj.knockBack, Main.myPlayer);
+					}
+				}
+			}      
 		}
 	}
 }

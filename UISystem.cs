@@ -69,7 +69,7 @@ namespace GenshinMod
 
         internal void ShowCharacterUI()
         {
-            //characterListUI.OnInitialize(); // Remove later this is only for testing
+            characterListUI.OnInitialize(); // Remove later this is only for testing
             GenshinInterface?.SetState(characterListUI);
             characterListUI.OpenMenu();
         }

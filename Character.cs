@@ -3,10 +3,68 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria.ModLoader.IO;
 
 namespace GenshinMod
 {
-    public static class Character
+    public class Character
+    {
+        public string Name { get; protected set; }
+
+        public int AttackLevel { get; protected set; }
+        public int SkillLevel { get; protected set; }
+        public int BurstLevel { get; protected set; }
+        public int AscensionLevel { get; protected set; }
+        public int Constellation { get; protected set; }
+
+        public Character(string name)
+        {
+            Name = name;
+
+            AttackLevel = 1;
+            SkillLevel = 1;
+            BurstLevel = 1;
+            AscensionLevel = 1;
+            Constellation = 1;
+        }
+
+        public Character(string name, int atkLVL, int skillLVL, int burstLVL, int ascentionLVL, int constellationLVL)
+        {
+            Name = name;
+            AttackLevel = atkLVL;
+            SkillLevel = skillLVL;
+            BurstLevel = burstLVL;
+            AscensionLevel = ascentionLVL;
+            Constellation = constellationLVL;
+        }
+    }
+
+    // TODO: artifacts
+
+    // For saving character info to the player
+    public class CharacterSerializer : TagSerializer<Character, TagCompound>
+    {
+        public override TagCompound Serialize(Character value) => new TagCompound
+        {
+            ["name"] = value.Name,
+            ["atkLVL"] = value.AttackLevel,
+            ["skillLVL"] = value.SkillLevel,
+            ["burstLVL"] = value.BurstLevel,
+            ["ascensionLVL"] = value.AscensionLevel,
+            ["constellationLVL"] = value.Constellation
+        };
+
+        public override Character Deserialize(TagCompound tag) => new Character(
+            tag.GetString("name"),
+            tag.GetInt("atkLVL"),
+            tag.GetInt("skillLVL"),
+            tag.GetInt("burstLVL"),
+            tag.GetInt("ascensionLVL"),
+            tag.GetInt("constellationLVL")
+            );
+    }
+
+    public static class CharacterLists
     {
         // 4 Stars
         public const string Amber = "Amber";
@@ -59,10 +117,131 @@ namespace GenshinMod
         public const string Tighnari = "Tighnari";
         public const string Venti = "Venti";
         public const string Xiao = "Xiao";
+        public const string Xingqiu = "Xingqiu";
         public const string YaeMiko = "Yae Miko";
         public const string Yelan = "Yelan";
         public const string Yoimiya = "Yoimiya";
         public const string Zhongli = "Zhongli";
+
+        /// <summary>
+        /// Gets the character's display name
+        /// </summary>
+        public static string GetDisplayName(string name)
+        {
+            switch(name)
+            {
+                case "Alebdo" : return Albedo;
+                case "Aloy" : return Aloy;
+                case "Amber" : return Amber;
+                case "Barbara" : return Barbara;
+                case "Beidou" : return Beidou;
+                case "Bennett" : return Bennett;
+                case "Childe" : return Childe;
+                case "Chongyun" : return Chongyun;
+                case "Diluc" : return Diluc;
+                case "Diona" : return Diona;
+                case "Eula" : return Eula;
+                case "Fischl" : return Fischl;
+                case "Ganyu" : return Ganyu;
+                case "HuTao" : return HuTao;
+                case "Itto" : return Itto;
+                case "Jean" : return Jean;
+                case "Klee" : return Klee;
+                case "Kaeya" : return Kaeya;
+                case "Kazuha" : return Kazuha;
+                case "Keqing" : return Keqing;
+                case "Lisa" : return Lisa;
+                case "Mona" : return Mona;
+                case "Ningguang" : return Ningguang;
+                case "Noelle" : return Noelle;
+                case "Qiqi" : return Qiqi;
+                case "RaidenShogun" : return RaidenShogun;
+                case "Sayu" : return Sayu;
+                case "Venti" : return Venti;
+                case "Xiao" : return Xiao;
+                case "Xiangling" : return Xiangling;
+                case "Xinyan" : return Xinyan;
+                case "YaeMiko" : return YaeMiko;
+                case "Yelan": return Yelan;
+                case "Yanfei" : return Yanfei;
+                case "Yoimiya" : return Yoimiya;
+                case "Yunjin" : return YunJin;
+                case "Zhongli" : return Zhongli;
+            }
+            return "None";
+        }
+
+        // TODO: add traveler
+        /// <summary>
+        /// Get the element of the specified character.
+        /// </summary>
+        public static string GetElement(string character)
+        {
+            switch(character)
+            {
+                case Jean:
+                case Kazuha:
+                case Sayu:
+                case ShikanoinHeizou:
+                case Sucrose:
+                case Venti:
+                case Xiao:
+                    return "Anemo";
+                case Aloy:
+                case Chongyun:
+                case Diona:
+                case Eula:
+                case Ganyu:
+                case Kaeya:
+                case Ayaka:
+                case Qiqi:
+                case Rosaria:
+                case Shenhe:
+                    return "Cryo";
+                case Collei:
+                case Tighnari:
+                    return "Dendro";
+                case Beidou:
+                case Fischl:
+                case Keqing:
+                case KujouSara:
+                case KukiShinobu:
+                case Lisa:
+                case RaidenShogun:
+                case Razor:
+                case YaeMiko:
+                    return "Electro";
+                case Albedo:
+                case Itto:
+                case Gorou:
+                case Ningguang:
+                case Noelle:
+                case YunJin:
+                case Zhongli:
+                    return "Geo";
+                case Barbara:
+                case Ayato:
+                case Mona:
+                case Kokomi:
+                case Childe:
+                case Xingqiu:
+                case Yelan:
+                    return "Hydro";
+                case Amber:
+                case Bennett:
+                case Diluc:
+                case HuTao:
+                case Klee:
+                case Thoma:
+                case Xiangling:
+                case Xinyan:
+                case Yanfei:
+                case Yoimiya:
+                    return "Pyro";
+
+            }
+            return "None";
+        }
 
         /// <summary>
         /// Returns a string List of every character added.
@@ -99,9 +278,9 @@ namespace GenshinMod
             output.Add(Sayu);
             output.Add(Venti);
             output.Add(Xiao);
+            output.Add(Xingqiu);
             output.Add(Xiangling);
             output.Add(Xinyan);
-            output.Add(Yelan);
             output.Add(YaeMiko);
             output.Add(Yanfei);
             output.Add(Yelan);
@@ -111,7 +290,7 @@ namespace GenshinMod
 
             return output;
         }
-        
+
         /// <summary>
         /// Returns a string List of every 4 star character added.
         /// </summary>
@@ -124,7 +303,7 @@ namespace GenshinMod
             output.Add(Barbara);
             output.Add(Noelle);
             output.Add(Beidou);
-            output.Add(Bennett); 
+            output.Add(Bennett);
             output.Add(Chongyun);
             output.Add(Collei);
             output.Add(Diona);
@@ -140,6 +319,7 @@ namespace GenshinMod
             output.Add(Sucrose);
             output.Add(Thoma);
             output.Add(Xiangling);
+            output.Add(Xingqiu);
             output.Add(Xinyan);
             output.Add(Yanfei);
             output.Add(YunJin);
@@ -185,4 +365,5 @@ namespace GenshinMod
             return output;
         }
     }
+
 }

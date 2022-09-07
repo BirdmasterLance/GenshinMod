@@ -65,22 +65,22 @@ namespace GenshinMod.UI
 
         private void WishClick(UIMouseEvent evt, UIElement listeningElement)
         {
-            List<string> fourStars = Character.GetAll4Stars();
-            List<string> fiveStars = Character.GetAll5Stars();
+            //// List<string> fourStars = Character.GetAll4Stars();
+            //// List<string> fiveStars = Character.GetAll5Stars();
 
-            var rand = new Random();
-            int chance = rand.Next(100);
-            string character;
-            if (chance < 5)
-            {
-                character = fiveStars[rand.Next(fiveStars.Count)];
-            }
-            else
-            {
-                character = fourStars[rand.Next(fourStars.Count)];
-            }
-            Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>().AddCharacter(character);
-            Main.NewText($"You got: {character}");
+            //var rand = new Random();
+            //int chance = rand.Next(100);
+            //string character;
+            //if (chance < 5)
+            //{
+            //    character = fiveStars[rand.Next(fiveStars.Count)];
+            //}
+            //else
+            //{
+            //    character = fourStars[rand.Next(fourStars.Count)];
+            //}
+            //Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>().AddCharacter(character);
+            //Main.NewText($"You got: {character}");
 
             // TODO: check if we have enough primo gems and reduce our number of primo gems as we do this
             // TODO: maybe pity system
