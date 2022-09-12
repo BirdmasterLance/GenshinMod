@@ -10,32 +10,98 @@ namespace GenshinMod
     public class Character
     {
         public string Name { get; protected set; }
-
         public int AttackLevel { get; protected set; }
         public int SkillLevel { get; protected set; }
         public int BurstLevel { get; protected set; }
-        public int AscensionLevel { get; protected set; }
+        public int AscenstionTalentLevel { get; protected set; }
         public int Constellation { get; protected set; }
 
-        public Character(string name)
-        {
-            Name = name;
+        public string NormalAttackName { get; protected set; }
+        public string SkillName { get; protected set; }
+        public string BurstName { get; protected set; }
+        public string AscensionTalent1Name { get; protected set; }
+        public string AscensionTalent2Name { get; protected set; }
 
-            AttackLevel = 1;
-            SkillLevel = 1;
-            BurstLevel = 1;
-            AscensionLevel = 1;
-            Constellation = 1;
-        }
-
-        public Character(string name, int atkLVL, int skillLVL, int burstLVL, int ascentionLVL, int constellationLVL)
+        public Character(string name="", int atkLVL=1, int skillLVL=1, int burstLVL=1, int ascensionTalentLevel=1, int constellationLVL=1)
         {
             Name = name;
             AttackLevel = atkLVL;
             SkillLevel = skillLVL;
             BurstLevel = burstLVL;
-            AscensionLevel = ascentionLVL;
+            AscenstionTalentLevel = ascensionTalentLevel;
             Constellation = constellationLVL;
+        }
+    }
+
+    public class Yanfei : Character
+    {   
+        public Yanfei(int atkLVL=1, int skillLVL = 1, int burstLVL = 1, int ascensionTalentLevel = 1, int constellationLVL = 1) : base("Yanfei", atkLVL, skillLVL, burstLVL, ascensionTalentLevel, constellationLVL)
+        {
+            NormalAttackName = "Seal of Approval";
+            SkillName = "Signed Edict";
+            BurstName = "Done Deal";
+            AscensionTalent1Name = "Proviso";
+            AscensionTalent2Name = "Blazing Eye";
+        }
+    }
+
+    public class Kaeya : Character
+    {
+        public Kaeya(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int ascensionTalentLevel = 1, int constellationLVL = 1) : base("Kaeya", atkLVL, skillLVL, burstLVL, ascensionTalentLevel, constellationLVL)
+        {
+            NormalAttackName = "Ceremonial Bladework";
+            SkillName = "Frostgnaw";
+            BurstName = "Glacial Waltz";
+            AscensionTalent1Name = "Cold-Blooded Strike";
+            AscensionTalent2Name = "Glacial Heart";
+        }
+    }
+
+    public class Noelle : Character
+    {
+        public Noelle(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int ascensionTalentLevel = 1, int constellationLVL = 1) : base("Noelle", atkLVL, skillLVL, burstLVL, ascensionTalentLevel, constellationLVL)
+        {
+            NormalAttackName = "Favonius Bladework - Maid";
+            SkillName = "Breastplate";
+            BurstName = "Sweeping Time";
+            AscensionTalent1Name = "Devotion";
+            AscensionTalent2Name = "Nice and Clean";
+        }
+    }
+
+    public class Barbara : Character
+    {
+        public Barbara(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int ascensionTalentLevel = 1, int constellationLVL = 1) : base("Barbara", atkLVL, skillLVL, burstLVL, ascensionTalentLevel, constellationLVL)
+        {
+            NormalAttackName = "Whisper of Water";
+            SkillName = "Let the Show Begin♪";
+            BurstName = "Shining Miracle♪";
+            AscensionTalent1Name = "Glorious Season";
+            AscensionTalent2Name = "Encore";
+        }
+    }
+
+    public class RaidenShogun : Character
+    {
+        public RaidenShogun(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int ascensionTalentLevel = 1, int constellationLVL = 1) : base("Raiden Shogun", atkLVL, skillLVL, burstLVL, ascensionTalentLevel, constellationLVL)
+        {
+            NormalAttackName = "Origin";
+            SkillName = "Transcendence: Baleful Omen";
+            BurstName = "Secret Art: Musou Shinsetsu";
+            AscensionTalent1Name = "Wishes Unnumbered";
+            AscensionTalent2Name = "Enlightened One";
+        }
+    }
+
+    public class YaeMiko : Character
+    {
+        public YaeMiko(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int ascensionTalentLevel = 1, int constellationLVL = 1) : base("Yae Miko", atkLVL, skillLVL, burstLVL, ascensionTalentLevel, constellationLVL)
+        {
+            NormalAttackName = "Spiritfox Sin-Eater";
+            SkillName = "Yakan Evocation: Sesshou Sakura";
+            BurstName = "Great Secret Art: Tenko Kenshin";
+            AscensionTalent1Name = "The Shrine's Sacred Shade";
+            AscensionTalent2Name = "Enlightened Blessing";
         }
     }
 
@@ -50,18 +116,34 @@ namespace GenshinMod
             ["atkLVL"] = value.AttackLevel,
             ["skillLVL"] = value.SkillLevel,
             ["burstLVL"] = value.BurstLevel,
-            ["ascensionLVL"] = value.AscensionLevel,
             ["constellationLVL"] = value.Constellation
         };
 
-        public override Character Deserialize(TagCompound tag) => new Character(
-            tag.GetString("name"),
-            tag.GetInt("atkLVL"),
-            tag.GetInt("skillLVL"),
-            tag.GetInt("burstLVL"),
-            tag.GetInt("ascensionLVL"),
-            tag.GetInt("constellationLVL")
-            );
+        public override Character Deserialize(TagCompound tag)
+        {
+            string name = tag.GetString("name");
+            int atkLVL = tag.GetInt("atkLVL");
+            int skillLVL = tag.GetInt("skillLVL");
+            int burstLVL = tag.GetInt("burstLVL");
+            int constellationLVL = tag.GetInt("constellationLVL");
+
+            switch (name)
+            {
+                case "Yanfei":
+                    return new Yanfei(atkLVL, skillLVL, burstLVL, constellationLVL);
+                case "Kaeya":
+                    return new Kaeya(atkLVL, skillLVL, burstLVL, constellationLVL);
+                case "Noelle":
+                    return new Noelle(atkLVL, skillLVL, burstLVL, constellationLVL);
+                case "Barbara":
+                    return new Barbara(atkLVL, skillLVL, burstLVL, constellationLVL);
+                case "Yae Miko":
+                    return new YaeMiko(atkLVL, skillLVL, burstLVL, constellationLVL);
+                case "Raiden Shogun":
+                    return new RaidenShogun(atkLVL, skillLVL, burstLVL, constellationLVL);
+            }
+            return new Character(tag.GetString("name"), tag.GetInt("atkLVL"), tag.GetInt("skillLVL"), tag.GetInt("burstLVL"), tag.GetInt("constellationLVL"));
+        }
     }
 
     public static class CharacterLists
@@ -126,49 +208,49 @@ namespace GenshinMod
         /// <summary>
         /// Gets the character's display name
         /// </summary>
-        public static string GetDisplayName(string name)
+        public static Character GetNewCharacter(string name)
         {
             switch(name)
             {
-                case "Alebdo" : return Albedo;
-                case "Aloy" : return Aloy;
-                case "Amber" : return Amber;
-                case "Barbara" : return Barbara;
-                case "Beidou" : return Beidou;
-                case "Bennett" : return Bennett;
-                case "Childe" : return Childe;
-                case "Chongyun" : return Chongyun;
-                case "Diluc" : return Diluc;
-                case "Diona" : return Diona;
-                case "Eula" : return Eula;
-                case "Fischl" : return Fischl;
-                case "Ganyu" : return Ganyu;
-                case "HuTao" : return HuTao;
-                case "Itto" : return Itto;
-                case "Jean" : return Jean;
-                case "Klee" : return Klee;
-                case "Kaeya" : return Kaeya;
-                case "Kazuha" : return Kazuha;
-                case "Keqing" : return Keqing;
-                case "Lisa" : return Lisa;
-                case "Mona" : return Mona;
-                case "Ningguang" : return Ningguang;
-                case "Noelle" : return Noelle;
-                case "Qiqi" : return Qiqi;
-                case "RaidenShogun" : return RaidenShogun;
-                case "Sayu" : return Sayu;
-                case "Venti" : return Venti;
-                case "Xiao" : return Xiao;
-                case "Xiangling" : return Xiangling;
-                case "Xinyan" : return Xinyan;
-                case "YaeMiko" : return YaeMiko;
-                case "Yelan": return Yelan;
-                case "Yanfei" : return Yanfei;
-                case "Yoimiya" : return Yoimiya;
-                case "Yunjin" : return YunJin;
-                case "Zhongli" : return Zhongli;
+                case "Alebdo" : return null;
+                case "Aloy" : return null;
+                case "Amber" : return null;
+                case "Barbara" : return new Barbara();
+                case "Beidou" : return null;
+                case "Bennett" : return null;
+                case "Childe" : return null;
+                case "Chongyun" : return null;
+                case "Diluc" : return null;
+                case "Diona" : return null;
+                case "Eula" : return null;
+                case "Fischl" : return null;
+                case "Ganyu" : return null;
+                case "HuTao" : return null;
+                case "Itto" : return null;
+                case "Jean" : return null;
+                case "Klee" : return null;
+                case "Kaeya" : return new Kaeya();
+                case "Kazuha" : return null;
+                case "Keqing" : return null;
+                case "Lisa" : return null;
+                case "Mona" : return null;
+                case "Ningguang" : return null;
+                case "Noelle" : return new Noelle();
+                case "Qiqi" : return null;
+                case "Raiden Shogun" : return new RaidenShogun();
+                case "Sayu" : return null;
+                case "Venti" : return null;
+                case "Xiao" : return null;
+                case "Xiangling" : return null;
+                case "Xinyan" : return null;
+                case "Yae Miko" : return new YaeMiko();
+                case "Yelan": return null;
+                case "Yanfei" : return new Yanfei();
+                case "Yoimiya" : return null;
+                case "Yunjin" : return null;
+                case "Zhongli" : return null;
             }
-            return "None";
+            return null;
         }
 
         // TODO: add traveler

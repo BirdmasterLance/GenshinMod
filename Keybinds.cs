@@ -9,6 +9,7 @@ namespace GenshinMod
     class Keybinds : ModSystem
     {
         public static ModKeybind CharacterUIHotKey;
+		public static ModKeybind PartyUIHotKey;
 		public static ModKeybind GachaUIHotKey;
 		public static ModKeybind ElementalSkill;
 		public static ModKeybind ElementalBurst;
@@ -16,7 +17,8 @@ namespace GenshinMod
 		public override void Load()
 		{
 			CharacterUIHotKey = KeybindLoader.RegisterKeybind(Mod, "Character Menu", Microsoft.Xna.Framework.Input.Keys.C);
-			GachaUIHotKey = KeybindLoader.RegisterKeybind(Mod, "Gacha Menu", Microsoft.Xna.Framework.Input.Keys.H);
+			PartyUIHotKey = KeybindLoader.RegisterKeybind(Mod, "Party Menu", Microsoft.Xna.Framework.Input.Keys.L);
+			GachaUIHotKey = KeybindLoader.RegisterKeybind(Mod, "Gacha Menu", Microsoft.Xna.Framework.Input.Keys.F3);
 			ElementalSkill = KeybindLoader.RegisterKeybind(Mod, "Elemental Skill", Microsoft.Xna.Framework.Input.Keys.E);
 			ElementalBurst = KeybindLoader.RegisterKeybind(Mod, "Elemental Burst", Microsoft.Xna.Framework.Input.Keys.Q);
 		}
@@ -24,6 +26,7 @@ namespace GenshinMod
 		public override void Unload()
 		{
 			CharacterUIHotKey = null;
+			PartyUIHotKey = null;
 			GachaUIHotKey = null;
 			ElementalSkill= null;
 			ElementalBurst = null;
@@ -47,6 +50,18 @@ namespace GenshinMod
 				}
 			}
 
+			if (Keybinds.PartyUIHotKey.JustPressed && !Main.playerInventory && !Main.inFancyUI && !Main.InReforgeMenu && !Main.InGuideCraftMenu && !Main.hairWindow && !Main.ingameOptionsWindow && Main.LocalPlayer.talkNPC == -1)
+			{
+				if (UISystem.Instance.GenshinInterface.CurrentState == null)
+				{
+					UISystem.Instance.ShowPartyUI();
+				}
+				else
+				{
+					UISystem.Instance.HideUIs();
+				}
+			}
+
 			if (Keybinds.GachaUIHotKey.JustPressed && !Main.playerInventory && !Main.inFancyUI && !Main.InReforgeMenu && !Main.InGuideCraftMenu && !Main.hairWindow && !Main.ingameOptionsWindow && Main.LocalPlayer.talkNPC == -1)
 			{
 				if (UISystem.Instance.GenshinInterface.CurrentState == null)
@@ -59,10 +74,10 @@ namespace GenshinMod
 				}
 			}
 
-			
-			if(Main.myPlayer == Player.whoAmI)
+
+			if (Main.myPlayer == Player.whoAmI)
             {
-				if (Keybinds.ElementalSkill.JustPressed && Collision.CanHitLine(Main.player[Main.myPlayer].position, 0, 0, Main.MouseWorld, 0, 0))
+				if (Keybinds.ElementalSkill.JustPressed && Main.player[Main.myPlayer].GetModPlayer<PlayerCharacterCode>().activeCharacter != null && Collision.CanHitLine(Main.player[Main.myPlayer].position, 0, 0, Main.MouseWorld, 0, 0))
 				{
 					if(Main.player[Main.myPlayer].GetModPlayer<PlayerCharacterCode>().activeCharacter.Name == "Yanfei")
                     {

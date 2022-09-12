@@ -10,6 +10,7 @@ namespace GenshinMod
     {
         private List<Character> characters;
         public List<Character> partyCharacters;
+        public string activeCharacterName;
         public Character activeCharacter;
 
         public bool replaceTexture; // Checks if we want to replace the texture
@@ -22,7 +23,7 @@ namespace GenshinMod
         public override void Initialize()
         {
             characters = new List<Character>();
-            partyCharacters = new List<Character>();
+            partyCharacters = new List<Character>();           
         }
 
         public override void SaveData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
@@ -47,11 +48,11 @@ namespace GenshinMod
 
             if (tag.ContainsKey("activeChar"))
             {
-                tag.Add("activeChar", activeCharacter);
+                tag.Add("activeChar", activeCharacterName);
             }
             else
             {
-                tag.Set("activeChar", activeCharacter);
+                tag.Set("activeChar", activeCharacterName);
             }
         }
 
@@ -59,7 +60,14 @@ namespace GenshinMod
         {
             characters = (List<Character>)tag.GetList<Character>("characters");
             partyCharacters = (List<Character>)tag.GetList<Character>("partyCharacters");
-            activeCharacter = tag.Get<Character>("activeChar");
+            ChangeActiveCharacter(tag.Get<string>("activeChar"));
+            if(partyCharacters.Count == 0)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    partyCharacters.Add(new Character("None"));
+                }
+            }
         }
 
         /// <summary>
@@ -75,10 +83,12 @@ namespace GenshinMod
         /// </summary>
         public Character GetCharacter(string character)
         {
-            foreach(Character c in characters)
+            for (int i = 0; i < characters.Count; i++)
             {
-                if(c.Name == character)
-                { return c; }
+                if (characters[i].Name == character)
+                {
+                    return characters[i];
+                }
             }
             return null;
         }
@@ -109,7 +119,7 @@ namespace GenshinMod
             }
             else
             {
-                characters.Add(new Character(character));
+                characters.Add(CharacterLists.GetNewCharacter(character));
                 return true;
             }
         }
@@ -125,17 +135,22 @@ namespace GenshinMod
             }
             else
             {
-
                 characters.Remove(GetCharacter(character));
                 return true;
             }
         }
 
+        /// <summary>
+        /// Returns a list of all characters in the player's party formation.
+        /// </summary>
         public List<Character> GetPartyCharacters()
         {
             return partyCharacters;
         }
 
+        /// <summary>
+        /// Swaps out the characters in the party formation based on the specified slot.
+        /// </summary>
         public void ChangePartyCharacters(string character, int slot)
         {
             if (slot >= 4) return;
@@ -144,7 +159,39 @@ namespace GenshinMod
                 partyCharacters.RemoveAt(slot);
             }
             if (!HasCharacter(character)) return;
-            partyCharacters.Insert(slot, GetCharacter(character));
+            if(HasPartyCharacter(character))
+            {
+                Character oldChar = partyCharacters[slot];
+                Character newChar = null;
+                int newSlot = -1;
+                for(int i = 0; i < partyCharacters.Count; i++)
+                {
+                    if(partyCharacters[i].Name == character)
+                    {
+                        newChar = partyCharacters[i];
+                        newSlot = i;
+                        break;
+                    }
+                }
+                partyCharacters[slot] = newChar;
+                partyCharacters[newSlot] = oldChar; 
+            }
+            else
+            {
+                partyCharacters[slot] = GetCharacter(character);
+            }
+        }
+
+        private bool HasPartyCharacter(string character)
+        {
+            foreach (Character c in partyCharacters)
+            {
+                if (c.Name == character)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>
@@ -156,6 +203,7 @@ namespace GenshinMod
             {
                 return false;
             }
+            activeCharacterName = character;
             activeCharacter = GetCharacter(character);
             replaceTexture = true;
             Main.NewText($"Your active character is: {activeCharacter.Name}");
@@ -184,47 +232,6 @@ namespace GenshinMod
             replaceTexture = false;
             activeCharacter = null;
             Main.NewText($"Removed active character");
-        }
-
-
-
-        //public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
-        //{
-        //    base.OnHitNPC(item, target, damage, knockback, crit);
-        //}
-
-        //public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
-        //{
-        //    //Pyro damage
-        //    if (proj.type == ProjectileID.FireArrow || proj.type == ProjectileID.Flamarang || proj.type == ProjectileID.Sunfury
-        //        || proj.type == ProjectileID.Flamelash || proj.type == ProjectileID.HellfireArrow || proj.type == ProjectileID.Flames
-        //        || proj.type == ProjectileID.CursedFlameFriendly
-        //        || proj.type == ProjectileID.RocketI || proj.type == ProjectileID.RocketII || proj.type == ProjectileID.RocketIII || proj.type == ProjectileID.RocketIV
-        //        || proj.type == ProjectileID.GrenadeI || proj.type == ProjectileID.GrenadeII || proj.type == ProjectileID.GrenadeIII || proj.type == ProjectileID.GrenadeIV
-        //        || proj.type == ProjectileID.ProximityMineI || proj.type == ProjectileID.ProximityMineII || proj.type == ProjectileID.ProximityMineIII || proj.type == ProjectileID.ProximityMineIV
-        //        || proj.type == ProjectileID.Flare || proj.type == ProjectileID.InfernoFriendlyBlast || proj.type == ProjectileID.InfernoFriendlyBolt)
-        //    {
-        //        //target.AddBuff(ModContent.BuffType<Buffs.ElementPyro>(), 10);
-        //    }
-        //}
-
-        //// If the accessory is in the vanity slot, do stuff
-        //public override void UpdateVisibleVanityAccessories()
-        //{
-        //    // Go through all the accessory slots
-        //    for (int n = 13; n < 18 + Player.extraAccessorySlots; n++)
-        //    {
-        //        Item item = Player.armor[n];
-        //        if (item.type == ModContent.ItemType<CharacterCostume>())
-        //        {
-        //            replaceTexture = true;
-        //        }
-        //    }
-        //}
-
-        // If the accessory is equipped, do stuff
-        public override void UpdateEquips()
-        {
         }
 
         // Handles replacing the player animations

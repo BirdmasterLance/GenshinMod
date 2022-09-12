@@ -11,6 +11,7 @@ namespace GenshinMod
     {
         internal UserInterface GenshinInterface;
         internal CharacterListUI characterListUI;
+        internal PartyUI partyUI;
         internal GachaUI gachaUI;
 
         private GameTime _lastUpdateUiGameTime;
@@ -30,6 +31,9 @@ namespace GenshinMod
 
                 characterListUI = new CharacterListUI();
                 characterListUI.Activate();
+
+                partyUI = new PartyUI();
+                partyUI.Activate(); 
 
                 gachaUI = new GachaUI();
                 gachaUI.Activate();
@@ -74,6 +78,13 @@ namespace GenshinMod
             characterListUI.OpenMenu();
         }
 
+        internal void ShowPartyUI()
+        {
+            partyUI.OnInitialize();
+            GenshinInterface?.SetState(partyUI);
+            partyUI.OpenMenu();
+        }
+
         internal void ShowGachaUI()
         {
             GenshinInterface?.SetState(gachaUI);
@@ -81,6 +92,7 @@ namespace GenshinMod
 
         internal void HideUIs()
         {
+            characterListUI.CloseMenu();
             GenshinInterface?.SetState(null);
         }
     }
