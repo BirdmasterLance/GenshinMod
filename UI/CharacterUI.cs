@@ -7,6 +7,7 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.Audio;
 using Terraria.ID;
 using System.Collections.Generic;
+using GenshinMod.CharacterClasses;
 
 namespace GenshinMod.UI
 {
@@ -29,11 +30,11 @@ namespace GenshinMod.UI
         UIText constellationText1, constellationText2, constellationText3, constellationText4, constellationText5, constellationText6;
         UIText constellationInfoName, constellationInfoLevel, constellationInfoDesc, constellationInfoActivate;
         int constellationSelected;
-
+ 
         // Talent Elements
-        UIPanel talentPanel, talentInfoPanel;        
-        UIText talent1Text, talent1LVL, talent2Text, talent2LVL, talent3Text, talent3LVL, talent4Text, talent4LVL, talent5Text;
-        UIText talentInfoCatergory, talentInfoName, talentInfoLVL;
+        UIPanel talentPanel, talentInfoPanel, talentConfirmLvlUpPanel;        
+        UIText talent1Text, talent1LVL, talent2Text, talent2LVL, talent3Text, talent3LVL, talent4Text, talent4LVL, talent5Text, talent5LVL;
+        UIText talentInfoCatergory, talentInfoName, talentInfoLVL, talentDescription, talentConfirmChangesText, talentConfirmMatsText;
         int talentSelected;
 
         public override void OnInitialize()
@@ -105,8 +106,6 @@ namespace GenshinMod.UI
             attributePanel.PaddingLeft = attributePanel.PaddingRight = 10;
             // mainWindow.Append(attributePanel);
 
-            #region Talent Elements
-
             talentText = new UIText("Talents", 1.2f);
             talentText.TextColor = new Color(188, 198, 207);
             talentText.Top.Set(210, 0);
@@ -114,13 +113,75 @@ namespace GenshinMod.UI
             talentText.OnClick += OnTalentClick;
             mainWindow.Append(talentText);
 
+            #region Artifact Elements
+
+
+
+            #endregion
+
+            #region Constellation Elements
+
+            constellationPanel = new UIPanel();
+            constellationPanel.Width.Set(250, 0);
+            constellationPanel.Height.Set(380, 0);
+            constellationPanel.Top.Set(0, 0);
+            constellationPanel.Left.Set(625, 0);
+            constellationPanel.BackgroundColor = new Color();
+            constellationPanel.BorderColor = new Color();
+
+            constellationInfoPanel = new UIPanel();
+            constellationInfoPanel.Width.Set(250, 0);
+            constellationInfoPanel.Height.Set(380, 0);
+            constellationInfoPanel.BackgroundColor = new Color(38, 58, 69);
+
+            constellationInfoName = new UIText("Constellation Name");
+            constellationInfoName.TextColor = new Color(232, 190, 128);
+            constellationInfoName.Top.Set(70, 0);
+            constellationInfoName.HAlign = 0.5f;
+            constellationInfoPanel.Append(constellationInfoName);
+
+            constellationInfoLevel = new UIText("Constellation Lv. ", 0.85f);
+            constellationInfoLevel.TextColor = new Color(255, 252, 237);
+            constellationInfoLevel.Top.Set(95, 0);
+            constellationInfoLevel.Left.Set(0, 0);
+            constellationInfoPanel.Append(constellationInfoLevel);
+
+            constellationInfoDesc = new UIText("Constellation Description", 0.85f);
+            constellationInfoDesc.Top.Set(125, 0);
+            constellationInfoDesc.HAlign = 0.5f;
+            constellationInfoPanel.Append(constellationInfoDesc);
+
+            UIPanel constellationInfoExitButton = new UIPanel();
+            constellationInfoExitButton.Left.Set(205, 0);
+            constellationInfoExitButton.Width.Set(20, 0);
+            constellationInfoExitButton.Height.Set(20, 0);
+            constellationInfoExitButton.OnClick += (UIMouseEvent evt, UIElement listeningElement) => { constellationInfoPanel.Remove(); };
+            constellationInfoPanel.Append(constellationInfoExitButton);
+
+            constellationInfoActivateButton = new UIPanel();
+            constellationInfoActivateButton.BackgroundColor = new Color(240, 238, 223);
+            constellationInfoActivateButton.Width.Set(150, 0);
+            constellationInfoActivateButton.Height.Set(50, 0);
+            constellationInfoActivateButton.Top.Set(300, 0);
+            constellationInfoActivateButton.HAlign = 0.5f;
+            constellationInfoActivateButton.OnClick += OnConstellationActivateClick;
+            constellationInfoPanel.Append(constellationInfoActivateButton);
+
+            constellationInfoActivate = new UIText("Activate");
+            constellationInfoActivate.HAlign = constellationInfoActivate.VAlign = 0.5f;
+            constellationInfoActivateButton.Append(constellationInfoActivate);
+
+            #endregion
+
+            #region Talent Elements
+
             talentPanel = new UIPanel();
             talentPanel.Width.Set(250, 0f);
             talentPanel.Height.Set(350, 0f);
             talentPanel.Left.Set(610, 0f);
             talentPanel.Top.Set(10, 0f);
-            talentPanel.BackgroundColor = new Color(99, 98, 112, 10);
-            // talentPanel.BorderColor = new Color(166, 165, 181);
+            talentPanel.BackgroundColor = new Color();
+            talentPanel.BorderColor = new Color();
             talentPanel.OverflowHidden = false;
             talentPanel.PaddingLeft = talentPanel.PaddingRight = 10;
 
@@ -138,9 +199,10 @@ namespace GenshinMod.UI
             talentLevelUpButton.Height.Set(40, 0f);
             talentLevelUpButton.Top.Set(315, 0);
             talentLevelUpButton.HAlign = 0.5f;
+            talentLevelUpButton.OnClick += OnTalentLevelUpClick;
             talentInfoPanel.Append(talentLevelUpButton);
             UIText talentLevelUpText = new UIText("Level Up");
-            // talentLevelUpText.TextColor = new Color(0, 0, 0);
+            talentLevelUpText.TextColor = new Color(160, 160, 160);
             talentLevelUpText.HAlign = talentLevelUpText.VAlign = 0.5f; // To center the text
             talentLevelUpButton.Append(talentLevelUpText);
 
@@ -165,6 +227,7 @@ namespace GenshinMod.UI
             talentAttrButton.Left.Set(115, 0);
             talentInfoPanel.Append(talentAttrButton);
             UIText talentAttrText = new UIText("Attributes");
+            talentAttrText.TextColor = new Color(160, 160, 160);
             talentAttrText.HAlign = talentAttrText.VAlign = 0.5f;
             talentAttrButton.Append(talentAttrText);
 
@@ -176,6 +239,10 @@ namespace GenshinMod.UI
             talentInfoPanel2.Top.Set(130, 0);
             talentInfoPanel2.Left.Set(0, 0);
             talentInfoPanel.Append(talentInfoPanel2);
+
+            talentDescription = new UIText("Talent Description", 0.75f);
+            talentDescription.HAlign = 0.5f;
+            talentInfoPanel2.Append(talentDescription);
 
             talentInfoCatergory = new UIText("Combat Talent", 0.75f);
             talentInfoCatergory.HAlign = 0.5f;
@@ -198,11 +265,51 @@ namespace GenshinMod.UI
             talentInfoExitButton.OnClick += (UIMouseEvent evt, UIElement listeningElement) => { talentInfoPanel.Remove(); };
             talentInfoPanel.Append(talentInfoExitButton);
 
-            #endregion
+            talentConfirmLvlUpPanel = new UIPanel();
+            talentConfirmLvlUpPanel.BackgroundColor = new Color(38, 58, 69);
+            talentConfirmLvlUpPanel.HAlign = talentConfirmLvlUpPanel.VAlign = 0.5f;
+            talentConfirmLvlUpPanel.Width.Set(400, 0);
+            talentConfirmLvlUpPanel.Height.Set(300, 0);
 
-            #region Constellation Elements
+            UIText talentConfirmHeader = new UIText("Level Up Talent", 1.1f);
+            talentConfirmHeader.TextColor = new Color(232, 190, 128);
+            talentConfirmHeader.HAlign = 0.5f;
+            talentConfirmLvlUpPanel.Append(talentConfirmHeader);
+            UIText talentConfirmAttrHeader = new UIText("Attribute Changes", 0.8f);
+            talentConfirmAttrHeader.TextColor = new Color(255, 255, 255);
+            talentConfirmAttrHeader.HAlign = 0.5f;
+            talentConfirmAttrHeader.Top.Set(60, 0);
+            talentConfirmLvlUpPanel.Append(talentConfirmAttrHeader);
+            UIText talentConfirmMatsHeader = new UIText("Required Materials", 0.8f);
+            talentConfirmMatsHeader.TextColor = new Color(255, 255, 255);
+            talentConfirmMatsHeader.HAlign = 0.5f;
+            talentConfirmMatsHeader.Top.Set(175, 0);
+            talentConfirmLvlUpPanel.Append(talentConfirmMatsHeader);
 
+            UIPanel talentConfirmConfirm = new UIPanel();
+            talentConfirmConfirm.BackgroundColor = new Color(240, 238, 223);
+            talentConfirmConfirm.Width.Set(180, 0);
+            talentConfirmConfirm.Height.Set(35, 0);
+            talentConfirmConfirm.Top.Set(235, 0);
+            talentConfirmConfirm.Left.Set(200, 0);
+            talentConfirmConfirm.OnClick += OnTalentConfirmClick;
+            talentConfirmLvlUpPanel.Append(talentConfirmConfirm);
+            UIText talentConfirmConfirmText = new UIText("Confirm");
+            talentConfirmConfirmText.TextColor = new Color(160, 160, 160);
+            talentConfirmConfirmText.HAlign = talentConfirmConfirmText.VAlign = 0.5f;
+            talentConfirmConfirm.Append(talentConfirmConfirmText);
 
+            UIPanel talentConfirmExit = new UIPanel();
+            talentConfirmExit.BackgroundColor = new Color(240, 238, 223);
+            talentConfirmExit.Width.Set(180, 0);
+            talentConfirmExit.Height.Set(35, 0);
+            talentConfirmExit.Top.Set(235, 0);
+            talentConfirmExit.OnClick += (UIMouseEvent evt, UIElement listeningElement) => { talentConfirmLvlUpPanel.Remove(); };
+            talentConfirmLvlUpPanel.Append(talentConfirmExit);
+            UIText talentConfirmExitText = new UIText("Exit");
+            talentConfirmExitText.TextColor = new Color(160, 160, 160);
+            talentConfirmExitText.HAlign = talentConfirmExitText.VAlign = 0.5f;
+            talentConfirmExit.Append(talentConfirmExitText);
 
             #endregion
 
@@ -287,6 +394,8 @@ namespace GenshinMod.UI
         {
             talentPanel.RemoveAllChildren();
             talentPanel.Remove();
+            constellationPanel.RemoveAllChildren();
+            constellationPanel.Remove();
             attributeText.TextColor = new Color(255, 255, 255);
             artifactsText.TextColor = new Color(188, 198, 207);
             constellationText.TextColor = new Color(188, 198, 207);
@@ -369,6 +478,8 @@ namespace GenshinMod.UI
             talentText.TextColor = new Color(188, 198, 207);
             SoundEngine.PlaySound(SoundID.Frog, Main.LocalPlayer.position);
 
+            constellationPanel.Remove();
+
             talentPanel.Remove();
         }
 
@@ -383,6 +494,8 @@ namespace GenshinMod.UI
             constellationText.TextColor = new Color(188, 198, 207);
             talentText.TextColor = new Color(188, 198, 207);
             SoundEngine.PlaySound(SoundID.Frog, Main.LocalPlayer.position);
+
+            constellationPanel.Remove();
 
             talentPanel.Remove();
         }
@@ -400,6 +513,284 @@ namespace GenshinMod.UI
             SoundEngine.PlaySound(SoundID.Frog, Main.LocalPlayer.position);
 
             talentPanel.Remove();
+
+            constellation1 = new UIPanel();
+            constellation1.Width.Set(40, 0);
+            constellation1.Height.Set(40, 0);
+            constellation1.Top.Set(30, 0);
+            constellation1.Left.Set(0, 0);
+            constellation1.OnClick += OnConstellationClick1;
+            constellationPanel.Append(constellation1);
+
+            constellation2 = new UIPanel();
+            constellation2.Width.Set(40, 0);
+            constellation2.Height.Set(40, 0);
+            constellation2.Top.Set(80, 0);
+            constellation2.Left.Set(20, 0);
+            constellation2.OnClick += OnConstellationClick2;
+            constellationPanel.Append(constellation2);
+
+            constellation3 = new UIPanel();
+            constellation3.Width.Set(40, 0);
+            constellation3.Height.Set(40, 0);
+            constellation3.Top.Set(130, 0);
+            constellation3.Left.Set(40, 0);
+            constellation3.OnClick += OnConstellationClick3;
+            constellationPanel.Append(constellation3);
+
+            constellation4 = new UIPanel();
+            constellation4.Width.Set(40, 0);
+            constellation4.Height.Set(40, 0);
+            constellation4.Top.Set(180, 0);
+            constellation4.Left.Set(40, 0);
+            constellation4.OnClick += OnConstellationClick4;
+            constellationPanel.Append(constellation4);
+
+            constellation5 = new UIPanel();
+            constellation5.Width.Set(40, 0);
+            constellation5.Height.Set(40, 0);
+            constellation5.Top.Set(230, 0);
+            constellation5.Left.Set(20, 0);
+            constellation5.OnClick += OnConstellationClick5;
+            constellationPanel.Append(constellation5);
+
+            constellation6 = new UIPanel();
+            constellation6.Width.Set(40, 0);
+            constellation6.Height.Set(40, 0);
+            constellation6.Top.Set(280, 0);
+            constellation6.Left.Set(0, 0);
+            constellation6.OnClick += OnConstellationClick6;
+            constellationPanel.Append(constellation6);
+
+            constellationText1 = new UIText(selectedCharacter.Constellation1, 0.85f);
+            constellationText1.Top.Set(35, 0);
+            constellationText1.Left.Set(50, 0);
+            constellationPanel.Append(constellationText1);
+
+            constellationText2 = new UIText(selectedCharacter.Constellation2, 0.85f);
+            constellationText2.Top.Set(85, 0);
+            constellationText2.Left.Set(70, 0);
+            constellationPanel.Append(constellationText2);
+
+            constellationText3 = new UIText(selectedCharacter.Constellation3, 0.85f);
+            constellationText3.Top.Set(135, 0);
+            constellationText3.Left.Set(90, 0);
+            constellationPanel.Append(constellationText3);
+
+            constellationText4 = new UIText(selectedCharacter.Constellation4, 0.85f);
+            constellationText4.Top.Set(185, 0);
+            constellationText4.Left.Set(90, 0);
+            constellationPanel.Append(constellationText4);
+
+            constellationText5 = new UIText(selectedCharacter.Constellation5, 0.85f);
+            constellationText5.Top.Set(235, 0);
+            constellationText5.Left.Set(70, 0);
+            constellationPanel.Append(constellationText5);
+
+            constellationText6 = new UIText(selectedCharacter.Constellation6, 0.85f);
+            constellationText6.Top.Set(285, 0);
+            constellationText6.Left.Set(50, 0);
+            constellationPanel.Append(constellationText6);
+
+            ActivateConstellationUIButtons();
+
+            mainWindow.Append(constellationPanel);
+        }
+
+        private void OnConstellationClick1(UIMouseEvent evt, UIElement listeningElement)
+        {
+            constellationSelected = 1;
+            constellationInfoName.SetText(selectedCharacter.Constellation1);
+            constellationInfoLevel.SetText("Constellation Lv. [c/1ce1ff:1]");
+            constellationInfoDesc.SetText(selectedCharacter.Constellation1Desc);
+
+            if(selectedCharacter.Constellation >= 1)
+            {
+                constellationInfoActivateButton.BackgroundColor = new Color();
+                constellationInfoActivate.SetText("Activated");
+                constellationInfoActivate.TextColor = new Color(245, 200, 66);
+            }
+            else if (selectedCharacter.ConstellationUpgrade < 1)
+            {
+                constellationInfoActivateButton.BackgroundColor = new Color();
+                constellationInfoActivate.SetText("Activate");
+                constellationInfoActivate.TextColor = new Color(255, 255, 255);
+            }
+            else
+            {
+                constellationInfoActivateButton.BackgroundColor = new Color(240, 238, 223);
+                constellationInfoActivate.SetText("Activate");
+                constellationInfoActivate.TextColor = new Color(255, 255, 255);
+            }
+
+            mainWindow.Append(constellationInfoPanel);
+        }
+
+        private void OnConstellationClick2(UIMouseEvent evt, UIElement listeningElement)
+        {
+            constellationSelected = 2;
+            constellationInfoName.SetText(selectedCharacter.Constellation2);
+            constellationInfoLevel.SetText("Constellation Lv. [c/1ce1ff:2]");
+            constellationInfoDesc.SetText(selectedCharacter.Constellation2Desc);
+
+            if (selectedCharacter.Constellation >= 2)
+            {
+                constellationInfoActivateButton.BackgroundColor = new Color();
+                constellationInfoActivate.SetText("Activated");
+                constellationInfoActivate.TextColor = new Color(245, 200, 66);
+            }
+            else if (selectedCharacter.ConstellationUpgrade < 2)
+            {
+                constellationInfoActivateButton.BackgroundColor = new Color();
+                constellationInfoActivate.SetText("Activate");
+                constellationInfoActivate.TextColor = new Color(255, 255, 255);
+            }
+            else
+            {
+                constellationInfoActivateButton.BackgroundColor = new Color(240, 238, 223);
+                constellationInfoActivate.SetText("Activate");
+                constellationInfoActivate.TextColor = new Color(255, 255, 255);
+            }
+
+            mainWindow.Append(constellationInfoPanel);
+        }
+
+        private void OnConstellationClick3(UIMouseEvent evt, UIElement listeningElement)
+        {
+            constellationSelected = 3;
+            constellationInfoName.SetText(selectedCharacter.Constellation3);
+            constellationInfoLevel.SetText("Constellation Lv. [c/1ce1ff:3]");
+            constellationInfoDesc.SetText(selectedCharacter.Constellation3Desc);
+
+            if (selectedCharacter.Constellation >= 3)
+            {
+                constellationInfoActivateButton.BackgroundColor = new Color();
+                constellationInfoActivate.SetText("Activated");
+                constellationInfoActivate.TextColor = new Color(245, 200, 66);
+            }
+            else if (selectedCharacter.ConstellationUpgrade < 3)
+            {
+                constellationInfoActivateButton.BackgroundColor = new Color();
+                constellationInfoActivate.SetText("Activate");
+                constellationInfoActivate.TextColor = new Color(255, 255, 255);
+            }
+            else
+            {
+                constellationInfoActivateButton.BackgroundColor = new Color(240, 238, 223);
+                constellationInfoActivate.SetText("Activate");
+                constellationInfoActivate.TextColor = new Color(255, 255, 255);
+            }
+
+            mainWindow.Append(constellationInfoPanel);
+        }
+
+        private void OnConstellationClick4(UIMouseEvent evt, UIElement listeningElement)
+        {
+            constellationSelected = 4;
+            constellationInfoName.SetText(selectedCharacter.Constellation4);
+            constellationInfoLevel.SetText("Constellation Lv. [c/1ce1ff:4]");
+            constellationInfoDesc.SetText(selectedCharacter.Constellation4Desc);
+
+            if (selectedCharacter.Constellation >= 4)
+            {
+                constellationInfoActivateButton.BackgroundColor = new Color();
+                constellationInfoActivate.SetText("Activated");
+                constellationInfoActivate.TextColor = new Color(245, 200, 66);
+            }
+            else if(selectedCharacter.ConstellationUpgrade < 4)
+            {
+                constellationInfoActivateButton.BackgroundColor = new Color();
+                constellationInfoActivate.SetText("Activate");
+                constellationInfoActivate.TextColor = new Color(255, 255, 255);
+            }
+            else
+            {
+                constellationInfoActivateButton.BackgroundColor = new Color(240, 238, 223);
+                constellationInfoActivate.SetText("Activate");
+                constellationInfoActivate.TextColor = new Color(255, 255, 255);
+            }
+
+            mainWindow.Append(constellationInfoPanel);
+        }
+
+        private void OnConstellationClick5(UIMouseEvent evt, UIElement listeningElement)
+        {
+            constellationSelected = 5;
+            constellationInfoName.SetText(selectedCharacter.Constellation5);
+            constellationInfoLevel.SetText("Constellation Lv. [c/1ce1ff:5]");
+            constellationInfoDesc.SetText(selectedCharacter.Constellation5Desc);
+
+            if (selectedCharacter.Constellation >= 5)
+            {
+                constellationInfoActivateButton.BackgroundColor = new Color();
+                constellationInfoActivate.SetText("Activated");
+                constellationInfoActivate.TextColor = new Color(245, 200, 66);
+            }
+            else if (selectedCharacter.ConstellationUpgrade < 5)
+            {
+                constellationInfoActivateButton.BackgroundColor = new Color();
+                constellationInfoActivate.SetText("Activate");
+                constellationInfoActivate.TextColor = new Color(255, 255, 255);
+            }
+            else
+            {
+                constellationInfoActivateButton.BackgroundColor = new Color(240, 238, 223);
+                constellationInfoActivate.SetText("Activate");
+                constellationInfoActivate.TextColor = new Color(255, 255, 255);
+            }
+
+            mainWindow.Append(constellationInfoPanel);
+        }
+
+        private void OnConstellationClick6(UIMouseEvent evt, UIElement listeningElement)
+        {
+            constellationSelected = 6;
+            constellationInfoName.SetText(selectedCharacter.Constellation6);
+            constellationInfoLevel.SetText("Constellation Lv. [c/1ce1ff:6]");
+            constellationInfoDesc.SetText(selectedCharacter.Constellation6Desc);
+
+            if (selectedCharacter.Constellation >= 6)
+            {
+                constellationInfoActivateButton.BackgroundColor = new Color();
+                constellationInfoActivate.SetText("Activated");
+                constellationInfoActivate.TextColor = new Color(245, 200, 66);
+            }
+            else if (selectedCharacter.ConstellationUpgrade < 6)
+            {
+                constellationInfoActivateButton.BackgroundColor = new Color();
+                constellationInfoActivate.SetText("Activate");
+                constellationInfoActivate.TextColor = new Color(255, 255, 255);
+            }
+            else
+            {
+                constellationInfoActivateButton.BackgroundColor = new Color(240, 238, 223);
+                constellationInfoActivate.SetText("Activate");
+                constellationInfoActivate.TextColor = new Color(255, 255, 255);
+            }
+
+            mainWindow.Append(constellationInfoPanel);
+        }
+
+        private void ActivateConstellationUIButtons()
+        {
+            if (selectedCharacter.Constellation >= 1) constellation1.BorderColor = new Color(255, 255, 255);
+            else if (selectedCharacter.Constellation >= 2) constellation2.BorderColor = new Color(255, 255, 255);
+            else if (selectedCharacter.Constellation >= 3) constellation3.BorderColor = new Color(255, 255, 255);
+            else if (selectedCharacter.Constellation >= 4) constellation4.BorderColor = new Color(255, 255, 255);
+            else if (selectedCharacter.Constellation >= 5) constellation5.BorderColor = new Color(255, 255, 255);
+            else if (selectedCharacter.Constellation >= 6) constellation6.BorderColor = new Color(255, 255, 255);
+        }
+
+        private void OnConstellationActivateClick(UIMouseEvent evt, UIElement listeningElement)
+        {
+            if (selectedCharacter.Constellation < constellationSelected)
+            {
+                selectedCharacter.Constellation = constellationSelected;
+                constellationInfoActivateButton.BackgroundColor = new Color();
+                constellationInfoActivate.SetText("Activated");
+                constellationInfoActivate.TextColor = new Color(245, 200, 66);
+            }
+            ActivateConstellationUIButtons();
         }
 
         #endregion
@@ -413,6 +804,8 @@ namespace GenshinMod.UI
             constellationText.TextColor = new Color(188, 198, 207);
             talentText.TextColor = new Color(255, 255, 255);
             SoundEngine.PlaySound(SoundID.Frog, Main.LocalPlayer.position);
+
+            constellationPanel.Remove();
 
             mainWindow.Append(talentPanel);
 
@@ -458,7 +851,7 @@ namespace GenshinMod.UI
             talent4Text.Left.Set(0, 0);
             talent4Text.OnClick += OnTalentAscension1Click;
             talentPanel.Append(talent4Text);
-            talent4LVL = new UIText("Lv. ", 1.1f);
+            talent4LVL = new UIText("Lv. 1", 1.1f);
             talent4LVL.TextColor = new Color(188, 198, 207);
             talent4LVL.Top.Set(200, 0);
             talent4LVL.Left.Set(0, 0);
@@ -470,23 +863,28 @@ namespace GenshinMod.UI
             talent5Text.Left.Set(0, 0);
             talent5Text.OnClick += OnTalentAscension2Click;
             talentPanel.Append(talent5Text);
+            talent5LVL = new UIText("Lv. 1", 1.1f);
+            talent5LVL.TextColor = new Color(188, 198, 207);
+            talent5LVL.Top.Set(260, 0);
+            talent5LVL.Left.Set(0, 0);
+            talentPanel.Append(talent5LVL);
 
-            talent1Text.SetText($"{selectedCharacter.NormalAttackName}");
-            talent2Text.SetText($"{selectedCharacter.SkillName}");
-            talent3Text.SetText($"{selectedCharacter.BurstName}");
-            talent4Text.SetText($"{selectedCharacter.AscensionTalent1Name}");
-            talent5Text.SetText($"{selectedCharacter.AscensionTalent2Name}");
+            talent1Text.SetText($"{selectedCharacter.NormalAttack}");
+            talent2Text.SetText($"{selectedCharacter.Skill}");
+            talent3Text.SetText($"{selectedCharacter.Burst}");
+            talent4Text.SetText($"{selectedCharacter.Passive1}");
+            talent5Text.SetText($"{selectedCharacter.Passive2}");
 
             talent1LVL.SetText($"Lv. {selectedCharacter.AttackLevel}");
             talent2LVL.SetText($"Lv. {selectedCharacter.SkillLevel}");
             talent3LVL.SetText($"Lv. {selectedCharacter.BurstLevel}");
-            talent4LVL.SetText($"Lv. {selectedCharacter.AscenstionTalentLevel}");
         }
 
         private void OnTalentNormalClick(UIMouseEvent evt, UIElement listeningElement)
         {
-            talentInfoName.SetText(selectedCharacter.NormalAttackName);
+            talentInfoName.SetText(selectedCharacter.NormalAttack);
             talentInfoLVL.SetText($"Lv. {selectedCharacter.AttackLevel}");
+            talentDescription.SetText(selectedCharacter.NormalAttackDesc);
             mainWindow.Append(talentInfoPanel);
             talent1Text.TextColor = new Color(255, 255, 255);
             talent1LVL.TextColor = new Color(255, 255, 255);
@@ -503,8 +901,10 @@ namespace GenshinMod.UI
 
         private void OnTalentSkillClick(UIMouseEvent evt, UIElement listeningElement)
         {
-            talentInfoName.SetText(selectedCharacter.SkillName);
+            talentInfoName.SetText(selectedCharacter.Skill);
+            talentInfoCatergory.SetText("Combat Talent");
             talentInfoLVL.SetText($"Lv. {selectedCharacter.SkillLevel}");
+            talentDescription.SetText(selectedCharacter.SkillDesc);
             mainWindow.Append(talentInfoPanel);
             talent2Text.TextColor = new Color(255, 255, 255);
             talent2LVL.TextColor = new Color(255, 255, 255);
@@ -521,8 +921,10 @@ namespace GenshinMod.UI
 
         private void OnTalentBurstClick(UIMouseEvent evt, UIElement listeningElement)
         {
-            talentInfoName.SetText(selectedCharacter.BurstName);
+            talentInfoName.SetText(selectedCharacter.Burst);
+            talentInfoCatergory.SetText("Combat Talent");
             talentInfoLVL.SetText($"Lv. {selectedCharacter.BurstLevel}");
+            talentDescription.SetText(selectedCharacter.BurstDesc);
             mainWindow.Append(talentInfoPanel);
             talent3Text.TextColor = new Color(255, 255, 255);
             talent3LVL.TextColor = new Color(255, 255, 255);
@@ -539,8 +941,10 @@ namespace GenshinMod.UI
 
         private void OnTalentAscension1Click(UIMouseEvent evt, UIElement listeningElement)
         {
-            talentInfoName.SetText(selectedCharacter.AscensionTalent1Name);
-            talentInfoLVL.SetText($"Lv. {selectedCharacter.AscenstionTalentLevel}");
+            talentInfoName.SetText(selectedCharacter.Passive1);
+            talentInfoCatergory.SetText("Passive Talent");
+            talentDescription.SetText(selectedCharacter.Passive1Desc);
+            talentInfoLVL.SetText($"");
             mainWindow.Append(talentInfoPanel);
             talent4Text.TextColor = new Color(255, 255, 255);
             talent4LVL.TextColor = new Color(255, 255, 255);
@@ -557,7 +961,9 @@ namespace GenshinMod.UI
 
         private void OnTalentAscension2Click(UIMouseEvent evt, UIElement listeningElement)
         {
-            talentInfoName.SetText(selectedCharacter.AscensionTalent2Name);
+            talentInfoName.SetText(selectedCharacter.Passive2);
+            talentInfoCatergory.SetText("Passive Talent");
+            talentDescription.SetText(selectedCharacter.Passive2Desc);
             talentInfoLVL.SetText($"");
             mainWindow.Append(talentInfoPanel);
             talent5Text.TextColor = new Color(255, 255, 255);
@@ -568,9 +974,37 @@ namespace GenshinMod.UI
             talent4Text.TextColor = new Color(188, 198, 207);
             talent4LVL.TextColor = new Color(188, 198, 207);
             talent1Text.TextColor = new Color(188, 198, 207);
-            talent1LVL.TextColor = new Color(255, 255, 255);
+            talent1LVL.TextColor = new Color(188, 198, 207);
 
             talentSelected = 5;
+        }
+
+        private void OnTalentLevelUpClick(UIMouseEvent evt, UIElement listeningElement)
+        {
+            mainWindow.Append(talentConfirmLvlUpPanel);
+        }
+
+         private void OnTalentConfirmClick(UIMouseEvent evt, UIElement listeningElement)
+         {
+            if (talentSelected == 1)
+            {
+                selectedCharacter.AttackLevel++;
+                talentInfoLVL.SetText($"Lv. {selectedCharacter.AttackLevel}");
+            }
+            else if (talentSelected == 2)
+            {
+                selectedCharacter.SkillLevel++;
+                talentInfoLVL.SetText($"Lv. {selectedCharacter.SkillLevel}");
+            }
+            else if (talentSelected == 3)
+            {
+                selectedCharacter.BurstLevel++;
+                talentInfoLVL.SetText($"Lv. {selectedCharacter.BurstLevel}");
+            }
+
+            talent1LVL.SetText($"Lv. {selectedCharacter.AttackLevel}");
+            talent2LVL.SetText($"Lv. {selectedCharacter.SkillLevel}");
+            talent3LVL.SetText($"Lv. {selectedCharacter.BurstLevel}");
         }
 
         #endregion

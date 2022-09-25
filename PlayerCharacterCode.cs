@@ -115,7 +115,9 @@ namespace GenshinMod
         {
             if (HasCharacter(character))
             {
-                return false; // TODO: let the game/player know that they can raise the constellation of this character at this point
+                Character partyCharacter = GetCharacter(character);
+                if (partyCharacter.ConstellationUpgrade < 6) partyCharacter.ConstellationUpgrade++;
+                return true;
             }
             else
             {

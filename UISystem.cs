@@ -87,6 +87,7 @@ namespace GenshinMod
 
         internal void ShowGachaUI()
         {
+            gachaUI.OnInitialize();
             GenshinInterface?.SetState(gachaUI);
         }
 

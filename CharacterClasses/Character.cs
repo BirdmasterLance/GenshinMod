@@ -10,98 +10,137 @@ namespace GenshinMod
     public class Character
     {
         public string Name { get; protected set; }
-        public int AttackLevel { get; protected set; }
-        public int SkillLevel { get; protected set; }
-        public int BurstLevel { get; protected set; }
-        public int AscenstionTalentLevel { get; protected set; }
-        public int Constellation { get; protected set; }
+        public int AttackLevel { get; set; }
+        public int SkillLevel { get; set; }
+        public int BurstLevel { get; set; }
+        public int Constellation { get; set; }
+        public int ConstellationUpgrade; // Needed because it should be the player's decision to upgrade their character's constellation
 
-        public string NormalAttackName { get; protected set; }
-        public string SkillName { get; protected set; }
-        public string BurstName { get; protected set; }
-        public string AscensionTalent1Name { get; protected set; }
-        public string AscensionTalent2Name { get; protected set; }
+        #region Description Texts
 
-        public Character(string name="", int atkLVL=1, int skillLVL=1, int burstLVL=1, int ascensionTalentLevel=1, int constellationLVL=1)
+        public string NormalAttack = "";
+        public string NormalAttackDesc = "";
+        public string Skill = "";
+        public string SkillDesc = "";
+        public string Burst = "";
+        public string BurstDesc = "";
+        public string Passive1 = "";
+        public string Passive1Desc = "";
+        public string Passive2 = "";
+        public string Passive2Desc = "";
+        public string Constellation1 = "";
+        public string Constellation1Desc = "";
+        public string Constellation2 = "";
+        public string Constellation2Desc = "";
+        public string Constellation3 = "";
+        public string Constellation3Desc = "";
+        public string Constellation4 = "";
+        public string Constellation4Desc = "";
+        public string Constellation5 = "";
+        public string Constellation5Desc = "";
+        public string Constellation6 = "";
+        public string Constellation6Desc = "";
+        public string Talent1Cost = "";
+        public string Talent2Cost = "";
+        public string Talent3Cost = "";
+        public string Talent4Cost = "";
+        public string Talent5Cost = "";
+        public string Talent6Cost = "";
+        public string Talent7Cost = "";
+        public string Talent8Cost = "";
+        public string Talent9Cost = "";
+        public string Talent10Cost = "";
+
+        #endregion
+
+        public Character(string name="", int atkLVL=1, int skillLVL=1, int burstLVL=1, int constellationLVL=0, int constellationUpgrade=0)
         {
             Name = name;
             AttackLevel = atkLVL;
             SkillLevel = skillLVL;
             BurstLevel = burstLVL;
-            AscenstionTalentLevel = ascensionTalentLevel;
             Constellation = constellationLVL;
+            ConstellationUpgrade = constellationUpgrade;
         }
     }
 
     public class Yanfei : Character
-    {   
-        public Yanfei(int atkLVL=1, int skillLVL = 1, int burstLVL = 1, int ascensionTalentLevel = 1, int constellationLVL = 1) : base("Yanfei", atkLVL, skillLVL, burstLVL, ascensionTalentLevel, constellationLVL)
+    {       
+        public Yanfei(int atkLVL=1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Yanfei", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
         {
-            NormalAttackName = "Seal of Approval";
-            SkillName = "Signed Edict";
-            BurstName = "Done Deal";
-            AscensionTalent1Name = "Proviso";
-            AscensionTalent2Name = "Blazing Eye";
+
+            #region Description Texts
+
+            NormalAttack = "Seal of Approval";
+            NormalAttackDesc = "[c/DEBC77:Normal Attack]\nShoots fireballs that deal up to three counts of [c/fc6f82:Pyro DMG].\nWhen Yanfei's Normal Attacks hit enemies, they will grant her a single Scarlet Seal. Yanfei may possess a maximum of 3 Scarlet Seals, and each time this effect is triggered, the duration of currently possessed Scarlet Seals will refresh.\nEach Scarlet Seal will decrease Yanfei's Stamina consumption and will disappear when she leaves the field.\n\n[c/DEBC77:Charged Attack]\nConsumes Stamina and all Scarlet Seals before dealing [c/fc6f82:AoE Pyro DMG] to the opponents after a short casting time.\nThis Charged Attack's AoE and DMG will increase according to the amount of Scarlet Seals consumed.\n\n[c/DEBC77:Plunging Attack]\nGathering the power of Pyro, Yanfei plunges towards the ground from mid-air, damaging all opponents in her path. Deals [c/fc6f82:AoE Pyro DMG] upon impact with the ground.";
+            Skill = "Signed Edict";
+            SkillDesc = "Summons blistering flames that deal [c/fc6f82:AoE Pyro DMG].\nOpponents hit by the flames will grant Yanfei the maximum number of Scarlet Seals.";
+            Burst = "Done Deal";
+            BurstDesc = "Triggers a spray of intense flames that rush at nearby opponents, dealing [c/fc6f82:AoE Pyro DMG], granting Yanfei the maximum number of Scarlet Seals, and applying Brilliance to her.\n\nBrilliance\nHas the following effects:\n  Grants Yanfei a Scarlet Seal at fixed intervals.\n  Increases the DMG dealt by her Charged Attacks.\nThe effects of Brilliance will end if Yanfei leaves the field or falls in battle.";
+            Passive1 = "Proviso";
+            Passive1Desc = "When Yanfei consumes Scarlet Seals by using a Charged Attack, each Scarlet Seal will increase Yanfei's [c/fc6f82:Pyro DMG Bonus] by 5%. This effects lasts for 6s. When a Charged Attack is used again during the effect's duration, it will dispel the previous effect.";
+            Passive2 = "Blazing Eye";
+            Passive2Desc = "When Yanfei's Charged Attack deals a CRIT Hit to opponents, she will deal an additional instance of [c/fc6f82:AoE Pyro DMG] equal to 80% of her ATK. This DMG counts as Charged Attack DMG.";
+            Constellation1 = "The Law Knows No Kindness";
+            Constellation1Desc = "When Yanfei uses her Charged Attack, each existing Scarlet Seal additionally reduces the stamina cost of this Charged Attack by 10% and increases resistance against interruption during its release.";
+            Constellation2 = "Right of Final Interpretation";
+            Constellation2Desc = "Increases Yanfei's Charged Attack CRIT Rate by 20% against enemies below 50% HP.";
+            Constellation3 = "Samadhi Fire-Forged";
+            Constellation3Desc = "Increases the Level of Signed Edict by 3.\nMaximum upgrade level is 15.";
+            Constellation4 = "Supreme Amnesty";
+            Constellation4Desc = "When Done Deal is used:\nCreates a shield that absorbs up to 45% of Yanfei's Max HP for 15s.\nThis shield absorbs [c/fc6f82:Pyro DMG] 250% more effectively.";
+            Constellation5 = "Abiding Affidavit";
+            Constellation5Desc = "Increases the Level of Done Deal by 3.\nMaximum upgrade level is 15.";
+            Constellation6 = "Extra Clause";
+            Constellation6Desc = "Increases the maximum number of Scarlet Seals by 1.";
+            Talent1Cost = "";
+            Talent2Cost = "";
+            Talent3Cost = "";
+            Talent4Cost = "";
+            Talent5Cost = "";
+            Talent6Cost = "";
+            Talent7Cost = "";
+            Talent8Cost = "";
+            Talent9Cost = "";
+            Talent10Cost = "";
+
+            #endregion
+
         }
     }
 
     public class Kaeya : Character
     {
-        public Kaeya(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int ascensionTalentLevel = 1, int constellationLVL = 1) : base("Kaeya", atkLVL, skillLVL, burstLVL, ascensionTalentLevel, constellationLVL)
+        public Kaeya(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Kaeya", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
         {
-            NormalAttackName = "Ceremonial Bladework";
-            SkillName = "Frostgnaw";
-            BurstName = "Glacial Waltz";
-            AscensionTalent1Name = "Cold-Blooded Strike";
-            AscensionTalent2Name = "Glacial Heart";
         }
     }
 
     public class Noelle : Character
     {
-        public Noelle(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int ascensionTalentLevel = 1, int constellationLVL = 1) : base("Noelle", atkLVL, skillLVL, burstLVL, ascensionTalentLevel, constellationLVL)
+        public Noelle(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Noelle", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
         {
-            NormalAttackName = "Favonius Bladework - Maid";
-            SkillName = "Breastplate";
-            BurstName = "Sweeping Time";
-            AscensionTalent1Name = "Devotion";
-            AscensionTalent2Name = "Nice and Clean";
         }
     }
 
     public class Barbara : Character
     {
-        public Barbara(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int ascensionTalentLevel = 1, int constellationLVL = 1) : base("Barbara", atkLVL, skillLVL, burstLVL, ascensionTalentLevel, constellationLVL)
+        public Barbara(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Barbara", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
         {
-            NormalAttackName = "Whisper of Water";
-            SkillName = "Let the Show Begin♪";
-            BurstName = "Shining Miracle♪";
-            AscensionTalent1Name = "Glorious Season";
-            AscensionTalent2Name = "Encore";
         }
     }
 
     public class RaidenShogun : Character
     {
-        public RaidenShogun(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int ascensionTalentLevel = 1, int constellationLVL = 1) : base("Raiden Shogun", atkLVL, skillLVL, burstLVL, ascensionTalentLevel, constellationLVL)
+        public RaidenShogun(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Raiden Shogun", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
         {
-            NormalAttackName = "Origin";
-            SkillName = "Transcendence: Baleful Omen";
-            BurstName = "Secret Art: Musou Shinsetsu";
-            AscensionTalent1Name = "Wishes Unnumbered";
-            AscensionTalent2Name = "Enlightened One";
         }
     }
 
     public class YaeMiko : Character
     {
-        public YaeMiko(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int ascensionTalentLevel = 1, int constellationLVL = 1) : base("Yae Miko", atkLVL, skillLVL, burstLVL, ascensionTalentLevel, constellationLVL)
+        public YaeMiko(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Yae Miko", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
         {
-            NormalAttackName = "Spiritfox Sin-Eater";
-            SkillName = "Yakan Evocation: Sesshou Sakura";
-            BurstName = "Great Secret Art: Tenko Kenshin";
-            AscensionTalent1Name = "The Shrine's Sacred Shade";
-            AscensionTalent2Name = "Enlightened Blessing";
         }
     }
 
@@ -116,7 +155,8 @@ namespace GenshinMod
             ["atkLVL"] = value.AttackLevel,
             ["skillLVL"] = value.SkillLevel,
             ["burstLVL"] = value.BurstLevel,
-            ["constellationLVL"] = value.Constellation
+            ["constellationLVL"] = value.Constellation,
+            ["constellationUpgrade"] = value.ConstellationUpgrade
         };
 
         public override Character Deserialize(TagCompound tag)
@@ -126,23 +166,24 @@ namespace GenshinMod
             int skillLVL = tag.GetInt("skillLVL");
             int burstLVL = tag.GetInt("burstLVL");
             int constellationLVL = tag.GetInt("constellationLVL");
+            int constellationUpgrade = tag.GetInt("constellationUpgrade");
 
             switch (name)
             {
                 case "Yanfei":
-                    return new Yanfei(atkLVL, skillLVL, burstLVL, constellationLVL);
+                    return new Yanfei(atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade);
                 case "Kaeya":
-                    return new Kaeya(atkLVL, skillLVL, burstLVL, constellationLVL);
+                    return new Kaeya(atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade);
                 case "Noelle":
-                    return new Noelle(atkLVL, skillLVL, burstLVL, constellationLVL);
+                    return new Noelle(atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade);
                 case "Barbara":
-                    return new Barbara(atkLVL, skillLVL, burstLVL, constellationLVL);
+                    return new Barbara(atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade);
                 case "Yae Miko":
-                    return new YaeMiko(atkLVL, skillLVL, burstLVL, constellationLVL);
+                    return new YaeMiko(atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade);
                 case "Raiden Shogun":
-                    return new RaidenShogun(atkLVL, skillLVL, burstLVL, constellationLVL);
+                    return new RaidenShogun(atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade);
             }
-            return new Character(tag.GetString("name"), tag.GetInt("atkLVL"), tag.GetInt("skillLVL"), tag.GetInt("burstLVL"), tag.GetInt("constellationLVL"));
+            return new Character(tag.GetString("name"), tag.GetInt("atkLVL"), tag.GetInt("skillLVL"), tag.GetInt("burstLVL"), tag.GetInt("constellationLVL"), tag.GetInt("constellationUpgrade"));
         }
     }
 
@@ -415,8 +456,6 @@ namespace GenshinMod
         public static List<string> GetAll5Stars()
         {
             List<string> output = new();
-
-            output.Add(Traveller);
             output.Add(Albedo);
             output.Add(Aloy);
             output.Add(Itto);

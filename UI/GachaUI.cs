@@ -20,30 +20,44 @@ namespace GenshinMod.UI
             mainWindow = new DragableUIPanel();
             mainWindow.Width.Set(740, 0);
             mainWindow.Height.Set(400, 0);
-            mainWindow.BackgroundColor = new Color(44, 44, 110);
+            mainWindow.BackgroundColor = new Color(181, 225, 255);
             mainWindow.HAlign = mainWindow.VAlign = 0.5f;
             mainWindow.PaddingRight = mainWindow.PaddingLeft = 20;
 
-            // Header of the Main Window
-            UIText mainWindowHeader = new UIText("Character Banner");
-            mainWindowHeader.HAlign = 0.5f; 
-            mainWindowHeader.Top.Set(15, 0); 
-            mainWindow.Append(mainWindowHeader);
-
             // Button for pulling
             UIPanel pullButton = new UIPanel();
-            pullButton.Width.Set(100, 0);
-            pullButton.Height.Set(50, 0);
-            pullButton.HAlign = 0.5f;
-            pullButton.Top.Set(0, 0.87f);
-            pullButton.BackgroundColor = new Color(44, 44, 176);
+            pullButton.Width.Set(150, 0);
+            pullButton.Height.Set(40, 0);
+            pullButton.Top.Set(330, 0f);
+            pullButton.Left.Set(370, 0f);
+            pullButton.BackgroundColor = new Color(255, 255, 255);
+            pullButton.BorderColor = new Color(194, 180, 105);
             pullButton.OnClick += WishClick;
+            pullButton.SetPadding(0);
             mainWindow.Append(pullButton);
 
             // Text for remove button
-            UIText text = new UIText("Wish");
-            text.HAlign = text.VAlign = 0.5f;
+            UIText text = new UIText("Wish x1", 0.8f);
+            text.HAlign = 0.5f;
+            text.Top.Set(5, 0);
             pullButton.Append(text);
+
+            UIPanel pullButton10 = new UIPanel();
+            pullButton10.Width.Set(150, 0);
+            pullButton10.Height.Set(40, 0);
+            pullButton10.Top.Set(330, 0f);
+            pullButton10.Left.Set(540, 0);
+            pullButton10.BackgroundColor = new Color(255, 255, 255);
+            pullButton10.BorderColor = new Color(194, 180, 105);
+            pullButton10.SetPadding(0);
+            pullButton10.OnClick += WishClick10;
+            mainWindow.Append(pullButton10);
+
+            // Text for remove button
+            UIText text10 = new UIText("Wish x10", 0.8f);
+            text10.HAlign = 0.5f;
+            text10.Top.Set(5, 0);
+            pullButton10.Append(text10);
 
             Append(mainWindow);
         }
@@ -65,26 +79,38 @@ namespace GenshinMod.UI
 
         private void WishClick(UIMouseEvent evt, UIElement listeningElement)
         {
-            //// List<string> fourStars = Character.GetAll4Stars();
-            //// List<string> fiveStars = Character.GetAll5Stars();
-
-            //var rand = new Random();
-            //int chance = rand.Next(100);
-            //string character;
-            //if (chance < 5)
-            //{
-            //    character = fiveStars[rand.Next(fiveStars.Count)];
-            //}
-            //else
-            //{
-            //    character = fourStars[rand.Next(fourStars.Count)];
-            //}
-            //Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>().AddCharacter(character);
-            //Main.NewText($"You got: {character}");
-
-            // TODO: check if we have enough primo gems and reduce our number of primo gems as we do this
-            // TODO: maybe pity system
+            GetRandomCharacter(1);
         }
 
+        private void WishClick10(UIMouseEvent evt, UIElement listeningElement)
+        {
+            GetRandomCharacter(10);
+        }
+
+        private void GetRandomCharacter(int times)
+        {
+            List<string> fourStars = CharacterLists.GetAll4Stars();
+            List<string> fiveStars = CharacterLists.GetAll5Stars();
+
+            for (int i = 0; i < times; i++)
+            {
+                var rand = new Random();
+                int chance = rand.Next(100);
+                string character;
+                if (chance < 5)
+                {
+                    character = fiveStars[rand.Next(fiveStars.Count)];
+                }
+                else
+                {
+                    character = fourStars[rand.Next(fourStars.Count)];
+                }
+                Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>().AddCharacter(character);
+                Main.NewText($"You got: {character}");
+
+                // TODO: check if we have enough primo gems and reduce our number of primo gems as we do this
+                // TODO: maybe pity system
+            }
+        }
     }
 }
