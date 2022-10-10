@@ -89,8 +89,8 @@ namespace GenshinMod.UI
 
         private void GetRandomCharacter(int times)
         {
-            List<string> fourStars = CharacterLists.GetAll4Stars();
-            List<string> fiveStars = CharacterLists.GetAll5Stars();
+            List<string> fourStars = CharacterLists.FourStarCharacters;
+            List<string> fiveStars = CharacterLists.FiveStarCharacters;
 
             for (int i = 0; i < times; i++)
             {

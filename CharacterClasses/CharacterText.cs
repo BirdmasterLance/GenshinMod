@@ -21,7 +21,7 @@ namespace GenshinMod.CharacterClasses
             {
                 string fileText = File.ReadAllText(directory);
                 string[] characterDescriptions = fileText.Split('{');
-                List<string> characters = CharacterLists.GetListOfAllCharacters();
+                List<string> characters = CharacterLists.AllCharacters;
                 int charNum = 0;
                 foreach (string characterDescription in characterDescriptions)
                 {
