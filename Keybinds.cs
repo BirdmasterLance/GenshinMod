@@ -1,5 +1,6 @@
 ﻿using GenshinMod.Buffs;
 using GenshinMod.Items;
+using GenshinMod.UI;
 using Terraria;
 using Terraria.GameInput;
 using Terraria.ModLoader;

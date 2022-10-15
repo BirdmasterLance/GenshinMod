@@ -11,13 +11,13 @@ namespace GenshinMod.Elements
     internal class Elements : ILoadable
     {
         // List of weapons
-        public static readonly List<int> AnemoWeapons = new();
-        public static readonly List<int> GeoWeapons = new();
-        public static readonly List<int> ElectroWeapons = new();
-        public static readonly List<int> DendroWeapons = new();
-        public static readonly List<int> PyroWeapons = new();
-        public static readonly List<int> HydroWeapons = new();
-        public static readonly List<int> CryoWeapons = new();
+        public static readonly List<int> AnemoItems = new();
+        public static readonly List<int> GeoItems = new();
+        public static readonly List<int> ElectroItems = new();
+        public static readonly List<int> DendroItems = new();
+        public static readonly List<int> PyroItems = new();
+        public static readonly List<int> HydroItems = new();
+        public static readonly List<int> CryoItems = new();
                       
         public static readonly List<int> AnemoNPCs = new();
         public static readonly List<int> GeoNPCs = new();
@@ -143,22 +143,25 @@ namespace GenshinMod.Elements
 
             #region Hydro Projectiles
 
-            HydroProjectiles.Add(ProjectileID.WaterStream);
-            HydroProjectiles.Add(ProjectileID.WaterBolt);
-            HydroProjectiles.Add(ProjectileID.BlueMoon);
-            HydroProjectiles.Add(ProjectileID.RainFriendly);
-            HydroProjectiles.Add(ProjectileID.RainNimbus);
-            HydroProjectiles.Add(ProjectileID.Sharknado);
-            HydroProjectiles.Add(ProjectileID.SharknadoBolt);
-            HydroProjectiles.Add(ProjectileID.Cthulunado);
-            HydroProjectiles.Add(ProjectileID.Flairon);
-            HydroProjectiles.Add(ProjectileID.FlaironBubble);
-            HydroProjectiles.Add(ProjectileID.MiniSharkron);
-            HydroProjectiles.Add(ProjectileID.Typhoon);
-            HydroProjectiles.Add(ProjectileID.WetRocket);
-            HydroProjectiles.Add(ProjectileID.WetSnowmanRocket);
-            HydroProjectiles.Add(ProjectileID.GoldenShowerFriendly);
-            HydroProjectiles.Add(ProjectileID.GoldenShowerHostile);
+            HydroProjectiles.AddRange(new int[]
+            {
+                ProjectileID.WaterStream,
+                ProjectileID.WaterBolt,
+                ProjectileID.BlueMoon,
+                ProjectileID.RainFriendly,
+                ProjectileID.RainNimbus,
+                ProjectileID.Sharknado,
+                ProjectileID.SharknadoBolt,
+                ProjectileID.Cthulunado,
+                ProjectileID.Flairon,
+                ProjectileID.FlaironBubble,
+                ProjectileID.MiniSharkron,
+                ProjectileID.Typhoon,
+                ProjectileID.WetRocket,
+                ProjectileID.WetSnowmanRocket,
+                ProjectileID.GoldenShowerFriendly,
+                ProjectileID.GoldenShowerHostile
+            });            
 
             #endregion
         }

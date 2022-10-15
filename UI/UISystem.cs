@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
 
-namespace GenshinMod
+namespace GenshinMod.UI
 {
     class UISystem : ModSystem
     {
