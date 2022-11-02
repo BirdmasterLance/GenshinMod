@@ -35,8 +35,7 @@ namespace GenshinMod.Items
         {
             if (!DomainWorld.domainActive)
             {
-                Main.NewText("The custom invasion is starting.......", new Color(175, 75, 255));
-                DomainInvasion.StartDomain();
+                DomainInvasion.StartDomain(DomainType.TestDomain, DomainReward.TestReward, player.position);
                 return true;
             }
             else

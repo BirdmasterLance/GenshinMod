@@ -34,5 +34,16 @@ namespace GenshinMod.Invasions
                 }
             }
         }
+
+        //Changing the spawn rate
+        public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
+        {
+            //Change spawn stuff if invasion up and player is in invasion zone
+            if (DomainWorld.domainActive && DomainInvasion.PlayerInDomainArea(player))
+            {
+                spawnRate = 1000; // Higher number means less chance to spawn
+                maxSpawns = 10000; //Max spawns of NPCs depending on NPC value
+            }
+        }
     }
 }

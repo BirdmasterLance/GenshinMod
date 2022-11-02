@@ -27,7 +27,8 @@ namespace GenshinMod.Invasions
                 if(Main.invasionProgress >= Main.invasionSize)
                 {
                     Main.invasionProgress = Main.invasionSize;
-                    NetMessage.SendData(25, -1, -1, NetworkText.FromLiteral("Domain End"), 255, 175f, 75f, 255f, 0, 0, 0);
+                    // NetMessage.SendData(MessageID.ChatText, -1, -1, NetworkText.FromLiteral("Domain End"), 255, 175f, 75f, 255f, 0, 0, 0);
+                    DomainInvasion.GiveRewards();
                     DomainInvasion.EndDomain();
                 }
             }
