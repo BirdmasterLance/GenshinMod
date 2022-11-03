@@ -5,23 +5,13 @@
 //using ExampleMod.Content.Items.Consumables;
 //using ExampleMod.Content.Pets.MinionBossPet;
 //using ExampleMod.Content.Projectiles;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.ModLoader;
 
-
-
-namespace Hh1.BulletsorProjectiles
+namespace GenshinMod.NPCH
 {
     public class Cube : ModNPC
     {
         public override string Texture => "Terraria/Images/Item_" + ItemID.Boulder;
-        //public override void SetStaticDefaults()
-        //{
-        //    DisplayName.SetDefault("Dust Cloud");
-        //} // This boss has a second phase and we want to give it a second boss head icon, this variable keeps track of the registered texture from Load().
+         // This boss has a second phase and we want to give it a second boss head icon, this variable keeps track of the registered texture from Load().
         //  // It is applied in the BossHeadSlot hook when the boss is in its second stage
 
         public int ParentIndex
@@ -89,7 +79,7 @@ namespace Hh1.BulletsorProjectiles
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hypokube");
+            DisplayName.SetDefault("HypoCube");
             Main.npcFrameCount[Type] = 1;
 
             // By default enemies gain health and attack if hardmode is reached. this NPC should not be affected by that
@@ -186,7 +176,7 @@ namespace Hh1.BulletsorProjectiles
 
 
 
-            
+
 
 
             switch (HallowedHypostasis.OrderByBossCasting())
@@ -288,36 +278,7 @@ namespace Hh1.BulletsorProjectiles
 
 
 
-        // If your minion is flying, you want to do this independently of any conditions
-        //float overlapVelocity = 0.04f;
 
-        // Fix overlap with other minions
-        //for (int i = 0; i < Main.maxProjectiles; i++)
-        //{
-        //    Projectile other = Main.projectile[i];
-
-        //    if (i != Projectile.whoAmI && other.active && other.owner == Projectile.owner && Math.Abs(Projectile.position.X - other.position.X) + Math.Abs(Projectile.position.Y - other.position.Y) < Projectile.width)
-        //    {
-        //        if (Projectile.position.X < other.position.X)
-        //        {
-        //            Projectile.velocity.X -= overlapVelocity;
-        //        }
-
-        //        else
-        //        {
-        //            Projectile.velocity.X += overlapVelocity;
-        //        }
-
-        //        if (Projectile.position.Y < other.position.Y)
-        //        {
-        //            Projectile.velocity.Y -= overlapVelocity;
-        //        }
-        //        else
-        //        {
-        //            Projectile.velocity.Y += overlapVelocity;
-        //        }
-        //    }
-        //}
         private void Crush(Player target)
         {
 
@@ -329,7 +290,7 @@ namespace Hh1.BulletsorProjectiles
 
 
 
-            if (FirstStageTimer >= 120&& FirstStageTimer <360)
+            if (FirstStageTimer >= 120 && FirstStageTimer < 360)
             {
                 Vector2 formation = target.Top * -1f;
                 float rad = (float)PositionIndex / HallowedHypostasis.MinionCount() * MathHelper.TwoPi;
@@ -350,15 +311,16 @@ namespace Hh1.BulletsorProjectiles
                 //    NPC.velocity = (NPC.velocity * (inertia - 1) + moveTo) / inertia;
 
 
-                NPC.position= target.Center + offset;
-                
+                NPC.position = target.Center + offset;
+
             }
-            if (FirstStageTimer>360) {
+            if (FirstStageTimer > 360)
+            {
                 FirstStageTimer = 0;
             }
         }
 
-        //}
+        
         private bool Despawn()
         {
             if (Main.netMode != NetmodeID.MultiplayerClient &&
@@ -378,106 +340,4 @@ namespace Hh1.BulletsorProjectiles
 
 
     }
-    //public override void SetDefaults()
-    //{
-    //	Projectile.damage = 0;
-    //	Projectile.width = 10;
-    //	Projectile.height = 10;
-    //	//Projectile.friendly = false;
-    //	Projectile.penetrate = 1;
-    //	Projectile.tileCollide = true;
-    //	Projectile.DamageType = DamageClass.Ranged;
-    //	Projectile.timeLeft = 300;
-    //	Projectile.hostile = true;
-    //	Projectile.ignoreWater = true;         
-    //	Projectile.tileCollide = true;
-
-    //}
-
-    //public override void AI()
-    //{
-    //	Projectile.ai[0]++;
-
-
-
-    //	Projectile.velocity.Y -= -1;
-
-
-    //	NPC npc = Main.npc[Projectile.owner];
-    //	if(Projectile.ai[0]== 60)
-    //          {
-
-    //		Projectile.Kill();
-
-
-    //          }
-
-
-    //}
-    //public override bool OnTileCollide(Vector2 oldVelocity)
-    //{
-    //	//If collide with tile, reduce the penetrate.
-    //	//So the Projectile can reflect at most 5 times
-    //	Projectile.Kill();
-    //	//Projectile.penetrate--;
-    //	//if (Projectile.penetrate <= 0)
-    //	//{
-    //	//	Projectile.Kill();
-    //	//}
-    //	return false;
-    //}
-    //      public override void Kill(int timeLeft)      
-    //      {
-    //	if (Projectile.penetrate == 1) {
-    //		// Makes the Projectile hit all enemies as it circunvents the penetrate limit.
-    //		Projectile.maxPenetrate = -1;
-    //		Projectile.penetrate = -1;
-    //		Projectile.maxPenetrate = -1;
-    //	//Projectile.penetrate = -1;
-    //		//Projectile.width = 70;
-    //		//Projectile.height = 70;
-    //		Projectile.tileCollide = false;
-    //	//Projectile.velocity *= 0.01f;
-    //	Projectile.damage = 20;
-    //	//Projectile.Damage();
-
-
-    //	int explosionArea = 30;
-    //	Vector2 oldSize = Projectile.Size;
-    //	// Resize the Projectile hitbox to be bigger.
-    //	Projectile.position = Projectile.Center;
-    //	Projectile.Size += new Vector2(explosionArea);
-    //	Projectile.Center = Projectile.position;
-    //	Projectile.tileCollide = false;
-    //	Projectile.velocity *= 0.01f;
-    //	// Damage enemies inside the hitbox area
-
-    //	Projectile.Damage();
-    //	Projectile.scale = 0.01f;
-    //	}
-
-
-
-    //        for (int g = 0; g < 2; g++)
-    //{
-    //	int goreIndex = Gore.NewGore(new Vector2(Projectile.position.X + (float)0 , Projectile.position.Y + (float)0), default(Vector2), Main.rand.Next(61, 64), 1f);
-    //	Main.gore[goreIndex].scale = 1.5f;
-    //	Main.gore[goreIndex].velocity.X = 0.1f;
-    //	Main.gore[goreIndex].velocity.Y = 0.1f;
-    //            //goreIndex = Gore.NewGore(new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
-    //            //Main.gore[goreIndex].scale = 1.5f;
-    //            //Main.gore[goreIndex].velocity.X = Main.gore[goreIndex].velocity.X - 1.5f;
-    //            //Main.gore[goreIndex].velocity.Y = Main.gore[goreIndex].velocity.Y + 1.5f;
-    //            //goreIndex = Gore.NewGore(new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
-    //            //Main.gore[goreIndex].scale = 1.5f;
-    //            //Main.gore[goreIndex].velocity.X = Main.gore[goreIndex].velocity.X + 1.5f;
-    //            //Main.gore[goreIndex].velocity.Y = Main.gore[goreIndex].velocity.Y - 1.5f;
-    //            //goreIndex = Gore.NewGore(new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64), 1f);
-    //            //Main.gore[goreIndex].scale = 1.5f;
-    //            //Main.gore[goreIndex].velocity.X = Main.gore[goreIndex].velocity.X - 1.5f;
-    //            //Main.gore[goreIndex].velocity.Y = Main.gore[goreIndex].velocity.Y - 1.5f;
-    //        }
-
-
-
 }

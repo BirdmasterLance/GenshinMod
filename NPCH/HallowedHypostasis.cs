@@ -5,7 +5,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Hh1.BulletsorProjectiles
+namespace GenshinMod.NPCH
 {        // The main part of the boss, usually refered to as "body"
          //[AutoloadBossHead] // This attribute looks for a texture called "ClassName_Head_Boss" and automatically registers it as the NPC boss head icon
 
@@ -13,23 +13,10 @@ namespace Hh1.BulletsorProjectiles
     {
         public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.MagnetSphereBall /*ToxicBubble */;
 
-        //public override void SetStaticDefaults()
-        //{
-        //	DisplayName.SetDefault("ElectricalBall");
-        //}
 
         // This boss has a second phase and we want to give it a second boss head icon, this variable keeps track of the registered texture from Load().
         // It is applied in the BossHeadSlot hook when the boss is in its second stage
         public static int secondStageHeadSlot = -1;
-
-        // This code here is called a property: It acts like a variable, but can modify other things. In this case it uses the NPC.ai[] array that has four entries.
-        // We use properties because it makes code more readable ("if (SecondStage)" vs "if (NPC.ai[0] == 1f)").
-        // We use NPC.ai[] because in combination with NPC.netUpdate we can make it multiplayer compatible. Otherwise (making our own fields) we would have to write extra code to make it work (not covered here)
-        //public bool SecondStage
-        //{
-        //    get => NPC.ai[0] == 1f;
-        //    set => NPC.ai[0] = value ? 1f : 0f;
-        //}
         public ref float AI_State => ref NPC.ai[0];
 
         private enum ActionState
@@ -74,13 +61,10 @@ namespace Hh1.BulletsorProjectiles
         //*2 
         public ref float SecondStageTimer_SpawnEyes => ref NPC.localAI[3];
 
-        // Do NOT try to use NPC.ai[4]/NPC.localAI[4] or higher indexes, it only accepts 0, 1, 2 and 3!
-        // If you choose to go the route of "wrapping properties" for NPC.ai[], make sure they don't overlap (two properties using the same variable in different ways), and that you don't accidently use NPC.ai[] directly
-
         // Helper method to determine the minion type
         //public static int MinionType()
         //{
-        //    //return ModContent.NPCType<MinionBossMinion>();
+        //    //return ModContent.NPCType<Cube>();
         //}
 
         // Helper method to determine the amount of minions summoned
@@ -88,16 +72,7 @@ namespace Hh1.BulletsorProjectiles
         {
             int count = 4;
 
-            //if (Main.expertMode)
-            //{
-            //    count += 5; // Increase by 5 if expert or master mode
-            //}
-
-            //if (Main.getGoodWorld)
-            //{
-            //    count += 5; // Increase by 5 if using the "For The Worthy" seed
-            //}
-
+           
             return count;
         }
         public enum OrderByBoss
@@ -117,12 +92,7 @@ namespace Hh1.BulletsorProjectiles
 
 
         }
-        public static int OrderByBossCasting1(int order)
-        {
-
-            return order;
-
-        }
+       
         //public override void Load()
         //{
         //    // We want to give it a second boss head icon, so we register one
@@ -142,7 +112,7 @@ namespace Hh1.BulletsorProjectiles
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hallowed Hypostasis.");
+            DisplayName.SetDefault("Hallowed Hypostasis");
             Main.npcFrameCount[Type] = 6;
 
             // Add this in for bosses that have a summon item, requires corresponding code in the item (See MinionBossSummonItem.cs)
@@ -265,7 +235,6 @@ namespace Hh1.BulletsorProjectiles
                         //NPC.velocity.Y += 1f;
 
 
-                        Console.WriteLine("!!");
                         //NPC.velocity = new Vector2(0, +5f);
 
                         Vector2 RelPosPlayer/*abovePlayer*/ = player.oldPosition + new Vector2(NPC.direction  /** offsetX*/, -NPC.height * -8);
@@ -491,77 +460,6 @@ namespace Hh1.BulletsorProjectiles
 
         }
 
-        //public override void SetDefaults()
-        //{
-        //	Projectile.width = 10;
-        //	Projectile.height = 10;
-        //	//Projectile.friendly = false;
-        //	Projectile.penetrate = 1;
-        //	Projectile.tileCollide = true;
-        //	Projectile.DamageType = DamageClass.Ranged;
-        //	Projectile.timeLeft = 300;
-        //	Projectile.hostile = true;
-        //}
-
-        //          public override void AI()
-        //{
-        //	NPC npc = Main.npc[Projectile.owner];
-        //	float distanceFromTarget = 250f;
-        //	Vector2 targetCenter = Projectile.position;
-        //	float speed = 7f;
-        //	float inertia = 0.5f;
-
-
-        //	if (npc.target < 0 || !Main.player[npc.target].active || Main.player[npc.target].dead)
-        //		{
-        //		npc.TargetClosest(true);
-        //	}
-        //	if (npc.velocity.X < 0f)
-        //	{
-        //		npc.direction = -1;
-        //	}
-        //	else if (npc.velocity.X > 0f)
-        //	{
-        //		npc.direction = 1;
-        //	}
-        //	Projectile.ai[0]++;
-
-        //	Projectile.velocity.X = Projectile.velocity.X;
-        //	Projectile.velocity.Y = Projectile.velocity.Y;
-
-        //          //Vector2 distance = Main.player[npc.target].Center - Projectile.Center;
-
-        //          //float speed = 5f + distance.Length() / 100f;
-        //          //float innercia = 25f;
-
-        //          if (Projectile.ai[0] <=1f){
-
-        //		//distance.Normalize();
-        //		////distance *= speed;
-        //		//Projectile.velocity = (Projectile.velocity * (inertia - 1f) + distance) / inertia;
-        //		//Projectile.rotation = (Projectile.rotation * 9f + Projectile.velocity.X * 0.08f) / 10f;
-        //		Vector2 direction = Main.player[npc.target].Center - Projectile.Center;
-        //		//Vector2 direction = targetCenter - Projectile.Center;
-        //		float distance = direction.Length(); //direction.Length()
-        //											 //float speed
-        //		speed += distance / 200f;
-        //		//inertia
-        //		direction.Normalize(); //direction.Normalize();
-        //		direction *= speed; //direction *= speed;
-        //		Projectile.velocity = (Projectile.velocity * (float)(inertia - 1) + direction) / (float)inertia;
-        //		Projectile.spriteDirection = Projectile.direction;
-        //		if (direction.Length() >= 250f)
-        //		{
-        //			Projectile.Kill();
-
-        //		}
-
-        //	}
-
-
-
-
-        //       }
-        //}
+       
     }
 }
