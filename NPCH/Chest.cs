@@ -19,7 +19,6 @@ namespace Hh1.NPCH
         {
             DisplayName.SetDefault("Regular Chest");
             Main.npcFrameCount[NPC.type] = 1;
-            //music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Staff Credits - Kirbys Dream Land  Super Smash Bros. Ultimate ");
         }
 
         public override void SetDefaults()

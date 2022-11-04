@@ -5,13 +5,25 @@
 //using ExampleMod.Content.Items.Consumables;
 //using ExampleMod.Content.Pets.MinionBossPet;
 //using ExampleMod.Content.Projectiles;
+using Microsoft.Xna.Framework;
+using System.Numerics;
+using System;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+
 
 namespace GenshinMod.NPCH
 {
     public class Cube : ModNPC
     {
         public override string Texture => "Terraria/Images/Item_" + ItemID.Boulder;
-         // This boss has a second phase and we want to give it a second boss head icon, this variable keeps track of the registered texture from Load().
+        //public override void SetStaticDefaults()
+        //{
+        //    DisplayName.SetDefault("Dust Cloud");
+        //} // This boss has a second phase and we want to give it a second boss head icon, this variable keeps track of the registered texture from Load().
         //  // It is applied in the BossHeadSlot hook when the boss is in its second stage
 
         public int ParentIndex
@@ -79,7 +91,7 @@ namespace GenshinMod.NPCH
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("HypoCube");
+            DisplayName.SetDefault("Hypokube");
             Main.npcFrameCount[Type] = 1;
 
             // By default enemies gain health and attack if hardmode is reached. this NPC should not be affected by that
@@ -114,7 +126,6 @@ namespace GenshinMod.NPCH
             NPC.noTileCollide = true;
             NPC.value = Item.buyPrice(gold: 5);
             NPC.SpawnWithHigherTime(30);
-            NPC.boss = true;
             NPC.npcSlots = 10f;
             NPC.dontTakeDamage = true;
             // Take up open spawn slots, preventing random NPCs from spawning during the fight
@@ -169,26 +180,19 @@ namespace GenshinMod.NPCH
             {
                 return;
             }
-
+            //Make Minions(Cubes) Show, or fade in.
             FadeIn();
-
-            MoveInFormation();
-
-
-
-
-
-
+            //Boss gives an order, Obey.
             switch (HallowedHypostasis.OrderByBossCasting())
             {
                 case 0:
+                    MoveInFormation();
+                    break;
+                case 1:
                     Crush(player);
                     break;
             }
-
         }
-
-
         private void FadeIn()
         {
             // Fade in (we have NPC.alpha = 255 in SetDefaults which means it spawns transparent)
@@ -239,7 +243,7 @@ namespace GenshinMod.NPCH
             Vector2 toDestinationNormalized = toDestination.SafeNormalize(Vector2.Zero);
 
             float speed = 21f;
-            float inertia = 1;
+            float inertia = 4f;
 
             Vector2 moveTo = toDestinationNormalized * speed;
             NPC.velocity = (NPC.velocity * (inertia - 1) + moveTo) / inertia;
@@ -249,78 +253,93 @@ namespace GenshinMod.NPCH
             cooldownSlot = ImmunityCooldownID.Bosses; // use the boss immunity cooldown counter, to prevent ignoring boss attacks by taking damage from other sources
             return true;
         }
-
-        //private void GeneralBehavior(Player owner, out Vector2 vectorToIdlePosition, out float distanceToIdlePosition)
-        //{
-
-        //    Vector2 idlePosition = owner.Center;
-        //    idlePosition.Y -= 48f; // Go up 48 coordinates (three tiles from the center of the player)
-
-        //    // If your minion doesn't aimlessly move around when it's idle, you need to "put" it into the line of other summoned minions
-        //    // The index is projectile.minionPos
-        //    //float minionPositionOffsetX = (10 + Projectile.minionPos * 40) * -owner.direction;
-        //    //idlePosition.X += minionPositionOffsetX; // Go behind the player
-
-        //    // All of this code below this line is adapted from Spazmamini code (ID 388, aiStyle 66)
-
-        //    // Teleport to player if distance is too big
-        //    vectorToIdlePosition = idlePosition - Projectile.Center;
-        //    distanceToIdlePosition = vectorToIdlePosition.Length();
-
-        //    if (Main.myPlayer == owner.whoAmI && distanceToIdlePosition > 2000f)
-        //    {
-        //        // Whenever you deal with non-regular events that change the behavior or position drastically, make sure to only run the code on the owner of the projectile,
-        //        // and then set netUpdate to true
-        //        Projectile.position = idlePosition;
-        //        Projectile.velocity *= 0.1f;
-        //        Projectile.netUpdate = true;
-        //    }
-
-
-
-
         private void Crush(Player target)
         {
 
             FirstStageTimer++;
             // Default movement parameters (here for attacking)
-            float speed = 8f;
-            float inertia = 20f;
-            float offsetX = 200f;
+            Vector2 PlayerOldPos = target.position;
+
+            PlayerOldPos = target.position;
+            float rad = (float)PositionIndex / HallowedHypostasis.MinionCount() * MathHelper.TwoPi;
 
 
+            // Minion has a target: attack (here, fly towards the enemy)
+
+
+            float distanceFromBody = target.width + 80 + NPC.width;
+
+            // offset is now a vector that will determine the position of the NPC based on its index
+            Vector2 offset = Vector2.One.RotatedBy(rad) * distanceFromBody;
 
             if (FirstStageTimer >= 120 && FirstStageTimer < 360)
             {
                 Vector2 formation = target.Top * -1f;
-                float rad = (float)PositionIndex / HallowedHypostasis.MinionCount() * MathHelper.TwoPi;
-
-
-                // Minion has a target: attack (here, fly towards the enemy)
-
-
-                float distanceFromBody = target.width + NPC.width;
-
-                // offset is now a vector that will determine the position of the NPC based on its index
-                Vector2 offset = Vector2.One.RotatedBy(rad) * distanceFromBody;
-
-                //    Vector2 destination = target.Center + offset;
-                //    Vector2 toDestination = destination - NPC.Center;
-                //    Vector2 toDestinationNormalized = toDestination.SafeNormalize(Vector2.Zero);
-                //    Vector2 moveTo = toDestinationNormalized * speed;
-                //    NPC.velocity = (NPC.velocity * (inertia - 1) + moveTo) / inertia;
-
-
                 NPC.position = target.Center + offset;
 
             }
-            if (FirstStageTimer > 360)
+
+            if (FirstStageTimer > 360 && FirstStageTimer < 480)
             {
+                Crush2(target);
                 FirstStageTimer = 0;
+            }
+
+        }
+        private void Crush2(Player target)
+        {
+            FirstStageTimer++;
+            NPC parentNPC = Main.npc[ParentIndex];
+
+            // This basically turns the NPCs PositionIndex into a number between 0f and TwoPi to determine where around
+            // the main body it is positioned at
+            float rad = (float)PositionIndex / HallowedHypostasis.MinionCount() * MathHelper.TwoPi;
+
+            // Add some slight uniform rotation to make the eyes move, giving a chance to touch the player and thus helping melee players
+            RotationTimer += 0.5f;
+            if (RotationTimer > RotationTimerMax)
+            {
+                RotationTimer = 0;
+            }
+
+            // Since RotationTimer is in degrees (0..360) we can convert it to radians (0..TwoPi) easily
+            float continuousRotation = MathHelper.ToRadians(RotationTimer);
+            rad += continuousRotation;
+            if (rad > MathHelper.TwoPi)
+            {
+                rad -= MathHelper.TwoPi;
+            }
+            else if (rad < 0)
+            {
+                rad += MathHelper.TwoPi;
+            }
+
+            float distanceFromBody = parentNPC.width + NPC.width;
+
+            // offset is now a vector that will determine the position of the NPC based on its index
+            Vector2 offset = Vector2.One.RotatedBy(rad) * distanceFromBody;
+
+            Vector2 destination = target.oldPosition;
+            Vector2 toDestination = destination - NPC.Center;
+            Vector2 toDestinationNormalized = toDestination.SafeNormalize(Vector2.Zero);
+
+            float speed = 5f;
+            float inertia = 4f;
+
+            Vector2 moveTo = toDestinationNormalized * speed;
+            NPC.velocity = (NPC.velocity * (inertia - 1) + moveTo) / inertia;
+
+            if (FirstStageTimer > 480)
+            {
+
+                MoveInFormation();
+                FirstStageTimer = 0;
+
             }
         }
 
-        
+
+
         private bool Despawn()
         {
             if (Main.netMode != NetmodeID.MultiplayerClient &&
@@ -338,6 +357,6 @@ namespace GenshinMod.NPCH
             return false;
         }
 
-
     }
+
 }

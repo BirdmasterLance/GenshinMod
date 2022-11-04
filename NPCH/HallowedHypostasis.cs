@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using System;
+using System.Numerics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -13,10 +14,23 @@ namespace GenshinMod.NPCH
     {
         public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.MagnetSphereBall /*ToxicBubble */;
 
+        //public override void SetStaticDefaults()
+        //{
+        //	DisplayName.SetDefault("ElectricalBall");
+        //}
 
         // This boss has a second phase and we want to give it a second boss head icon, this variable keeps track of the registered texture from Load().
         // It is applied in the BossHeadSlot hook when the boss is in its second stage
         public static int secondStageHeadSlot = -1;
+
+        // This code here is called a property: It acts like a variable, but can modify other things. In this case it uses the NPC.ai[] array that has four entries.
+        // We use properties because it makes code more readable ("if (SecondStage)" vs "if (NPC.ai[0] == 1f)").
+        // We use NPC.ai[] because in combination with NPC.netUpdate we can make it multiplayer compatible. Otherwise (making our own fields) we would have to write extra code to make it work (not covered here)
+        //public bool SecondStage
+        //{
+        //    get => NPC.ai[0] == 1f;
+        //    set => NPC.ai[0] = value ? 1f : 0f;
+        //}
         public ref float AI_State => ref NPC.ai[0];
 
         private enum ActionState
@@ -61,6 +75,9 @@ namespace GenshinMod.NPCH
         //*2 
         public ref float SecondStageTimer_SpawnEyes => ref NPC.localAI[3];
 
+        // Do NOT try to use NPC.ai[4]/NPC.localAI[4] or higher indexes, it only accepts 0, 1, 2 and 3!
+        // If you choose to go the route of "wrapping properties" for NPC.ai[], make sure they don't overlap (two properties using the same variable in different ways), and that you don't accidently use NPC.ai[] directly
+
         // Helper method to determine the minion type
         //public static int MinionType()
         //{
@@ -72,12 +89,12 @@ namespace GenshinMod.NPCH
         {
             int count = 4;
 
-           
+
             return count;
         }
         public enum OrderByBoss
         {
-
+            idle,
             crush,
             MagicalIlusion,
 
@@ -85,14 +102,19 @@ namespace GenshinMod.NPCH
         }
 
 
-        private static int orderGiven=0;
+        private static int orderGiven = 0;
         public static int OrderByBossCasting()
         {
             return orderGiven;
 
 
         }
-       
+        public static int OrderByBossCasting1(int order)
+        {
+
+            return order;
+
+        }
         //public override void Load()
         //{
         //    // We want to give it a second boss head icon, so we register one
@@ -112,7 +134,6 @@ namespace GenshinMod.NPCH
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hallowed Hypostasis");
             Main.npcFrameCount[Type] = 6;
 
             // Add this in for bosses that have a summon item, requires corresponding code in the item (See MinionBossSummonItem.cs)
@@ -215,12 +236,17 @@ namespace GenshinMod.NPCH
 
             // Default movement parameters (here for attacking)
 
-            Idle(player);
             SpawnMinions();
 
 
             switch (AI_State)
             {
+                case (float)OrderByBoss.idle:
+                    orderGiven = (int)OrderByBoss.idle;
+
+                    Idle(player);
+                    break;
+
                 case (float)OrderByBoss.crush:
                     orderGiven = (int)OrderByBoss.crush;
                     FirstStageTimer++;
@@ -230,11 +256,12 @@ namespace GenshinMod.NPCH
 
 
 
-                    if (FirstStageTimer >= 360 && FirstStageTimer <= 420)
+                    if (FirstStageTimer >= 480 && FirstStageTimer <= 540)
                     {
                         //NPC.velocity.Y += 1f;
 
 
+                        Console.WriteLine("!!");
                         //NPC.velocity = new Vector2(0, +5f);
 
                         Vector2 RelPosPlayer/*abovePlayer*/ = player.oldPosition + new Vector2(NPC.direction  /** offsetX*/, -NPC.height * -8);
@@ -258,12 +285,12 @@ namespace GenshinMod.NPCH
 
 
                     }
-                    if (FirstStageTimer == 420)
+                    if (FirstStageTimer == 540)
                     {
 
-                        NPC.position = player.position + new Vector2(NPC.direction *200f  /** offsetX*/, -NPC.height);
+                        NPC.position = player.position + new Vector2(NPC.direction * 200f  /** offsetX*/, -NPC.height);
                     }
-                    if (FirstStageTimer > 420)
+                    if (FirstStageTimer > 540)
                     {
                         //    NPC.alpha = 255;
 
@@ -311,7 +338,7 @@ namespace GenshinMod.NPCH
             float speed = 17f;
             float inertia = 1f;
 
-            float cubeRange = 64f;
+            float cubeRange = 160f;
             //float cubeRange = 64f;
             if (NPC.Top.Y > player.Bottom.Y)
             {
@@ -460,6 +487,77 @@ namespace GenshinMod.NPCH
 
         }
 
-       
+        //public override void SetDefaults()
+        //{
+        //	Projectile.width = 10;
+        //	Projectile.height = 10;
+        //	//Projectile.friendly = false;
+        //	Projectile.penetrate = 1;
+        //	Projectile.tileCollide = true;
+        //	Projectile.DamageType = DamageClass.Ranged;
+        //	Projectile.timeLeft = 300;
+        //	Projectile.hostile = true;
+        //}
+
+        //          public override void AI()
+        //{
+        //	NPC npc = Main.npc[Projectile.owner];
+        //	float distanceFromTarget = 250f;
+        //	Vector2 targetCenter = Projectile.position;
+        //	float speed = 7f;
+        //	float inertia = 0.5f;
+
+
+        //	if (npc.target < 0 || !Main.player[npc.target].active || Main.player[npc.target].dead)
+        //		{
+        //		npc.TargetClosest(true);
+        //	}
+        //	if (npc.velocity.X < 0f)
+        //	{
+        //		npc.direction = -1;
+        //	}
+        //	else if (npc.velocity.X > 0f)
+        //	{
+        //		npc.direction = 1;
+        //	}
+        //	Projectile.ai[0]++;
+
+        //	Projectile.velocity.X = Projectile.velocity.X;
+        //	Projectile.velocity.Y = Projectile.velocity.Y;
+
+        //          //Vector2 distance = Main.player[npc.target].Center - Projectile.Center;
+
+        //          //float speed = 5f + distance.Length() / 100f;
+        //          //float innercia = 25f;
+
+        //          if (Projectile.ai[0] <=1f){
+
+        //		//distance.Normalize();
+        //		////distance *= speed;
+        //		//Projectile.velocity = (Projectile.velocity * (inertia - 1f) + distance) / inertia;
+        //		//Projectile.rotation = (Projectile.rotation * 9f + Projectile.velocity.X * 0.08f) / 10f;
+        //		Vector2 direction = Main.player[npc.target].Center - Projectile.Center;
+        //		//Vector2 direction = targetCenter - Projectile.Center;
+        //		float distance = direction.Length(); //direction.Length()
+        //											 //float speed
+        //		speed += distance / 200f;
+        //		//inertia
+        //		direction.Normalize(); //direction.Normalize();
+        //		direction *= speed; //direction *= speed;
+        //		Projectile.velocity = (Projectile.velocity * (float)(inertia - 1) + direction) / (float)inertia;
+        //		Projectile.spriteDirection = Projectile.direction;
+        //		if (direction.Length() >= 250f)
+        //		{
+        //			Projectile.Kill();
+
+        //		}
+
+        //	}
+
+
+
+
+        //       }
+        //}
     }
 }

@@ -1,20 +1,19 @@
 using Microsoft.Xna.Framework;
 using System;
+using System.Drawing;
+using System.Numerics;
 using Terraria;
-using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-using static Terraria.ModLoader.ModContent;
 
 
-
-namespace Hh1.NPCH
+namespace GenshinMod.NPCH
 {
     public class ExampleGlobalNPC : /*Global*/ModNPC
     {
-        public override string Texture => "Terraria/Images/Item_" + ItemID.GoldChest;
+        public override string Texture => "Terraria/Images/NPC_" + NPCID.GreenSlime;
 
         // Here we define an enum we will use with the State slot. Using an ai slot as a means to store "state" can simplify things greatly. Think flowchart.
         private enum ActionState
@@ -53,7 +52,7 @@ namespace Hh1.NPCH
                 if (hitbox.Intersects(p.Hitbox))
                 {
 
-                    NPC.velocity = new Vector2(NPC.direction * 2*-1, -10f);
+                    NPC.velocity = new Vector2(NPC.direction * 2 * -1, -2f);
 
 
                 }
@@ -104,11 +103,11 @@ namespace Hh1.NPCH
             NPC.width = 40;
             NPC.height = 30;
             NPC.aiStyle = -1;
-            NPC.friendly = true;
-            NPC.damage = 0;
+            //NPC.friendly = false;
+            NPC.damage = 5;
             NPC.defense = 8;
             NPC.lifeMax = 50502;
-            NPC.HitSound = SoundID.NPCHit4;
+            NPC.HitSound = SoundID.NPCHit1;
             NPC.knockBackResist = 0f;
             NPC.value = 1000f;
             NPC.buffImmune[20] = true;
@@ -119,7 +118,7 @@ namespace Hh1.NPCH
             NPC.buffImmune[BuffID.Venom] = true;
             NPC.buffImmune[BuffID.OnFire] = true;
             NPC.buffImmune[BuffID.Confused] = true;
-            NPC.dontTakeDamage = true;
+            //NPC.dontTakeDamage = true;
             NPC.rarity = 1;
         }
         // Here, because we use custom AI (aiStyle not set to a suitable vanilla value), we should manually decide when Flutter Slime can fall through platforms
@@ -154,13 +153,13 @@ namespace Hh1.NPCH
         private void Notice()
         {
             // If the targeted player is in attack range (250).
-            if (Main.player[NPC.target].Distance(NPC.Center) < 250f)
+            if (Main.player[NPC.target].Distance(NPC.Center) < 500f)
             {
                 AI_Timer++;
                 // Here we use our Timer to wait .33 seconds before actually jumping. In FindFrame you'll notice AI_Timer also being used to animate the pre-jump crouch
                 if (AI_Timer == 1)
                 {
-                    NPC.velocity = new Vector2(NPC.direction * 2, -10f);
+                    NPC.velocity = new Vector2(NPC.direction * 2, -2f);
 
                 }
 
@@ -188,31 +187,69 @@ namespace Hh1.NPCH
         {
             AI_Timer++;
 
-            if (AI_Timer % 60 == 0/*&& Main.player[NPC.target].Distance(NPC.Center) > 20f*/)
+            if (AI_Timer % 10 == 0 && Main.player[NPC.target].Distance(NPC.Center) <= 250f && Main.player[NPC.target].Distance(NPC.Center) >= 64f)
             {
                 // We apply an initial velocity the first tick we are in the Jump frame. Remember that -Y is up.
-                NPC.velocity = new Vector2(NPC.direction * 2, -5f);
+                if (Main.player[NPC.target].position.X > NPC.position.X)
+                {
+                    NPC.velocity = new Vector2(NPC.direction * 5, -5f);
+                }
+                else
+                {
+                    NPC.velocity = new Vector2(NPC.direction * 5, -5f);
+                }
+
+            }
+            if (AI_Timer % 11 == 0)
+            {
+                NPC.velocity = new Vector2(NPC.direction * 2, +50f);
+            }
+            if (Main.player[NPC.target].Distance(NPC.Center) > 250f)
+            {
+                AI_State = (float)ActionState.Fall;
+                AI_Timer = 0;
             }
 
-            if (Main.player[NPC.target].Distance(NPC.Center) < 20f)
+
+            if (Main.player[NPC.target].Distance(NPC.Center) < 64f)
             {
                 // after .66 seconds, we go to the hover state. //TODO, gravity?
                 AI_State = (float)ActionState.Hover;
                 AI_Timer = 0;
             }
         }
-    private void Hover()
+        int conter = 0;
+        private void Hover()
         {
             AI_Timer++;
-            if (AI_Timer == 1)// Just in one tick, it will rise, then, in half a second (30 ticks) 
+            if (Main.player[NPC.target].Distance(NPC.Center) <= 64f)
             {
-                NPC.velocity = new Vector2(0, -5f);
+
+                // after .66 seconds, we go to the hover state. //TODO, gravity?
+
+                if (AI_Timer == 1)// Just in one tick, it will rise, then, in half a second (30 ticks) 
+                {
+                    NPC.velocity = new Vector2(0, -5f);
+                }
+                if (AI_Timer == 5 /*&& Main.player[NPC.target].Distance(NPC.Center) < 64f*/)
+                {
+                    NPC.velocity = new Vector2(NPC.direction * 7, 2f);
+                }
+                if (NPC.collideY && AI_Timer > 5)
+                {
+
+                    AI_Timer = 0;
+
+                }
             }
-            if (AI_Timer == 30&& Main.player[NPC.target].Distance(NPC.Center) < 20f)
+            else if (Main.player[NPC.target].Distance(NPC.Center) > 64f)
             {
-                NPC.velocity = new Vector2(NPC.direction * 2, 0);
+                AI_State = (float)ActionState.Fall;
+                AI_Timer = 0;
             }
-            
+            Console.WriteLine(AI_Timer);
+
+
             // Here we make a decision on how long this flutter will last. We check netmode != 1 to prevent Multiplayer Clients from running this code. (similarly, spawning projectiles should also be wrapped like this)
             // netMode == 0 is SP, netMode == 1 is MP Client, netMode == 2 is MP Server.
             // Typically in MP, Client and Server maintain the same state by running deterministic code individually. When we want to do something random, we must do that on the server and then inform MP Clients.
@@ -226,20 +263,16 @@ namespace Hh1.NPCH
             //}
 
             // Here we add a tiny bit of upward velocity to our npc.
-            NPC.velocity += new Vector2(0, -.35f);
+            //NPC.velocity += new Vector2(0, -.35f);
 
-            // ... and some additional X velocity when traveling slow.
-            if (Math.Abs(NPC.velocity.X) < 2)
-            {
-                NPC.velocity += new Vector2(NPC.direction * .05f, 0);
-            }
+            //// ... and some additional X velocity when traveling slow.
+            //if (Math.Abs(NPC.velocity.X) < 2)
+            //{
+            //    NPC.velocity += new Vector2(NPC.direction * .05f, 0);
+            //}
 
             // after fluttering for 100 ticks (1.66 seconds), our Flutter Slime is tired, so he decides to go into the Fall state.
-            if (AI_Timer > AI_FlutterTime)
-            {
-                AI_State = (float)ActionState.Fall;
-                AI_Timer = 0;
-            }
+
         }
     }
 }
