@@ -73,21 +73,21 @@ namespace GenshinMod.UI
 
         internal void ShowCharacterUI()
         {
-            characterListUI.OnInitialize(); // Remove later this is only for testing
+            //characterListUI.OnInitialize(); // Remove later this is only for testing
             GenshinInterface?.SetState(characterListUI);
             characterListUI.OpenMenu();
         }
 
         internal void ShowPartyUI()
         {
-            partyUI.OnInitialize();
+            //partyUI.OnInitialize();
             GenshinInterface?.SetState(partyUI);
             partyUI.OpenMenu();
         }
 
         internal void ShowGachaUI()
         {
-            gachaUI.OnInitialize();
+            //gachaUI.OnInitialize();
             GenshinInterface?.SetState(gachaUI);
         }
 

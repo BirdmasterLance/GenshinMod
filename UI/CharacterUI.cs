@@ -386,6 +386,7 @@ namespace GenshinMod.UI
             }
             else
             {
+                selectedCharacter = null;
                 SetCharUI("None");
             }
         }
@@ -472,6 +473,8 @@ namespace GenshinMod.UI
 
         private void OnAttributeClick(UIMouseEvent evt, UIElement listeningElement)
         {
+            if (selectedCharacter == null) return;
+
             attributeText.TextColor = new Color(255, 255, 255);
             artifactsText.TextColor = new Color(188, 198, 207);
             constellationText.TextColor = new Color(188, 198, 207);
@@ -489,6 +492,8 @@ namespace GenshinMod.UI
 
         private void OnArtifactsClick(UIMouseEvent evt, UIElement listeningElement)
         {
+            if (selectedCharacter == null) return;
+
             attributeText.TextColor = new Color(188, 198, 207);
             artifactsText.TextColor = new Color(255, 255, 255);
             constellationText.TextColor = new Color(188, 198, 207);
@@ -506,6 +511,8 @@ namespace GenshinMod.UI
 
         private void OnConstellationClick(UIMouseEvent evt, UIElement listeningElement)
         {
+            if (selectedCharacter == null) return;
+
             attributeText.TextColor = new Color(188, 198, 207);
             artifactsText.TextColor = new Color(188, 198, 207);
             constellationText.TextColor = new Color(255, 255, 255);
@@ -799,6 +806,8 @@ namespace GenshinMod.UI
 
         private void OnTalentClick(UIMouseEvent evt, UIElement listeningElement)
         {
+            if (selectedCharacter == null) return;
+
             attributeText.TextColor = new Color(188, 198, 207);
             artifactsText.TextColor = new Color(188, 198, 207);
             constellationText.TextColor = new Color(188, 198, 207);
