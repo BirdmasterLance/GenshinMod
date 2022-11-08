@@ -6,7 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Hh1.Items
+namespace GenshinMod.Items
 {
 	public class Swoop : ModItem
     {

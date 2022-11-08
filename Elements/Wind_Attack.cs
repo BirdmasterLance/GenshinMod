@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Hh1.BulletsorProjectiles
+namespace GenshinMod.Elements
 {
     class Wind_Attack : ModProjectile
 

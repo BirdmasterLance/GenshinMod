@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Hh1.Items
+namespace GenshinMod.Elements
 {
     public class Sucrouse_Ultimate : ModProjectile
     {

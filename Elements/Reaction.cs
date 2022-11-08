@@ -2,7 +2,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 
-namespace Hh1.BulletsorProjectiles
+namespace GenshinMod.Elements
 {
     public class Reaction : ModProjectile
     {

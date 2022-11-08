@@ -5,7 +5,7 @@ using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
 
 
-namespace Hh1.BulletsorProjectiles
+namespace GenshinMod.Elements
 {
     public class FriendlyReaction : ModProjectile
 	{
