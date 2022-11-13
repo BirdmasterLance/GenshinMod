@@ -92,19 +92,24 @@ namespace GenshinMod.UI
             List<string> fourStars = CharacterLists.FourStarCharacters;
             List<string> fiveStars = CharacterLists.FiveStarCharacters;
 
+            // List for testing purposes only
+            List<string> addedChars = CharacterLists.AddedCharacters;
+
             for (int i = 0; i < times; i++)
             {
+                // Uncomment the below when we have more characters added
                 var rand = new Random();
-                int chance = rand.Next(100);
-                string character;
-                if (chance < 5)
-                {
-                    character = fiveStars[rand.Next(fiveStars.Count)];
-                }
-                else
-                {
-                    character = fourStars[rand.Next(fourStars.Count)];
-                }
+                //int chance = rand.Next(100);
+                //string character;
+                //if (chance < 5)
+                //{
+                //    character = fiveStars[rand.Next(fiveStars.Count)];
+                //}
+                //else
+                //{
+                //    character = fourStars[rand.Next(fourStars.Count)];
+                //}
+                string character = addedChars[rand.Next(addedChars.Count)];
                 Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>().AddCharacter(character);
                 Main.NewText($"You got: {character}");
 

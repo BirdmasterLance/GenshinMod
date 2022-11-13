@@ -13,7 +13,7 @@ namespace GenshinMod.Commands
 			=> "character";
 
 		public override string Usage
-			=> "/character <add/remove/list/active> [character name]";
+			=> "/character <add/remove/list/active/clear> [character name]";
 
 		public override string Description
 			=> "Modify information about what characters the player has";
@@ -46,6 +46,13 @@ namespace GenshinMod.Commands
 				else if(args[0] == "clear")
                 {
 					modPlayer.GetCharacters().Clear();
+					modPlayer.RemoveActiveCharacter();
+
+					modPlayer.GetPartyCharacters().Clear();
+					for (int i = 0; i < 4; i++)
+					{
+						modPlayer.partyCharacters.Add(new Character("None"));
+					}
 					Main.NewText("Removed all characters");
                 }
 				else if(args[0] == "partyfill")

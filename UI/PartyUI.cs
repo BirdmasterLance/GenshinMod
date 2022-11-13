@@ -36,7 +36,7 @@ namespace GenshinMod.UI
             header.Left.Set(40, 0);
             mainWindow.Append(header);
 
-            characterName1 = new UIText("Character1");
+            characterName1 = new UIText("None");
             characterName1.Top.Set(60, 0);
             characterName1.HAlign = 0.1f;
             mainWindow.Append(characterName1);
@@ -48,7 +48,7 @@ namespace GenshinMod.UI
             characterPanel1.OnClick += OnCharacter1Click;
             mainWindow.Append(characterPanel1);
 
-            characterName2 = new UIText("Character2");
+            characterName2 = new UIText("None");
             characterName2.Top.Set(60, 0);
             characterName2.HAlign = 0.36f;
             mainWindow.Append(characterName2);
@@ -60,7 +60,7 @@ namespace GenshinMod.UI
             characterPanel2.OnClick += OnCharacter2Click;
             mainWindow.Append(characterPanel2);
 
-            characterName3 = new UIText("Character3");
+            characterName3 = new UIText("None");
             characterName3.Top.Set(60, 0);
             characterName3.HAlign = 0.64f;
             mainWindow.Append(characterName3);
@@ -72,7 +72,7 @@ namespace GenshinMod.UI
             characterPanel3.OnClick += OnCharacter3Click;
             mainWindow.Append(characterPanel3);
 
-            characterName4 = new UIText("Character4");
+            characterName4 = new UIText("None");
             characterName4.Top.Set(60, 0);
             characterName4.HAlign = 0.9f;
             mainWindow.Append(characterName4);
@@ -124,17 +124,21 @@ namespace GenshinMod.UI
         public void OpenMenu()
         {
             characterList.Clear();
-            characterSelected = 0;
+            characterSelected = -1;
             header.SetText("Party Setup");
 
             var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
             List<Character> playerCharacters = modPlayer.GetCharacters();
             List<Character> partyCharacters = modPlayer.GetPartyCharacters();
 
-            characterName1.SetText(partyCharacters[0].Name);
-            characterName2.SetText(partyCharacters[1].Name);
-            characterName3.SetText(partyCharacters[2].Name);
-            characterName4.SetText(partyCharacters[3].Name);
+            if (playerCharacters.Count <= 0) return;
+
+            characterSelected = 0;           
+
+            if (partyCharacters.Count >= 1) characterName1.SetText(partyCharacters[0].Name);
+            if (partyCharacters.Count >= 2) characterName2.SetText(partyCharacters[1].Name);
+            if (partyCharacters.Count >= 3) characterName3.SetText(partyCharacters[2].Name);
+            if (partyCharacters.Count >= 4) characterName4.SetText(partyCharacters[3].Name);
 
             foreach (Character character in playerCharacters)
             {
@@ -157,6 +161,8 @@ namespace GenshinMod.UI
 
         private void OnCharacter1Click(UIMouseEvent evt, UIElement listeningElement)
         {
+            if (characterSelected == -1) return;
+
             if(characterSelected == 0)
             {
                 Append(listPanel);
@@ -174,6 +180,8 @@ namespace GenshinMod.UI
 
         private void OnCharacter2Click(UIMouseEvent evt, UIElement listeningElement)
         {
+            if (characterSelected == -1) return;
+
             if (characterSelected == 0)
             {
                 Append(listPanel);
@@ -190,6 +198,8 @@ namespace GenshinMod.UI
 
         private void OnCharacter3Click(UIMouseEvent evt, UIElement listeningElement)
         {
+            if (characterSelected == -1) return;
+
             if (characterSelected == 0)
             {
                 Append(listPanel);
@@ -207,6 +217,8 @@ namespace GenshinMod.UI
 
         private void OnCharacter4Click(UIMouseEvent evt, UIElement listeningElement)
         {
+            if (characterSelected == -1) return;
+
             if (characterSelected == 0)
             {
                 Append(listPanel);
@@ -232,7 +244,10 @@ namespace GenshinMod.UI
                 var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
                 List<Character> partyCharacters = modPlayer.GetPartyCharacters();
 
-                modPlayer.ChangePartyCharacters(text.Text, characterSelected-1);
+                // If the player selects the character that is already in that position, remove the character from the party
+                if(text.Text != partyCharacters[characterSelected-1].Name) modPlayer.ChangePartyCharacters(text.Text, characterSelected-1);
+                else modPlayer.ChangePartyCharacters("Remove", characterSelected - 1);
+
                 if (partyCharacters.Count > 0) characterName1.SetText(partyCharacters[0].Name);
                 if (partyCharacters.Count > 1) characterName2.SetText(partyCharacters[1].Name);
                 if (partyCharacters.Count > 2) characterName3.SetText(partyCharacters[2].Name);

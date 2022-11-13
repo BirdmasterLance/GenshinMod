@@ -145,6 +145,13 @@ namespace GenshinMod
         }
     }
 
+    public class Sucrose : Character
+    {
+        public Sucrose(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Sucrose", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
+        {
+        }
+    }
+
     // TODO: artifacts
 
     // For saving character info to the player
@@ -193,6 +200,9 @@ namespace GenshinMod
         public static List<string> FourStarCharacters = new();
         public static List<string> FiveStarCharacters = new();
         public static List<string> AllCharacters = new();
+
+        // A list only meant for testing characters that have been added in and are functional
+        public static List<string> AddedCharacters = new();
 
         // 4 Stars
         public const string Amber = "Amber";
@@ -285,6 +295,7 @@ namespace GenshinMod
                 case "Qiqi" : return null;
                 case "Raiden Shogun" : return new RaidenShogun();
                 case "Sayu" : return null;
+                case "Sucrose" : return new Sucrose();
                 case "Venti" : return null;
                 case "Xiao" : return null;
                 case "Xiangling" : return null;
@@ -373,6 +384,12 @@ namespace GenshinMod
 
         public void Load(Mod mod)
         {
+            AddedCharacters.AddRange(new string[] 
+            {
+                Yanfei,
+                Sucrose
+            });
+
             FourStarCharacters.Add(Amber);
             FourStarCharacters.Add(Kaeya);
             FourStarCharacters.Add(Lisa);
@@ -427,44 +444,48 @@ namespace GenshinMod
             FiveStarCharacters.Add(Yoimiya);
             FiveStarCharacters.Add(Zhongli);
 
-            AllCharacters.Add(Albedo);
-            AllCharacters.Add(Aloy);
-            AllCharacters.Add(Amber);
-            AllCharacters.Add(Barbara);
-            AllCharacters.Add(Beidou);
-            AllCharacters.Add(Bennett);
-            AllCharacters.Add(Childe);
-            AllCharacters.Add(Chongyun);
-            AllCharacters.Add(Diluc);
-            AllCharacters.Add(Diona);
-            AllCharacters.Add(Eula);
-            AllCharacters.Add(Fischl);
-            AllCharacters.Add(Ganyu);
-            AllCharacters.Add(HuTao);
-            AllCharacters.Add(Itto);
-            AllCharacters.Add(Jean);
-            AllCharacters.Add(Klee);
-            AllCharacters.Add(Kaeya);
-            AllCharacters.Add(Kazuha);
-            AllCharacters.Add(Keqing);
-            AllCharacters.Add(Lisa);
-            AllCharacters.Add(Mona);
-            AllCharacters.Add(Ningguang);
-            AllCharacters.Add(Noelle);
-            AllCharacters.Add(Qiqi);
-            AllCharacters.Add(RaidenShogun);
-            AllCharacters.Add(Sayu);
-            AllCharacters.Add(Venti);
-            AllCharacters.Add(Xiao);
-            AllCharacters.Add(Xingqiu);
-            AllCharacters.Add(Xiangling);
-            AllCharacters.Add(Xinyan);
-            AllCharacters.Add(YaeMiko);
-            AllCharacters.Add(Yanfei);
-            AllCharacters.Add(Yelan);
-            AllCharacters.Add(Yoimiya);
-            AllCharacters.Add(YunJin);
-            AllCharacters.Add(Zhongli);
+            AllCharacters.AddRange(FourStarCharacters);
+            AllCharacters.AddRange(FiveStarCharacters);
+
+            //AllCharacters.Add(Albedo);
+            //AllCharacters.Add(Aloy);
+            //AllCharacters.Add(Amber);
+            //AllCharacters.Add(Barbara);
+            //AllCharacters.Add(Beidou);
+            //AllCharacters.Add(Bennett);
+            //AllCharacters.Add(Childe);
+            //AllCharacters.Add(Chongyun);
+            //AllCharacters.Add(Diluc);
+            //AllCharacters.Add(Diona);
+            //AllCharacters.Add(Eula);
+            //AllCharacters.Add(Fischl);
+            //AllCharacters.Add(Ganyu);
+            //AllCharacters.Add(HuTao);
+            //AllCharacters.Add(Itto);
+            //AllCharacters.Add(Jean);
+            //AllCharacters.Add(Klee);
+            //AllCharacters.Add(Kaeya);
+            //AllCharacters.Add(Kazuha);
+            //AllCharacters.Add(Keqing);
+            //AllCharacters.Add(Lisa);
+            //AllCharacters.Add(Mona);
+            //AllCharacters.Add(Ningguang);
+            //AllCharacters.Add(Noelle);
+            //AllCharacters.Add(Qiqi);
+            //AllCharacters.Add(RaidenShogun);
+            //AllCharacters.Add(Sayu);
+            //AllCharacters.Add(Sucrose);
+            //AllCharacters.Add(Venti);
+            //AllCharacters.Add(Xiao);
+            //AllCharacters.Add(Xingqiu);
+            //AllCharacters.Add(Xiangling);
+            //AllCharacters.Add(Xinyan);
+            //AllCharacters.Add(YaeMiko);
+            //AllCharacters.Add(Yanfei);
+            //AllCharacters.Add(Yelan);
+            //AllCharacters.Add(Yoimiya);
+            //AllCharacters.Add(YunJin);
+            //AllCharacters.Add(Zhongli);
         }
 
         public void Unload()

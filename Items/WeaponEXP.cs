@@ -19,7 +19,7 @@ namespace GenshinMod.Items
         // TODO: make a list of our Genshin weapons so that this class only affects them
         public override bool AppliesToEntity(Item entity, bool lateInstantiation)
         {
-            return entity.whoAmI == ModContent.ItemType<YanfeiAttacks>();
+            return entity.whoAmI == ModContent.ItemType<MagicTestItem>();
         }
 
         public override bool InstancePerEntity => true;

@@ -158,7 +158,7 @@ namespace GenshinMod
             if (slot >= 4) return;
             if(character == "Remove" || character == "None")
             {
-                partyCharacters.RemoveAt(slot);
+                partyCharacters[slot] = new Character("None");
             }
             if (!HasCharacter(character)) return;
             if(HasPartyCharacter(character))
@@ -203,6 +203,7 @@ namespace GenshinMod
         {
             if (!HasCharacter(character))
             {
+                Main.NewText($"Your don't have: {activeCharacter.Name}!");
                 return false;
             }
             activeCharacterName = character;
