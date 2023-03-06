@@ -18,6 +18,8 @@ namespace GenshinMod.Characters.BurstAttacks
 			Projectile.width = 500;
 			Projectile.height = 500;
 
+			Projectile.damage = 0;
+
 			Projectile.aiStyle = 0;
 			Projectile.DamageType = DamageClass.Magic;
 			Projectile.friendly = true;
@@ -25,7 +27,7 @@ namespace GenshinMod.Characters.BurstAttacks
 			Projectile.ignoreWater = true;
 			Projectile.light = 0.8f;
 			Projectile.tileCollide = false;
-			Projectile.timeLeft = 1;
+			Projectile.timeLeft = 55;
 			Projectile.penetrate = -1;
 		}
 
@@ -42,6 +44,33 @@ namespace GenshinMod.Characters.BurstAttacks
 
 			}
 			base.Kill(timeLeft);
+		}
+
+		public override void AI()
+		{
+			Projectile.ai[0]++;
+			if (Projectile.ai[0] >= 50) // Let an animation play before the hitbox actually comes out
+			{
+				Projectile.damage = 70;
+				Projectile.width = 500;
+				Projectile.height = 500;
+			}
+			else
+			{
+				Projectile.width = Projectile.height = 0;
+			}
+		}
+	}
+
+	internal class YanfeiBurstCooldown : ModBuff
+    {
+		public override string Texture => "Terraria/Images/Buff_" + BuffID.Silenced;
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Done Deal Cooldown"); // Buff display name
+			Description.SetDefault("You are unable to use Yanfei's Elemental Burst"); // Buff description
+			Main.debuff[Type] = true;  // Is it a debuff?
+			Main.buffNoSave[Type] = false; // Causes this buff to persist when exiting and rejoining the world			
 		}
 	}
 }

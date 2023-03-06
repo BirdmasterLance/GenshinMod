@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
-using System.Drawing;
-using System.Numerics;
+//using System.Drawing;
+//using System.Numerics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -13,7 +13,7 @@ namespace GenshinMod.NPCH
 {
     public class ExampleGlobalNPC : /*Global*/ModNPC
     {
-        public override string Texture => "Terraria/Images/NPC_" + NPCID.GreenSlime;
+        public override string Texture => "Terraria/Images/NPC_" + NPCID.BlueSlime;
 
         // Here we define an enum we will use with the State slot. Using an ai slot as a means to store "state" can simplify things greatly. Think flowchart.
         private enum ActionState

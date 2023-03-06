@@ -6,7 +6,7 @@
 //using ExampleMod.Content.Pets.MinionBossPet;
 //using ExampleMod.Content.Projectiles;
 using Microsoft.Xna.Framework;
-using System.Numerics;
+//using System.Numerics;
 using System;
 using Terraria;
 using Terraria.DataStructures;

@@ -203,7 +203,7 @@ namespace GenshinMod
         {
             if (!HasCharacter(character))
             {
-                Main.NewText($"Your don't have: {activeCharacter.Name}!");
+                //Main.NewText($"Your don't have: {activeCharacter.Name}!");
                 return false;
             }
             activeCharacterName = character;
