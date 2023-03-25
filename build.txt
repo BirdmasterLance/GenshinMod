@@ -1,3 +1,4 @@
 displayName = Genshin Mod
 author = authors here
 version = 0.1
+modReferences = ModDifficultyLibrary

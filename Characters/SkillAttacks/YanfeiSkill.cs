@@ -15,8 +15,10 @@ namespace GenshinMod.Characters.SkillAttacks
 
 		public override void SetDefaults()
 		{
-			Projectile.width = 50;
+			Projectile.width = 150;
 			Projectile.height = 50;
+
+			Projectile.damage = 0;
 
 			Projectile.aiStyle = 0;
 			Projectile.DamageType = DamageClass.Magic;
@@ -24,8 +26,8 @@ namespace GenshinMod.Characters.SkillAttacks
 			Projectile.hostile = false;
 			Projectile.ignoreWater = true;
 			Projectile.light = 0.8f;
-			Projectile.tileCollide = true;
-			Projectile.timeLeft = 1;
+			Projectile.tileCollide = false;
+			Projectile.timeLeft = 55;
 			Projectile.penetrate = -1;
 		}
 
@@ -33,14 +35,14 @@ namespace GenshinMod.Characters.SkillAttacks
 		{
 			for (int i = 0; i < 50; i++)
 			{
-				int dustnumber = Dust.NewDust(Projectile.position, Projectile.width * 2, Projectile.height * 2, DustID.Torch, 0f, 0f, 150, default(Color), 4f);
+				int dustnumber = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, 0f, 0f, 150, default(Color), 4f);
 				Main.dust[dustnumber].noGravity = true;
 				Main.dust[dustnumber].scale = Main.rand.NextFloat() * 3f;
 				Main.dust[dustnumber].fadeIn = Main.rand.NextFloat() * 1f;
 				Main.dust[dustnumber].velocity.X *= Main.rand.NextFloat() * 4f;
 				Main.dust[dustnumber].velocity.Y *= Main.rand.NextFloat() * 9f;
 
-				int smokeDust = Dust.NewDust(Projectile.position, 1, 10, DustID.Cloud, 0, 0, 0, new Color(255, 80, 35), 3f);
+				int smokeDust = Dust.NewDust(Projectile.Center, 1, 10, DustID.Cloud, 0, 0, 0, new Color(255, 80, 35), 3f);
 				Main.dust[smokeDust].noGravity = true;
 				// Main.dust[smokeDust].scale = Main.rand.NextFloat() * 3f;
 				Main.dust[smokeDust].fadeIn = Main.rand.NextFloat() * 1f;
@@ -57,6 +59,33 @@ namespace GenshinMod.Characters.SkillAttacks
 				Player player = Main.player[Projectile.owner];
 				player.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>(), 600);
 			}
+		}
+
+		public override void AI()
+        {
+			Projectile.ai[0]++;
+			if(Projectile.ai[0] >= 50) // Let an animation play before the hitbox actually comes out
+            {
+				Projectile.damage = 50;
+				Projectile.width = 150;
+				Projectile.height = 50;
+            }
+			else
+            {
+				Projectile.width = Projectile.height = 0;
+			}
+        }
+	}
+
+	internal class YanfeiSkillCooldown : ModBuff
+	{
+		public override string Texture => "Terraria/Images/Buff_" + BuffID.Silenced;
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Signed Edict Cooldown"); // Buff display name
+			Description.SetDefault("You are unable to use Yanfei's Skill"); // Buff description
+			Main.debuff[Type] = true;  // Is it a debuff?
+			Main.buffNoSave[Type] = false; // Causes this buff to persist when exiting and rejoining the world			
 		}
 	}
 }
