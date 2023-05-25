@@ -134,6 +134,7 @@ namespace GenshinMod.NPCH
 
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Hallowed Hypostasis.");
             Main.npcFrameCount[Type] = 6;
 
             // Add this in for bosses that have a summon item, requires corresponding code in the item (See MinionBossSummonItem.cs)
@@ -251,17 +252,17 @@ namespace GenshinMod.NPCH
                     orderGiven = (int)OrderByBoss.crush;
                     FirstStageTimer++;
 
-                    float speed = 21f;
+                    float speed = 10f;
                     float inertia = 1f;
+                    Console.WriteLine(FirstStageTimer);
 
 
 
-                    if (FirstStageTimer >= 480 && FirstStageTimer <= 540)
+                    if (FirstStageTimer > 480 && FirstStageTimer <= 540)
                     {
                         //NPC.velocity.Y += 1f;
 
 
-                        Console.WriteLine("!!");
                         //NPC.velocity = new Vector2(0, +5f);
 
                         Vector2 RelPosPlayer/*abovePlayer*/ = player.oldPosition + new Vector2(NPC.direction  /** offsetX*/, -NPC.height * -8);
@@ -292,9 +293,11 @@ namespace GenshinMod.NPCH
                     }
                     if (FirstStageTimer > 540)
                     {
+                        orderGiven = (int)OrderByBoss.idle;
+                        AI_State = (float)OrderByBoss.idle;
                         //    NPC.alpha = 255;
 
-                        Idle(player);
+
                         FirstStageTimer = 0;
                     }
                     break;
@@ -334,7 +337,7 @@ namespace GenshinMod.NPCH
 
         private void Idle(Player player)
         {
-
+            FirstStageTimer++;
             float speed = 17f;
             float inertia = 1f;
 
@@ -380,6 +383,11 @@ namespace GenshinMod.NPCH
                 }
 
 
+            }
+            if (FirstStageTimer >= 120)
+            {
+                AI_State = (float)OrderByBoss.crush;
+                FirstStageTimer = 0;
             }
         }
         private void MagicalIllusion(Player player)

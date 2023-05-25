@@ -9,20 +9,23 @@ using Terraria.ModLoader;
 
 
 
-namespace GenshinMod.NPCH
+namespace Hh1.NPCH
 {
     public class ExampleGlobalNPC : /*Global*/ModNPC
     {
-        public override string Texture => "Terraria/Images/NPC_" + NPCID.GreenSlime;
+        public override string Texture => "Terraria/Images/Item_" + ItemID.Chest;
 
         // Here we define an enum we will use with the State slot. Using an ai slot as a means to store "state" can simplify things greatly. Think flowchart.
         private enum ActionState
         {
+
             Crawl,
             Notice,
             Jump,
             Hover,
-            Fall
+            Fall,
+            Fly
+
         }
 
         // Our texture is 36x36 with 2 pixels of padding vertically, so 38 is the vertical spacing.
@@ -82,6 +85,10 @@ namespace GenshinMod.NPCH
                     }
 
                     break;
+                case (float)ActionState.Fly:
+                    Fly();
+                    break;
+
             }
         }
 
@@ -121,6 +128,20 @@ namespace GenshinMod.NPCH
             //NPC.dontTakeDamage = true;
             NPC.rarity = 1;
         }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+
+            // Spawn this NPC with something like Cheat Sheet or Hero's Mod
+            return Terraria.ModLoader.Utilities.SpawnCondition.Overworld.Chance * 0.5f;
+
+            if (/*Main.eclipse || Main.invasionType > 0 && Main.invasionDelay == 0 && Main.invasionSize > 0&&*/ spawnInfo.Player.ZoneSkyHeight)
+            {
+                return Terraria.ModLoader.Utilities.SpawnCondition.Overworld.Chance * 0.5f;
+            }
+
+            //CanSpawnNow();
+        }
+
         // Here, because we use custom AI (aiStyle not set to a suitable vanilla value), we should manually decide when Flutter Slime can fall through platforms
         public override bool? CanFallThroughPlatforms()
         {
@@ -148,6 +169,53 @@ namespace GenshinMod.NPCH
                 AI_State = (float)ActionState.Notice;
                 AI_Timer = 0;
             }
+        }
+        private void Fly()
+        {
+            // If the targeted player is in attack range (250).
+            if (Main.player[NPC.target].Distance(NPC.Center) < 1000f)
+            {
+                AI_Timer++; //NPC.velocity = new Vector2(0, +5f);
+
+                float speed = 10f;
+                float inertia = 5f;
+
+                Vector2 RelPosPlayer/*abovePlayer*/ = Main.player[NPC.target].position;
+
+                Vector2 /*toAbovePlayer*/toRelPosPlayer = RelPosPlayer/*abovePlayer*/ - NPC.Center;
+
+                Vector2 toRelPosPlayerNormalized/*toAbovePlayerNormalized*/ = toRelPosPlayer.SafeNormalize(Vector2.UnitY);
+                Vector2 moveTo = toRelPosPlayerNormalized/*toAbovePlayerNormalized*/ * speed;
+                //NPC.velocity = (NPC.velocity * (inertia - 1) + moveTo) / inertia;
+                NPC.velocity = (NPC.velocity * (inertia - 1) + moveTo) / inertia;
+            }
+
+
+            // Here we use our Timer to wait .33 seconds before actually jumping. In FindFrame you'll notice AI_Timer also being used to animate the pre-jump crouch
+            //    if (AI_Timer == 1)
+            //    {
+            //        NPC.velocity = new Vector2(NPC.direction * 2, -2f);
+
+            //    }
+
+
+            //    if (AI_Timer >= 20)
+            //    {
+            //        AI_State = (float)ActionState.Jump;
+            //        AI_Timer = 0;
+            //    }
+            ////}
+            //else
+            //{
+            //    NPC.TargetClosest(true);
+
+            //    if (!NPC.HasValidTarget || Main.player[NPC.target].Distance(NPC.Center) > 500fMain.player[NPC.target])
+            //    {
+            //        //Out targeted player seems to have left our range, so we'll go back to sleep.
+            //        AI_State = (float)ActionState.Crawl;
+            //        AI_Timer = 0;
+            //    }
+            //}
         }
 
         private void Notice()
