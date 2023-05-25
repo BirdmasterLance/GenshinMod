@@ -2,6 +2,7 @@
 using GenshinMod.Characters.BurstAttacks;
 using GenshinMod.Characters.SkillAttacks;
 using GenshinMod.UI;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameInput;
 using Terraria.ModLoader;
@@ -65,6 +66,7 @@ namespace GenshinMod
 
 			if (Main.myPlayer == Player.whoAmI)
             {
+				Player player = Main.player[Main.myPlayer];
 				PlayerCharacterCode modPlayer = Main.player[Main.myPlayer].GetModPlayer<PlayerCharacterCode>();
 				
 				if (Keybinds.SwapCharacter.JustPressed)
@@ -72,22 +74,27 @@ namespace GenshinMod
 					CycleThroughPartyCharacters(modPlayer);
                 }
 
-				if (Keybinds.ElementalSkill.JustPressed && modPlayer.activeCharacter != null && Collision.CanHitLine(Main.player[Main.myPlayer].position, 0, 0, Main.MouseWorld, 0, 0))
+				if (Keybinds.ElementalSkill.JustPressed && modPlayer.activeCharacter != null && Collision.CanHitLine(player.position, 0, 0, Main.MouseWorld, 0, 0))
 				{
-					if(modPlayer.activeCharacter.Name == "Yanfei")
+					if (modPlayer.activeCharacter == null) return;
+					if(modPlayer.activeCharacter.Name == "Yanfei" && !player.HasBuff<YanfeiSkillCooldown>())
                     {
 						Projectile proj = Main.projectile[ModContent.ProjectileType<YanfeiSkill>()];
-						Projectile.NewProjectile(Projectile.InheritSource(proj), Main.MouseWorld, Microsoft.Xna.Framework.Vector2.Zero, ModContent.ProjectileType<YanfeiSkill>(), 50, proj.knockBack, Main.myPlayer);
+						Vector2 projSpawnPos = new Vector2(Main.MouseWorld.X - proj.width, Main.MouseWorld.Y - proj.height);
+						Projectile.NewProjectile(Projectile.InheritSource(proj), projSpawnPos, Vector2.Zero, ModContent.ProjectileType<YanfeiSkill>(), proj.damage, proj.knockBack, Main.myPlayer);
+						player.AddBuff(ModContent.BuffType<YanfeiSkillCooldown>(), 540);
 					}
 				}
 
 				if (Keybinds.ElementalBurst.JustPressed)
 				{
-					if (modPlayer.activeCharacter.Name == "Yanfei")
+					if (modPlayer.activeCharacter == null) return;
+					if (modPlayer.activeCharacter.Name == "Yanfei" && !player.HasBuff<YanfeiBurstCooldown>())
 					{
 						Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<BrillianceBuff>(), 900);
 						Projectile proj = Main.projectile[ModContent.ProjectileType<YanfeiBurst>()];
-						Projectile.NewProjectile(Projectile.InheritSource(proj), Main.player[Main.myPlayer].position, Microsoft.Xna.Framework.Vector2.Zero, ModContent.ProjectileType<YanfeiBurst>(), 70, proj.knockBack, Main.myPlayer);
+						Projectile.NewProjectile(Projectile.InheritSource(proj), Main.player[Main.myPlayer].position, Vector2.Zero, ModContent.ProjectileType<YanfeiBurst>(), proj.damage, proj.knockBack, Main.myPlayer);
+						player.AddBuff(ModContent.BuffType<YanfeiBurstCooldown>(), 1200);
 					}
 				}
 			}      
