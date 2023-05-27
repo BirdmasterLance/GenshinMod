@@ -37,9 +37,47 @@ namespace GenshinMod.Elements
 
         public void Load(Mod mod)
         {
+
+            #region Anemo Projectiles
+
+            AnemoProjectiles.AddRange(new int[]
+            {
+                ProjectileID.BookStaffShot
+            });
+
+            #endregion
+
+            #region Geo Projectiles
+
+            GeoProjectiles.AddRange(new int[]
+            {
+                ProjectileID.BoulderStaffOfEarth
+            });
+
+            #endregion
+
+            #region Electro Projectiles
+
+            ElectroProjectiles.AddRange(new int[]
+            {
+                ProjectileID.ChargedBlasterOrb,
+                ProjectileID.ChargedBlasterLaser
+            });
+
+            #endregion
+
+            #region Dendro Projectiles
+
+            DendroProjectiles.AddRange(new int[]
+            {
+                ProjectileID.Leaf
+            });
+
+            #endregion
+
             #region Pyro Projectiles
-            
-            PyroProjectiles.AddRange(new int[] 
+
+            PyroProjectiles.AddRange(new int[]
             {
                 ProjectileID.FireArrow,
                 ProjectileID.BallofFire,
@@ -164,7 +202,16 @@ namespace GenshinMod.Elements
                 ProjectileID.WetSnowmanRocket,
                 ProjectileID.GoldenShowerFriendly,
                 ProjectileID.GoldenShowerHostile
-            });            
+            });
+
+            #endregion
+
+            #region Cryo Projectiles
+
+            CryoProjectiles.AddRange(new int[]
+            {
+                ProjectileID.BallofFrost
+            });
 
             #endregion
         }
