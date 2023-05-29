@@ -16,6 +16,7 @@ namespace GenshinMod.Elements
                 target.AddBuff(BuffID.Stinky, 600);
                 if(!crit) UpdateColorOfRecentCombatText(new Color(239, 121, 56));
                 else UpdateColorOfRecentCombatText(new Color(194, 50, 10));
+                CombatText.NewText(target.getRect(), new Color(80, 0, 173), "Fire!");
             }
             else if (Elements.HydroProjectiles.Contains(projectile.type))
             {
