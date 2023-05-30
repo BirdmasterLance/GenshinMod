@@ -42,7 +42,11 @@ namespace GenshinMod.Elements
 
             AnemoProjectiles.AddRange(new int[]
             {
-                ProjectileID.BookStaffShot
+                ProjectileID.HarpyFeather, // Unsure
+                ProjectileID.DandelionSeed,
+                ProjectileID.DD2ApprenticeStorm,
+                ProjectileID.WeatherPainShot
+
             });
 
             #endregion
@@ -51,7 +55,16 @@ namespace GenshinMod.Elements
 
             GeoProjectiles.AddRange(new int[]
             {
-                ProjectileID.BoulderStaffOfEarth
+                ProjectileID.Boulder,
+                ProjectileID.CrimsandBallFalling,
+                ProjectileID.BoulderStaffOfEarth,
+
+                // Unsure if Geo or Pyro
+                ProjectileID.Meteor1,
+                ProjectileID.Meteor2,
+                ProjectileID.Meteor3,
+                ProjectileID.Geode,
+                ProjectileID.WhiteTigerPounce // Unsure
             });
 
             #endregion
@@ -60,8 +73,60 @@ namespace GenshinMod.Elements
 
             ElectroProjectiles.AddRange(new int[]
             {
+                ProjectileID.GreenLaser,
+                ProjectileID.DemonSickle,
+                ProjectileID.DemonScythe,
+                ProjectileID.DarkLance, // Unsure
+                ProjectileID.EyeLaser,
+                ProjectileID.PinkLaser,
+                ProjectileID.PurpleLaser,
+                ProjectileID.UnholyTridentFriendly,
+                ProjectileID.UnholyTridentHostile,
+
+                // Unsure
+                ProjectileID.AmethystBolt,
+                ProjectileID.TopazBolt,
+                ProjectileID.SapphireBolt,
+                ProjectileID.EmeraldBolt,
+                ProjectileID.RubyBolt,
+                ProjectileID.DiamondBolt,
+                ProjectileID.AmberBolt,
+
+                ProjectileID.MagnetSphereBall,
+                ProjectileID.MagnetSphereBolt,
                 ProjectileID.ChargedBlasterOrb,
-                ProjectileID.ChargedBlasterLaser
+                ProjectileID.ChargedBlasterLaser,
+                ProjectileID.MiniRetinaLaser,
+                ProjectileID.UFOLaser,
+                ProjectileID.ScutlixLaserFriendly,
+                ProjectileID.MartianTurretBolt,
+                ProjectileID.BrainScramblerBolt,
+                ProjectileID.GigaZapperSpear,
+                ProjectileID.RayGunnerLaser,
+                ProjectileID.LaserMachinegunLaser,
+                ProjectileID.ScutlixLaserCrosshair,
+                ProjectileID.Electrosphere,
+                ProjectileID.SaucerDeathray,
+                ProjectileID.InfluxWaver,
+                ProjectileID.CultistBossLightningOrb,
+                ProjectileID.CultistBossLightningOrbArc,
+
+                // Unsure
+                ProjectileID.NebulaLaser,
+                ProjectileID.VortexLaser,
+
+                ProjectileID.VortexLightning,
+                ProjectileID.VortexVortexLightning,
+                ProjectileID.MinecartMechLaser,
+                ProjectileID.MartianWalkerLaser,
+                ProjectileID.ScutlixLaser,
+                ProjectileID.DD2LightningBugZap,
+                ProjectileID.ThunderSpear,
+                ProjectileID.ThunderStaffShot,
+                ProjectileID.ThunderSpearShot,
+                ProjectileID.ZapinatorLaser
+
+
             });
 
             #endregion
@@ -70,7 +135,67 @@ namespace GenshinMod.Elements
 
             DendroProjectiles.AddRange(new int[]
             {
-                ProjectileID.Leaf
+                ProjectileID.VilethornBase,
+                ProjectileID.VilethornTip,
+                ProjectileID.IvyWhip,
+                ProjectileID.ThornChakram,
+                ProjectileID.Seed,
+                ProjectileID.PoisonedKnife, // Unsure
+                ProjectileID.Stinger,
+                ProjectileID.NettleBurstRight,
+                ProjectileID.NettleBurstLeft,
+                ProjectileID.NettleBurstEnd,
+                ProjectileID.JungleSpike,
+                ProjectileID.Bee,
+                ProjectileID.Wasp,
+
+                // Unsure
+                ProjectileID.ChlorophyteBullet,
+                ProjectileID.ChlorophytePartisan,
+                ProjectileID.ChlorophyteDrill,
+                ProjectileID.ChlorophyteChainsaw,
+                ProjectileID.ChlorophyteArrow,
+                ProjectileID.CrystalLeafShot,
+                ProjectileID.SporeCloud,
+                ProjectileID.ChlorophyteOrb,
+                ProjectileID.ChlorophyteJackhammer,
+
+                ProjectileID.Leaf,
+                ProjectileID.FlowerPow,
+                ProjectileID.FlowerPowPetal,
+                ProjectileID.PoisonFang, // Unsure
+                ProjectileID.SeedPlantera,
+                ProjectileID.PoisonSeedPlantera,
+                ProjectileID.ThornBall,
+                ProjectileID.VenomArrow, // Unsure
+                ProjectileID.PineNeedleFriendly,
+                ProjectileID.PineNeedleHostile,
+                ProjectileID.HornetStinger,
+
+                // Unsure
+                ProjectileID.VenomSpider,
+                ProjectileID.JumperSpider,
+                ProjectileID.DangerousSpider,
+                ProjectileID.BeeArrow,
+
+                ProjectileID.JungleYoyo,
+                ProjectileID.Yelets,
+
+                ProjectileID.GiantBee,
+                ProjectileID.SporeTrap,
+                ProjectileID.SporeTrap2,
+                ProjectileID.SporeGas,
+                ProjectileID.SporeGas2,
+                ProjectileID.SporeGas3,
+                ProjectileID.DryadsWardCircle,
+                ProjectileID.TruffleSpore,
+                ProjectileID.RollingCactus,
+                ProjectileID.RollingCactusSpike,
+                ProjectileID.Shroomerang,
+                ProjectileID.ThornWhip
+
+                // ProjectileId.BladeOfGrass
+
             });
 
             #endregion
@@ -177,7 +302,17 @@ namespace GenshinMod.Elements
                 ProjectileID.MiniNukeSnowmanRocketI,
                 ProjectileID.MiniNukeSnowmanRocketII,
                 ProjectileID.ClusterSnowmanRocketI,
-                ProjectileID.ClusterSnowmanRocketII
+                ProjectileID.ClusterSnowmanRocketII,
+                ProjectileID.SolarFlareChainsaw,
+                ProjectileID.SolarFlareDrill,
+                ProjectileID.CultistBossFireBall,
+                ProjectileID.CultistBossFireBallClone,
+                ProjectileID.SolarFlareRay,
+                ProjectileID.FireWhip,
+                ProjectileID.FireWhipProj
+
+                // ProjectileID.Volcano
+
             });
 
             #endregion
@@ -201,7 +336,16 @@ namespace GenshinMod.Elements
                 ProjectileID.WetRocket,
                 ProjectileID.WetSnowmanRocket,
                 ProjectileID.GoldenShowerFriendly,
-                ProjectileID.GoldenShowerHostile
+                ProjectileID.GoldenShowerHostile,
+
+                // Unsure
+                ProjectileID.ToxicBubble,
+                ProjectileID.IchorSplash,
+                
+                ProjectileID.Kraken
+
+                // ProjectileID.Muramasa
+
             });
 
             #endregion
@@ -210,7 +354,37 @@ namespace GenshinMod.Elements
 
             CryoProjectiles.AddRange(new int[]
             {
-                ProjectileID.BallofFrost
+                ProjectileID.IceBlock,
+                ProjectileID.SnowBallHostile,
+                ProjectileID.IceBoomerang,
+                ProjectileID.IceBolt,
+                ProjectileID.FrostBoltSword,
+                ProjectileID.FrostArrow,
+                ProjectileID.FrostBlastHostile,
+                ProjectileID.SnowBallFriendly,
+                ProjectileID.FrostburnArrow,
+                ProjectileID.IceSpike,
+                ProjectileID.IcewaterSpit,
+                ProjectileID.SlushBall,
+                ProjectileID.BallofFrost,
+                ProjectileID.FrostBeam,
+                ProjectileID.IceSickle,
+                ProjectileID.FrostBlastFriendly,
+                ProjectileID.Blizzard,
+                ProjectileID.NorthPoleWeapon,
+                ProjectileID.NorthPoleSpear,
+                ProjectileID.NorthPoleSnowflake,
+                ProjectileID.FrostWave,
+                ProjectileID.FrostShard,
+                ProjectileID.FrostBoltStaff,
+                ProjectileID.CultistBossIceMist,
+                ProjectileID.FrostDaggerfish,
+                ProjectileID.Amarok,
+                ProjectileID.CoolWhip,
+                ProjectileID.CoolWhipProj,
+                ProjectileID.DeerclopsIceSpike
+
+                // ProjectileID.WandOfFrostingSpark
             });
 
             #endregion
