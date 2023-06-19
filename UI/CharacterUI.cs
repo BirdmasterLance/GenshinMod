@@ -46,6 +46,9 @@ namespace GenshinMod.UI
             mainWindow.BackgroundColor = new Color(44, 44, 110);
             mainWindow.HAlign = mainWindow.VAlign = 0.5f; // Center the main window
 
+            //UIItemSlot itemSlot = new UIItemSlot(new Item[5], 0, ItemSlot.Context.ChestItem);
+            //mainWindow.Append(itemSlot);
+
             // Panel to put the list of characters in
             UIPanel listPanel = new UIPanel();
             listPanel.Width.Set(70, 0f);

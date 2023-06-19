@@ -124,8 +124,9 @@ namespace GenshinMod.Elements
                 ProjectileID.ThunderSpear,
                 ProjectileID.ThunderStaffShot,
                 ProjectileID.ThunderSpearShot,
-                ProjectileID.ZapinatorLaser
+                ProjectileID.ZapinatorLaser,
 
+                ModContent.ProjectileType<ElectroFriendlySwirl>()
 
             });
 
@@ -195,6 +196,41 @@ namespace GenshinMod.Elements
                 ProjectileID.ThornWhip
 
                 // ProjectileId.BladeOfGrass
+
+            });
+
+            #endregion
+
+            #region Hydro Projectiles
+
+            HydroProjectiles.AddRange(new int[]
+            {
+                ProjectileID.WaterStream,
+                ProjectileID.WaterBolt,
+                ProjectileID.BlueMoon,
+                ProjectileID.RainFriendly,
+                ProjectileID.RainNimbus,
+                ProjectileID.Sharknado,
+                ProjectileID.SharknadoBolt,
+                ProjectileID.Cthulunado,
+                ProjectileID.Flairon,
+                ProjectileID.FlaironBubble,
+                ProjectileID.MiniSharkron,
+                ProjectileID.Typhoon,
+                ProjectileID.WetRocket,
+                ProjectileID.WetSnowmanRocket,
+                ProjectileID.GoldenShowerFriendly,
+                ProjectileID.GoldenShowerHostile,
+
+                // Unsure
+                ProjectileID.ToxicBubble,
+                ProjectileID.IchorSplash,
+
+                ProjectileID.Kraken,
+
+                ModContent.ProjectileType<HydroFriendlySwirl>()
+
+                // ProjectileID.Muramasa
 
             });
 
@@ -309,42 +345,11 @@ namespace GenshinMod.Elements
                 ProjectileID.CultistBossFireBallClone,
                 ProjectileID.SolarFlareRay,
                 ProjectileID.FireWhip,
-                ProjectileID.FireWhipProj
+                ProjectileID.FireWhipProj,
+
+                ModContent.ProjectileType<PyroFriendlySwirl>()
 
                 // ProjectileID.Volcano
-
-            });
-
-            #endregion
-
-            #region Hydro Projectiles
-
-            HydroProjectiles.AddRange(new int[]
-            {
-                ProjectileID.WaterStream,
-                ProjectileID.WaterBolt,
-                ProjectileID.BlueMoon,
-                ProjectileID.RainFriendly,
-                ProjectileID.RainNimbus,
-                ProjectileID.Sharknado,
-                ProjectileID.SharknadoBolt,
-                ProjectileID.Cthulunado,
-                ProjectileID.Flairon,
-                ProjectileID.FlaironBubble,
-                ProjectileID.MiniSharkron,
-                ProjectileID.Typhoon,
-                ProjectileID.WetRocket,
-                ProjectileID.WetSnowmanRocket,
-                ProjectileID.GoldenShowerFriendly,
-                ProjectileID.GoldenShowerHostile,
-
-                // Unsure
-                ProjectileID.ToxicBubble,
-                ProjectileID.IchorSplash,
-                
-                ProjectileID.Kraken
-
-                // ProjectileID.Muramasa
 
             });
 
@@ -382,9 +387,145 @@ namespace GenshinMod.Elements
                 ProjectileID.Amarok,
                 ProjectileID.CoolWhip,
                 ProjectileID.CoolWhipProj,
-                ProjectileID.DeerclopsIceSpike
+                ProjectileID.DeerclopsIceSpike,
+
+                ModContent.ProjectileType<CryoFriendlySwirl>()
 
                 // ProjectileID.WandOfFrostingSpark
+            });
+
+            #endregion
+
+            #region Anemo NPCs
+
+            AnemoNPCs.AddRange(new int[]
+            {
+                NPCID.WyvernHead,
+                NPCID.WindyBalloon,
+                NPCID.Harpy
+
+            });
+
+            #endregion
+
+            #region Geo NPCs
+
+            GeoNPCs.AddRange(new int[]
+            {
+                NPCID.GraniteGolem,
+                NPCID.GraniteFlyer,
+                NPCID.RockGolem
+
+            });
+
+            #endregion
+
+            #region Electro NPCs
+
+            ElectroNPCs.AddRange(new int[]
+            {
+                NPCID.MartianTurret,
+                NPCID.MartianDrone,
+                NPCID.MartianSaucer,
+                NPCID.MartianSaucerCannon,
+                NPCID.MartianSaucerTurret,
+                NPCID.MartianSaucerCore,
+                NPCID.MartianProbe,
+                NPCID.MartianWalker,
+                NPCID.AncientLight
+
+            });
+
+            #endregion
+
+            #region Dendro NPCs
+
+            DendroNPCs.AddRange(new int[]
+            {
+                NPCID.JungleSlime,
+                NPCID.ManEater,
+                NPCID.Snatcher,
+                NPCID.AngryTrapper,
+                NPCID.MossHornet,
+                NPCID.SpikedJungleSlime,
+                NPCID.ZombieMushroom,
+                NPCID.ZombieMushroomHat,
+                NPCID.FungoFish,
+                NPCID.AnomuraFungus,
+                NPCID.MushiLadybug,
+                NPCID.GiantFungiBulb,
+                NPCID.FungiSpore,
+                NPCID.Plantera,
+                NPCID.PlanterasHook,
+                NPCID.PlanterasTentacle,
+                NPCID.Spore,
+                NPCID.SporeBat,
+                NPCID.SporeSkeleton
+
+            });
+
+            #endregion
+
+            #region Hydro NPCs
+
+            HydroNPCs.AddRange(new int[]
+            {
+                NPCID.WaterSphere,
+                NPCID.AngryNimbus,
+                NPCID.DukeFishron,
+                NPCID.Sharkron,
+                NPCID.Sharkron2
+
+            });
+
+            #endregion
+
+            #region Pyro NPCs
+
+            PyroNPCs.AddRange(new int[]
+            {
+                NPCID.BurningSphere,
+                NPCID.MeteorHead,
+                NPCID.LavaSlime,
+                NPCID.Hellbat,
+                NPCID.BlazingWheel,
+                NPCID.Lavabat,
+                NPCID.HellArmoredBones,
+                NPCID.HellArmoredBonesMace,
+                NPCID.HellArmoredBonesSpikeShield,
+                NPCID.HellArmoredBonesSword,
+                NPCID.SolarCrawltipedeHead,
+                NPCID.SolarDrakomire,
+                NPCID.SolarDrakomireRider,
+                NPCID.SolarSroller,
+                NPCID.SolarCorite,
+                NPCID.SolarSolenian,
+                NPCID.SolarFlare,
+                NPCID.LunarTowerSolar,
+                NPCID.SolarSpearman,
+                NPCID.SolarGoop
+
+            });
+
+            #endregion
+
+            #region Cryo NPCs
+
+            CryoNPCs.AddRange(new int[]
+            {
+                NPCID.SnowmanGangsta,
+                NPCID.MisterStabby,
+                NPCID.SnowBalla,
+                NPCID.IceSlime,
+                NPCID.IceBat,
+                NPCID.IceTortoise,
+                NPCID.IceElemental,
+                NPCID.SpikedIceSlime,
+                NPCID.IceGolem,
+                NPCID.IceQueen,
+                NPCID.Flocko,
+                NPCID.IceMimic
+
             });
 
             #endregion
