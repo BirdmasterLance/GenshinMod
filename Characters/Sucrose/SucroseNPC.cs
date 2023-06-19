@@ -1,9 +1,9 @@
-﻿using Terraria;
-using Terraria.ModLoader;
+﻿//using Terraria;
+//using Terraria.ModLoader;
 
-namespace GenshinMod.Characters.Sucrose
-{
-    internal class SucroseNPC : ModNPC
-    {
-    }
-}
+//namespace GenshinMod.Characters.Sucrose
+//{
+//    internal class SucroseNPC : ModNPC
+//    {
+//    }
+//}

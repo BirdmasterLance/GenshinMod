@@ -124,7 +124,7 @@ namespace GenshinMod.Characters.NormalAttacks
 	{
 		private NPC alreadyHit;
 
-		public override string Texture => "GenshinMod/Characters/NormalAttacks/YanfeiChargedAttack";
+		public override string Texture => "GenshinMod/Characters/Yanfei/YanfeiChargedAttack";
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Seal of Approval");

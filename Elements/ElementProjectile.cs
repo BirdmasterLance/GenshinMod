@@ -17,35 +17,12 @@ namespace GenshinMod.Elements
 
             if (Elements.AnemoProjectiles.Contains(projectile.type)) // Anemo Reactions
             {
-                target.AddBuff(ModContent.BuffType<AnemoBuff>(), 10);
+                target.AddBuff(ModContent.BuffType<AnemoBuff>(), 600);
             }
 
             else if (Elements.GeoProjectiles.Contains(projectile.type)) // Geo Reactions
             {
-                if (target.HasBuff(ModContent.BuffType<ElectroBuff>()))
-                {
-                    target.DelBuff(target.FindBuffIndex(ModContent.BuffType<ElectroBuff>()));
-                    CombatText.NewText(target.getRect(), CrystalizeColor, "Crystalize");
-                }
-                else if (target.HasBuff(BuffID.Wet))
-                {
-                    target.DelBuff(target.FindBuffIndex(BuffID.Wet));
-                    CombatText.NewText(target.getRect(), CrystalizeColor, "Crystalize");
-                }
-                else if (target.HasBuff(ModContent.BuffType<PyroBuff>()))
-                {
-                    target.DelBuff(target.FindBuffIndex(ModContent.BuffType<PyroBuff>()));
-                    CombatText.NewText(target.getRect(), CrystalizeColor, "Crystalize");
-                }
-                else if (target.HasBuff(ModContent.BuffType<CryoBuff>()))
-                {
-                    target.DelBuff(target.FindBuffIndex(ModContent.BuffType<CryoBuff>()));
-                    CombatText.NewText(target.getRect(), CrystalizeColor, "Crystalize");
-                }
-                else
-                {
-                    target.AddBuff(ModContent.BuffType<GeoBuff>(), 10);
-                }
+                target.AddBuff(ModContent.BuffType<GeoBuff>(), 600);
             }
 
             else if (Elements.ElectroProjectiles.Contains(projectile.type)) // Electro Reactions

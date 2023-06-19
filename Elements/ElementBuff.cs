@@ -163,6 +163,7 @@ namespace GenshinMod.Elements
 				buffIndex -= 1;
 				npc.DelBuff(npc.FindBuffIndex(ModContent.BuffType<PyroBuff>()));
 				CombatText.NewText(npc.getRect(), CrystalizeColor, "Crystalize");
+				Item.NewItem(npc.GetSource_FromThis(), npc.getRect(), ModContent.ItemType<CrystalizePyroItem>());
 			}
 			else if (npc.HasBuff(ModContent.BuffType<CryoBuff>()))
 			{
