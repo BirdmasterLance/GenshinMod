@@ -306,7 +306,7 @@ namespace Hh1.NPCH
                 if (NPC.collideY && AI_Timer > 5)
                 {
 
-                    AI_Timer = 0;
+                    AI_Timer = 1;
 
                 }
             }
