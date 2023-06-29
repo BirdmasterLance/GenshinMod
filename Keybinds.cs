@@ -1,6 +1,4 @@
 ﻿using GenshinMod.Buffs;
-using GenshinMod.Characters.BurstAttacks;
-using GenshinMod.Characters.SkillAttacks;
 using GenshinMod.UI;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -74,29 +72,29 @@ namespace GenshinMod
 					CycleThroughPartyCharacters(modPlayer);
                 }
 
-				if (Keybinds.ElementalSkill.JustPressed && modPlayer.activeCharacter != null && Collision.CanHitLine(player.position, 0, 0, Main.MouseWorld, 0, 0))
-				{
-					if (modPlayer.activeCharacter == null) return;
-					if(modPlayer.activeCharacter.Name == "Yanfei" && !player.HasBuff<YanfeiSkillCooldown>())
-                    {
-						Projectile proj = Main.projectile[ModContent.ProjectileType<YanfeiSkill>()];
-						Vector2 projSpawnPos = new Vector2(Main.MouseWorld.X - proj.width, Main.MouseWorld.Y - proj.height);
-						Projectile.NewProjectile(Projectile.InheritSource(proj), projSpawnPos, Vector2.Zero, ModContent.ProjectileType<YanfeiSkill>(), proj.damage, proj.knockBack, Main.myPlayer);
-						player.AddBuff(ModContent.BuffType<YanfeiSkillCooldown>(), 540);
-					}
-				}
+				//if (Keybinds.ElementalSkill.JustPressed && modPlayer.activeCharacter != null && Collision.CanHitLine(player.position, 0, 0, Main.MouseWorld, 0, 0))
+				//{
+				//	if (modPlayer.activeCharacter == null) return;
+				//	if(modPlayer.activeCharacter.Name == "Yanfei" && !player.HasBuff<Characters.Yanfei.YanfeiSkillCooldown>())
+    //                {
+				//		Projectile proj = Main.projectile[ModContent.ProjectileType<Characters.Yanfei.YanfeiSkill>()];
+				//		Vector2 projSpawnPos = new Vector2(Main.MouseWorld.X - proj.width, Main.MouseWorld.Y - proj.height);
+				//		Projectile.NewProjectile(Projectile.InheritSource(proj), projSpawnPos, Vector2.Zero, ModContent.ProjectileType<Characters.Yanfei.YanfeiSkill>(), proj.damage, proj.knockBack, Main.myPlayer);
+				//		player.AddBuff(ModContent.BuffType<Characters.Yanfei.YanfeiSkillCooldown>(), 540);
+				//	}
+				//}
 
-				if (Keybinds.ElementalBurst.JustPressed)
-				{
-					if (modPlayer.activeCharacter == null) return;
-					if (modPlayer.activeCharacter.Name == "Yanfei" && !player.HasBuff<YanfeiBurstCooldown>())
-					{
-						Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<BrillianceBuff>(), 900);
-						Projectile proj = Main.projectile[ModContent.ProjectileType<YanfeiBurst>()];
-						Projectile.NewProjectile(Projectile.InheritSource(proj), Main.player[Main.myPlayer].position, Vector2.Zero, ModContent.ProjectileType<YanfeiBurst>(), proj.damage, proj.knockBack, Main.myPlayer);
-						player.AddBuff(ModContent.BuffType<YanfeiBurstCooldown>(), 1200);
-					}
-				}
+				//if (Keybinds.ElementalBurst.JustPressed)
+				//{
+				//	if (modPlayer.activeCharacter == null) return;
+				//	if (modPlayer.activeCharacter.Name == "Yanfei" && !player.HasBuff<Characters.Yanfei.YanfeiBurstCooldown>())
+				//	{
+				//		Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<BrillianceBuff>(), 900);
+				//		Projectile proj = Main.projectile[ModContent.ProjectileType<Characters.Yanfei.YanfeiBurst>()];
+				//		Projectile.NewProjectile(Projectile.InheritSource(proj), Main.player[Main.myPlayer].position, Vector2.Zero, ModContent.ProjectileType<Characters.Yanfei.YanfeiBurst>(), proj.damage, proj.knockBack, Main.myPlayer);
+				//		player.AddBuff(ModContent.BuffType<Characters.Yanfei.YanfeiBurstCooldown>(), 1200);
+				//	}
+				//}
 			}      
 		}
 
@@ -116,7 +114,7 @@ namespace GenshinMod
 				for (int i = 0; i < 3; i++)
 				{
 					if (modPlayer.partyCharacters[i].Name == "None") continue;
-					modPlayer.ChangeActiveCharacter(modPlayer.partyCharacters[i].Name);
+					//modPlayer.ChangeActiveCharacter(modPlayer.partyCharacters[i].Name);
 					partyCharacterIndex = i;
 					break;
 				}
@@ -127,7 +125,7 @@ namespace GenshinMod
 				{
 					if (modPlayer.partyCharacters[i].Name == "None") continue;
 					if (i <= partyCharacterIndex) continue;
-					modPlayer.ChangeActiveCharacter(modPlayer.partyCharacters[i].Name);
+					//modPlayer.ChangeActiveCharacter(modPlayer.partyCharacters[i].Name);
 					partyCharacterIndex = i;
 					break;
 				}

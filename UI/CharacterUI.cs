@@ -374,24 +374,24 @@ namespace GenshinMod.UI
             //list.SetScrollbar(scroll);
             //list.Append(scroll);
 
-            if (playerCharacters.Count > 0)
-            {
-                if (modPlayer.activeCharacterName != null)
-                {
-                    selectedCharacter = modPlayer.activeCharacter;
-                    SetCharUI(modPlayer.activeCharacterName);
-                }
-                else
-                {
-                    selectedCharacter = playerCharacters[0];
-                    SetCharUI(playerCharacters[0].Name);
-                }
-            }
-            else
-            {
-                selectedCharacter = null;
-                SetCharUI("None");
-            }
+            //if (playerCharacters.Count > 0)
+            //{
+            //    if (modPlayer.activeCharacterName != null)
+            //    {
+            //        selectedCharacter = modPlayer.activeCharacter;
+            //        SetCharUI(modPlayer.activeCharacterName);
+            //    }
+            //    else
+            //    {
+            //        selectedCharacter = playerCharacters[0];
+            //        SetCharUI(playerCharacters[0].Name);
+            //    }
+            //}
+            //else
+            //{
+            //    selectedCharacter = null;
+            //    SetCharUI("None");
+            //}
         }
 
         public void CloseMenu()
@@ -469,7 +469,7 @@ namespace GenshinMod.UI
         private void RemoveCharacterClick(UIMouseEvent evt, UIElement listeningElement)
         {
             var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
-            modPlayer.RemoveActiveCharacter();
+            //modPlayer.RemoveActiveCharacter();
         }
 
         #region Attribute UI Methods

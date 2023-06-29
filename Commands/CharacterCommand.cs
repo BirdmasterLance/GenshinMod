@@ -13,7 +13,7 @@ namespace GenshinMod.Commands
 			=> "character";
 
 		public override string Usage
-			=> "/character <add/remove/list/active/clear> [character name]";
+			=> "/character <add/remove/list/clear> [character name]";
 
 		public override string Description
 			=> "Modify information about what characters the player has";
@@ -39,28 +39,28 @@ namespace GenshinMod.Commands
                     }
 					Main.NewText(output);
 				}
-				else if(args[0] == "active")
-                {
-					Main.NewText("Your active character is: " + modPlayer.activeCharacter.Name);
-                }
+				//else if(args[0] == "active")
+    //            {
+				//	Main.NewText("Your active character is: " + modPlayer.activeCharacter.Name);
+    //            }
 				else if(args[0] == "clear")
                 {
 					modPlayer.GetCharacters().Clear();
-					modPlayer.RemoveActiveCharacter();
+					//modPlayer.RemoveActiveCharacter();
 
 					modPlayer.GetPartyCharacters().Clear();
-					for (int i = 0; i < 4; i++)
-					{
-						modPlayer.partyCharacters.Add(new Character("None"));
-					}
+					//for (int i = 0; i < 4; i++)
+					//{
+					//	modPlayer.partyCharacters.Add(new Character("None"));
+					//}
 					Main.NewText("Removed all characters");
                 }
 				else if(args[0] == "partyfill")
                 {
-					for (int i = 0; i < 4; i++)
-					{
-						modPlayer.partyCharacters.Add(new Character("None"));
-					}
+					//for (int i = 0; i < 4; i++)
+					//{
+					//	modPlayer.partyCharacters.Add(new Character("None"));
+					//}
 				}
 			}
 			else if (args.Length > 1)
@@ -95,14 +95,14 @@ namespace GenshinMod.Commands
 				}
 				else if (args[0] == "active")
 				{
-					if (!modPlayer.ChangeActiveCharacter(character))
-					{
-						Main.NewText("You don't have that character!");
-					}
-					else
-					{
-						Main.NewText("Your active character is now: " + character);
-					}
+					//if (!modPlayer.ChangeActiveCharacter(character))
+					//{
+					//	Main.NewText("You don't have that character!");
+					//}
+					//else
+					//{
+					//	Main.NewText("Your active character is now: " + character);
+					//}
 				}
 
 			}

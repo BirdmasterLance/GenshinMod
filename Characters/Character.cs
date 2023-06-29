@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -11,11 +13,21 @@ namespace GenshinMod
     public class Character
     {
         public string Name { get; protected set; }
-        public int AttackLevel { get; set; }
-        public int SkillLevel { get; set; }
-        public int BurstLevel { get; set; }
-        public int Constellation { get; set; }
-        public int ConstellationUpgrade; // Needed because it should be the player's decision to upgrade their character's constellation
+        public int AttackLevel { get; set; } = 1;
+        public int SkillLevel { get; set; } = 1;
+        public int BurstLevel { get; set; } = 1;
+        public int Constellation { get; set; } = 0;
+        public int ConstellationUpgrade { get; set; } = 0; // Needed because it should be the player's decision to upgrade their character's constellation
+
+        protected int npcID = -1;
+        protected int playerID = -1;
+        public int level;
+        public int life = 100;
+        public int lifeMax = 100;
+        public int damage = 10;
+        public int defense = 10;
+
+        protected int npcType;
 
         #region Description Texts
 
@@ -54,22 +66,53 @@ namespace GenshinMod
 
         #endregion
 
-        public Character(string name="", int atkLVL=1, int skillLVL=1, int burstLVL=1, int constellationLVL=0, int constellationUpgrade=0)
+        public Character(string name="")
         {
             Name = name;
-            AttackLevel = atkLVL;
-            SkillLevel = skillLVL;
-            BurstLevel = burstLVL;
-            Constellation = constellationLVL;
-            ConstellationUpgrade = constellationUpgrade;
+        }
+
+        public int SpawnCharacter(Player player)
+        {
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                playerID = player.whoAmI;
+                npcID = NPC.NewNPC(player.GetSource_FromThis(), (int)player.position.X, (int)player.position.Y, npcType);
+                NPC npc = Main.npc[npcID];
+                npc.life = life;
+                npc.lifeMax = lifeMax;
+                npc.defense = defense;
+                npc.damage = damage;
+                return npcID;
+            }
+            return 0;
+        }
+
+        public int GetNPCID()
+        {
+            return npcID;
+        }
+
+        /// <summary>
+        /// Returns the NPC's ID in Main.npc[]
+        /// Returns null if the NPC was never spawned
+        /// </summary>
+        public NPC GetNPC()
+        {
+            if (npcID == -1) return null;
+            return Main.npc[npcID];
+        }
+
+        public int GetPlayerID()
+        {
+            return playerID;
         }
     }
 
     public class Yanfei : Character
     {       
-        public Yanfei(int atkLVL=1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Yanfei", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
+        public Yanfei() : base("Yanfei")
         {
-
+            npcType = ModContent.NPCType<Characters.Yanfei.YanfeiNPC>();
             #region Description Texts
 
             NormalAttack = "Seal of Approval";
@@ -112,45 +155,48 @@ namespace GenshinMod
 
     public class Kaeya : Character
     {
-        public Kaeya(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Kaeya", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
+        public Kaeya() : base("Kaeya")
         {
+            npcType = NPCID.Penguin;
         }
     }
 
     public class Noelle : Character
     {
-        public Noelle(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Noelle", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
+        public Noelle() : base("Noelle")
         {
+            npcType = NPCID.GemBunnyAmber;
         }
     }
 
-    public class Barbara : Character
-    {
-        public Barbara(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Barbara", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
-        {
-        }
-    }
+    //public class Barbara : Character
+    //{
+    //    public Barbara(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Barbara", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
+    //    {
+    //    }
+    //}
 
     public class RaidenShogun : Character
     {
-        public RaidenShogun(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Raiden Shogun", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
+        public RaidenShogun() : base("Raiden Shogun")
         {
+            npcType = NPCID.GemBunnyAmethyst;
         }
     }
 
-    public class YaeMiko : Character
-    {
-        public YaeMiko(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Yae Miko", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
-        {
-        }
-    }
+    //public class YaeMiko : Character
+    //{
+    //    public YaeMiko(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Yae Miko", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
+    //    {
+    //    }
+    //}
 
-    public class Sucrose : Character
-    {
-        public Sucrose(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Sucrose", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
-        {
-        }
-    }
+    //public class Sucrose : Character
+    //{
+    //    public Sucrose(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Sucrose", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
+    //    {
+    //    }
+    //}
 
     // TODO: artifacts
 
@@ -164,7 +210,12 @@ namespace GenshinMod
             ["skillLVL"] = value.SkillLevel,
             ["burstLVL"] = value.BurstLevel,
             ["constellationLVL"] = value.Constellation,
-            ["constellationUpgrade"] = value.ConstellationUpgrade
+            ["constellationUpgrade"] = value.ConstellationUpgrade,
+            ["level"] = value.level,
+            ["life"] = value.life,
+            ["lifeMax"] = value.lifeMax,
+            ["damage"] = value.damage,
+            ["defense"] = value.defense
         };
 
         public override Character Deserialize(TagCompound tag)
@@ -175,23 +226,38 @@ namespace GenshinMod
             int burstLVL = tag.GetInt("burstLVL");
             int constellationLVL = tag.GetInt("constellationLVL");
             int constellationUpgrade = tag.GetInt("constellationUpgrade");
+            int life = tag.GetInt("life");
+            int lifeMax = tag.GetInt("lifeMax");
+            int damage = tag.GetInt("damage");
+            int defense = tag.GetInt("defense");
 
+            Character character = new Character("None");
             switch (name)
             {
                 case "Yanfei":
-                    return new Yanfei(atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade);
+                    character = new Yanfei();
+                    break;
                 case "Kaeya":
-                    return new Kaeya(atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade);
+                    return new Kaeya();
                 case "Noelle":
-                    return new Noelle(atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade);
-                case "Barbara":
-                    return new Barbara(atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade);
-                case "Yae Miko":
-                    return new YaeMiko(atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade);
+                    return new Noelle();
+                //case "Barbara":
+                //    return new Barbara(atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade);
+                //case "Yae Miko":
+                //    return new YaeMiko(atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade);
                 case "Raiden Shogun":
-                    return new RaidenShogun(atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade);
+                    return new RaidenShogun();
             }
-            return new Character(tag.GetString("name"), tag.GetInt("atkLVL"), tag.GetInt("skillLVL"), tag.GetInt("burstLVL"), tag.GetInt("constellationLVL"), tag.GetInt("constellationUpgrade"));
+            character.AttackLevel = atkLVL;
+            character.SkillLevel = skillLVL;
+            character.BurstLevel = burstLVL;
+            character.Constellation = constellationLVL;
+            character.ConstellationUpgrade = constellationUpgrade;
+            character.life = life;
+            character.lifeMax = lifeMax;
+            character.damage = damage;
+            character.defense = defense;
+            return character;
         }
     }
 
@@ -262,7 +328,7 @@ namespace GenshinMod
         public const string Zhongli = "Zhongli";
 
         /// <summary>
-        /// Gets the character's display name
+        /// Returns a new instance of a character based on a display name
         /// </summary>
         public static Character GetNewCharacter(string name)
         {
@@ -271,7 +337,7 @@ namespace GenshinMod
                 case "Alebdo" : return null;
                 case "Aloy" : return null;
                 case "Amber" : return null;
-                case "Barbara" : return new Barbara();
+                case "Barbara" : return null;
                 case "Beidou" : return null;
                 case "Bennett" : return null;
                 case "Childe" : return null;
@@ -295,12 +361,12 @@ namespace GenshinMod
                 case "Qiqi" : return null;
                 case "Raiden Shogun" : return new RaidenShogun();
                 case "Sayu" : return null;
-                case "Sucrose" : return new Sucrose();
+                case "Sucrose" : return null;
                 case "Venti" : return null;
                 case "Xiao" : return null;
                 case "Xiangling" : return null;
                 case "Xinyan" : return null;
-                case "Yae Miko" : return new YaeMiko();
+                case "Yae Miko" : return null;
                 case "Yelan": return null;
                 case "Yanfei" : return new Yanfei();
                 case "Yoimiya" : return null;

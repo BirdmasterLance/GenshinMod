@@ -10,8 +10,7 @@ namespace GenshinMod
     {
         private List<Character> characters;
         public List<Character> partyCharacters;
-        public string activeCharacterName;
-        public Character activeCharacter;
+        public List<Character> activeCharacters;
 
         public bool replaceTexture; // Checks if we want to replace the texture
 
@@ -23,12 +22,13 @@ namespace GenshinMod
         public override void Initialize()
         {
             characters = new List<Character>();
-            partyCharacters = new List<Character>();           
+            partyCharacters = new List<Character>();
+            activeCharacters = new List<Character>();
         }
 
-        public override void SaveData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
+        public override void SaveData(TagCompound tag)
         {
-            if(tag.ContainsKey("characters"))
+            if(!tag.ContainsKey("characters"))
             {
                 tag.Add("characters", characters);
             }
@@ -37,7 +37,7 @@ namespace GenshinMod
                 tag.Set("characters", characters);
             }
 
-            if(tag.ContainsKey("partyCharacters"))
+            if(!tag.ContainsKey("partyCharacters"))
             {
                 tag.Add("partyCharacters", partyCharacters);
             }
@@ -46,28 +46,30 @@ namespace GenshinMod
                 tag.Set("partyCharacters", partyCharacters);
             }
 
-            if (tag.ContainsKey("activeChar"))
-            {
-                tag.Add("activeChar", activeCharacterName);
-            }
-            else
-            {
-                tag.Set("activeChar", activeCharacterName);
-            }
+            //if (tag.ContainsKey("activeChar"))
+            //{
+            //    tag.Add("activeChar", activeCharacterName);
+            //}
+            //else
+            //{
+            //    tag.Set("activeChar", activeCharacterName);
+            //}
         }
 
         public override void LoadData(TagCompound tag)
         {
-            characters = (List<Character>)tag.GetList<Character>("characters");
-            partyCharacters = (List<Character>)tag.GetList<Character>("partyCharacters");
-            ChangeActiveCharacter(tag.Get<string>("activeChar"));
-            if(partyCharacters.Count == 0)
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    partyCharacters.Add(new Character("None"));
-                }
-            }
+            tag.Remove("characters");
+            tag.Remove("partyCharacters");
+            //characters = (List<Character>)tag.GetList<Character>("characters");
+            //partyCharacters = (List<Character>)tag.GetList<Character>("partyCharacters");
+            //ChangeActiveCharacter(tag.Get<string>("activeChar"));
+            //if(partyCharacters.Count == 0)
+            //{
+            //    for (int i = 0; i < 4; i++)
+            //    {
+            //        partyCharacters.Add(new Character("None"));
+            //    }
+            //}
         }
 
         /// <summary>
@@ -113,17 +115,15 @@ namespace GenshinMod
         /// </summary>
         public bool AddCharacter(string character)
         {
-            if (HasCharacter(character))
+            if (!HasCharacter(character))
             {
-                Character partyCharacter = GetCharacter(character);
-                if (partyCharacter.ConstellationUpgrade < 6) partyCharacter.ConstellationUpgrade++;
-                return true;
-            }
-            else
-            {
+                //Character partyCharacter = GetCharacter(character);
+                //if (partyCharacter.ConstellationUpgrade < 6) partyCharacter.ConstellationUpgrade++;
+                //return true;
                 characters.Add(CharacterLists.GetNewCharacter(character));
                 return true;
             }
+            return false;
         }
 
         /// <summary>
@@ -131,15 +131,12 @@ namespace GenshinMod
         /// </summary>
         public bool RemoveCharacter(string character)
         {
-            if (!HasCharacter(character))
-            {
-                return false;
-            }
-            else
+            if (HasCharacter(character))
             {
                 characters.Remove(GetCharacter(character));
                 return true;
             }
+            return false;
         }
 
         /// <summary>
@@ -150,16 +147,34 @@ namespace GenshinMod
             return partyCharacters;
         }
 
+        public bool AddPartyCharacter(string character)
+        {
+            if (HasCharacter(character))
+            {
+                partyCharacters.Add(GetCharacter(character));
+            }
+            return false;
+        }
+
+        public bool RemovePartyCharacter(string character)
+        {
+            if (HasCharacter(character))
+            {
+                partyCharacters.Remove(GetCharacter(character));
+            }
+            return false;
+        }
+
         /// <summary>
         /// Swaps out the characters in the party formation based on the specified slot.
         /// </summary>
         public void ChangePartyCharacters(string character, int slot)
         {
             if (slot >= 4) return;
-            if(character == "Remove" || character == "None")
-            {
-                partyCharacters[slot] = new Character("None");
-            }
+            //if(character == "Remove" || character == "None")
+            //{
+            //    partyCharacters[slot] = new Character("None");
+            //}
             if (!HasCharacter(character)) return;
             if(HasPartyCharacter(character))
             {
@@ -196,46 +211,72 @@ namespace GenshinMod
             return false;
         }
 
-        /// <summary>
-        /// Changes the player's active character, as well as change their sprite.
-        /// </summary>
-        public bool ChangeActiveCharacter(string character)
+        public bool AddActiveCharacter(string character)
         {
-            if (!HasCharacter(character))
-            {
-                //Main.NewText($"Your don't have: {activeCharacter.Name}!");
-                return false;
-            }
-            activeCharacterName = character;
-            activeCharacter = GetCharacter(character);
-            replaceTexture = true;
-            Main.NewText($"Your active character is: {activeCharacter.Name}");
-
-            // TODO: when sprites are added, enable all of this code
-
-            // Handles equipping the correct texture for the character
-            //int equipSlotHead = EquipLoader.GetEquipSlot(GenshinMod.Instance, activeCharacter, EquipType.Head);
-            //int equipSlotBody = EquipLoader.GetEquipSlot(GenshinMod.Instance, activeCharacter, EquipType.Body);
-            //int equipSlotLegs = EquipLoader.GetEquipSlot(GenshinMod.Instance, activeCharacter, EquipType.Legs);
-
-            //// Determines whether we show the head, body, and legs
-            //ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
-            //ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
-            //ArmorIDs.Body.Sets.HidesBottomSkin[equipSlotBody] = true;
-            //ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;
-            //ArmorIDs.Legs.Sets.HidesTopSkin[equipSlotLegs] = true;
-            //ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;         
-            //ArmorIDs.Legs.Sets.OverridesLegs[equipSlotLegs] = true;
-
+            if (activeCharacters.Count >= 2) return false;
+            if (!HasCharacter(character)) return false;
+            Character activeCharacter = GetCharacter(character);
+            activeCharacters.Add(activeCharacter);
             return true;
         }
 
-        public void RemoveActiveCharacter()
+        public bool RemoveActiveCharacter(string character)
         {
-            replaceTexture = false;
-            activeCharacter = null;
-            Main.NewText($"Removed active character");
+            if (activeCharacters.Count <= 0) return false;
+            if (!HasCharacter(character)) return false;
+            Character activeCharacter = GetCharacter(character);
+            activeCharacters.Remove(activeCharacter);
+            return true;
         }
+
+        public bool IsActiveCharacter(string character)
+        {
+            if (activeCharacters.Count <= 0) return false;
+            if (!HasCharacter(character)) return false;
+            Character activeCharacter = GetCharacter(character);
+            return activeCharacters.Contains(activeCharacter);
+        }
+
+        ///// <summary>
+        ///// Changes the player's active character, as well as change their sprite.
+        ///// </summary>
+        //public bool ChangeActiveCharacter(string character)
+        //{
+        //    if (!HasCharacter(character))
+        //    {
+        //        //Main.NewText($"Your don't have: {activeCharacter.Name}!");
+        //        return false;
+        //    }
+        //    activeCharacterName = character;
+        //    activeCharacter = GetCharacter(character);
+        //    replaceTexture = true;
+        //    Main.NewText($"Your active character is: {activeCharacter.Name}");
+
+        //    // TODO: when sprites are added, enable all of this code
+
+        //    // Handles equipping the correct texture for the character
+        //    //int equipSlotHead = EquipLoader.GetEquipSlot(GenshinMod.Instance, activeCharacter, EquipType.Head);
+        //    //int equipSlotBody = EquipLoader.GetEquipSlot(GenshinMod.Instance, activeCharacter, EquipType.Body);
+        //    //int equipSlotLegs = EquipLoader.GetEquipSlot(GenshinMod.Instance, activeCharacter, EquipType.Legs);
+
+        //    //// Determines whether we show the head, body, and legs
+        //    //ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
+        //    //ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
+        //    //ArmorIDs.Body.Sets.HidesBottomSkin[equipSlotBody] = true;
+        //    //ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;
+        //    //ArmorIDs.Legs.Sets.HidesTopSkin[equipSlotLegs] = true;
+        //    //ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;         
+        //    //ArmorIDs.Legs.Sets.OverridesLegs[equipSlotLegs] = true;
+
+        //    return true;
+        //}
+
+        //public void RemoveActiveCharacter()
+        //{
+        //    replaceTexture = false;
+        //    activeCharacter = null;
+        //    Main.NewText($"Removed active character");
+        //}
 
         // Handles replacing the player animations
         // According to TModLoader, this method does not run when the game is paused
@@ -247,9 +288,9 @@ namespace GenshinMod
                 // Replaces the player's head/body/legs with the correct equipment
                 // We find the equipment based on its name when we loaded it all in GenshinTest.cs
                 //var exampleCostume = ModContent.GetInstance<CharacterCostume>();
-                Player.head = EquipLoader.GetEquipSlot(Mod, activeCharacter.Name, EquipType.Head);
-                Player.body = EquipLoader.GetEquipSlot(Mod, activeCharacter.Name, EquipType.Body);
-                Player.legs = EquipLoader.GetEquipSlot(Mod, activeCharacter.Name, EquipType.Legs);
+                //Player.head = EquipLoader.GetEquipSlot(Mod, activeCharacter.Name, EquipType.Head);
+                //Player.body = EquipLoader.GetEquipSlot(Mod, activeCharacter.Name, EquipType.Body);
+                //Player.legs = EquipLoader.GetEquipSlot(Mod, activeCharacter.Name, EquipType.Legs);
             }
         }
     }
