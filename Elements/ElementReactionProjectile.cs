@@ -175,8 +175,81 @@ namespace GenshinMod.Elements
 			Projectile.width = 250;
 			Projectile.height = 250;
 
-			Projectile.damage = 50;
-			Projectile.knockBack = 10;
+			Projectile.aiStyle = -1;
+			Projectile.DamageType = DamageClass.Generic;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.ignoreWater = true;
+			Projectile.light = 0.8f;
+			Projectile.tileCollide = false;
+			Projectile.timeLeft = 3;
+			Projectile.penetrate = -1;
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			for (int i = 0; i < 100; i++)
+			{
+				int flameDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height / 2, DustID.Torch, 0f, 0f, 150, default(Color), 8f);
+				Main.dust[flameDust].noGravity = true;
+				Main.dust[flameDust].scale = Main.rand.NextFloat() * 3f;
+				Main.dust[flameDust].fadeIn = Main.rand.NextFloat() * 1f;
+				Main.dust[flameDust].velocity *= Main.rand.NextFloat() * 20f;
+			}
+			base.Kill(timeLeft);
+		}
+	}
+
+	internal class OverloadHostileProjectile : ModProjectile
+	{
+		public override string Texture => "GenshinMod/Items/Invisible";
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Overload");
+		}
+
+		public override void SetDefaults()
+		{
+			Projectile.width = 250;
+			Projectile.height = 250;
+
+			Projectile.aiStyle = -1;
+			Projectile.DamageType = DamageClass.Generic;
+			Projectile.friendly = false;
+			Projectile.hostile = true;
+			Projectile.ignoreWater = true;
+			Projectile.light = 0.8f;
+			Projectile.tileCollide = false;
+			Projectile.timeLeft = 3;
+			Projectile.penetrate = -1;
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			for (int i = 0; i < 100; i++)
+			{
+				int flameDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height / 2, DustID.Torch, 0f, 0f, 150, default(Color), 8f);
+				Main.dust[flameDust].noGravity = true;
+				Main.dust[flameDust].scale = Main.rand.NextFloat() * 3f;
+				Main.dust[flameDust].fadeIn = Main.rand.NextFloat() * 1f;
+				Main.dust[flameDust].velocity *= Main.rand.NextFloat() * 20f;
+			}
+			base.Kill(timeLeft);
+		}
+	}
+
+	internal class SuperconductFriendlyProjectile : ModProjectile
+	{
+		public override string Texture => "GenshinMod/Items/Invisible";
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Superconduct");
+		}
+
+		public override void SetDefaults()
+		{
+			Projectile.width = 250;
+			Projectile.height = 250;
 
 			Projectile.aiStyle = -1;
 			Projectile.DamageType = DamageClass.Generic;
@@ -187,6 +260,54 @@ namespace GenshinMod.Elements
 			Projectile.tileCollide = false;
 			Projectile.timeLeft = 3;
 			Projectile.penetrate = -1;
+		}
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+			target.AddBuff(ModContent.BuffType<SuperconductBuff>(), 720);
+        }
+
+        public override void Kill(int timeLeft)
+		{
+			for (int i = 0; i < 100; i++)
+			{
+				int flameDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height / 2, DustID.Torch, 0f, 0f, 150, default(Color), 8f);
+				Main.dust[flameDust].noGravity = true;
+				Main.dust[flameDust].scale = Main.rand.NextFloat() * 3f;
+				Main.dust[flameDust].fadeIn = Main.rand.NextFloat() * 1f;
+				Main.dust[flameDust].velocity *= Main.rand.NextFloat() * 20f;
+			}
+			base.Kill(timeLeft);
+		}
+	}
+
+	internal class SuperconductHostileProjectile : ModProjectile
+	{
+		public override string Texture => "GenshinMod/Items/Invisible";
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Superconduct");
+		}
+
+		public override void SetDefaults()
+		{
+			Projectile.width = 250;
+			Projectile.height = 250;
+
+			Projectile.aiStyle = -1;
+			Projectile.DamageType = DamageClass.Generic;
+			Projectile.friendly = false;
+			Projectile.hostile = true;
+			Projectile.ignoreWater = true;
+			Projectile.light = 0.8f;
+			Projectile.tileCollide = false;
+			Projectile.timeLeft = 3;
+			Projectile.penetrate = -1;
+		}
+
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+			target.AddBuff(ModContent.BuffType<SuperconductBuff>(), 720);
 		}
 
 		public override void Kill(int timeLeft)

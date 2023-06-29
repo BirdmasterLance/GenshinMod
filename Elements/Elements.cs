@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -126,7 +122,9 @@ namespace GenshinMod.Elements
                 ProjectileID.ThunderSpearShot,
                 ProjectileID.ZapinatorLaser,
 
-                ModContent.ProjectileType<ElectroFriendlySwirl>()
+                ModContent.ProjectileType<ElectroFriendlySwirl>(),
+                ModContent.ProjectileType<Characters.RaidenShogun.RaidenShogunSkillProjectile>(),
+                ModContent.ProjectileType<Characters.RaidenShogun.RaidenShogunSkill2Projectile>()
 
             });
 
@@ -347,7 +345,13 @@ namespace GenshinMod.Elements
                 ProjectileID.FireWhip,
                 ProjectileID.FireWhipProj,
 
-                ModContent.ProjectileType<PyroFriendlySwirl>()
+                ModContent.ProjectileType<PyroFriendlySwirl>(),
+                ModContent.ProjectileType<Characters.Yanfei.YanfeiProjectile>(),
+                ModContent.ProjectileType<Characters.Yanfei.YanfeiCharged>(),
+                ModContent.ProjectileType<Characters.Yanfei.YanfeiSkill>(),
+                ModContent.ProjectileType<Characters.Yanfei.YanfeiBurst>(),
+                ModContent.ProjectileType<Characters.Klee.KleeNormalAttack>(),
+                ModContent.ProjectileType<Characters.Klee.KleeChargedAttack>()
 
                 // ProjectileID.Volcano
 
@@ -389,7 +393,8 @@ namespace GenshinMod.Elements
                 ProjectileID.CoolWhipProj,
                 ProjectileID.DeerclopsIceSpike,
 
-                ModContent.ProjectileType<CryoFriendlySwirl>()
+                ModContent.ProjectileType<CryoFriendlySwirl>(),
+                ModContent.ProjectileType<Characters.Kaeya.KaeyaSkillProjectile>()
 
                 // ProjectileID.WandOfFrostingSpark
             });

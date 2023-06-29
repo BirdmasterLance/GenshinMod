@@ -100,6 +100,7 @@ namespace GenshinMod.Elements
             Color PyroCritColor = new Color();
             Color CryoColor = new Color(120, 220, 240);
             Color CryoCritColor = new Color();
+            Color OverloadColor = new Color(250, 125, 170);
 
             if (Elements.AnemoProjectiles.Contains(projectile.type)) // Anemo
             {
@@ -111,7 +112,9 @@ namespace GenshinMod.Elements
                 if (!crit) UpdateColorOfRecentCombatText(GeoColor);
                 else UpdateColorOfRecentCombatText(new Color(250, 182, 50));
             }
-            else if (Elements.ElectroProjectiles.Contains(projectile.type)) // Electro
+            else if (Elements.ElectroProjectiles.Contains(projectile.type) 
+                || projectile.type == ModContent.ProjectileType<SuperconductFriendlyProjectile>()
+                || projectile.type == ModContent.ProjectileType<SuperconductHostileProjectile>()) // Electro
             {
                 if (!crit) UpdateColorOfRecentCombatText(ElectroColor);
                 else UpdateColorOfRecentCombatText(new Color(143, 0, 214));
@@ -134,6 +137,12 @@ namespace GenshinMod.Elements
             else if (Elements.CryoProjectiles.Contains(projectile.type)) // Cryo
             {
                 if (!crit) UpdateColorOfRecentCombatText(CryoColor);
+                else UpdateColorOfRecentCombatText(new Color(0, 180, 204));
+            }
+            else if(projectile.type == ModContent.ProjectileType<OverloadFriendlyProjectile>()
+                || projectile.type == ModContent.ProjectileType<OverloadHostileProjectile>())
+            {
+                if (!crit) UpdateColorOfRecentCombatText(OverloadColor);
                 else UpdateColorOfRecentCombatText(new Color(0, 180, 204));
             }
         }

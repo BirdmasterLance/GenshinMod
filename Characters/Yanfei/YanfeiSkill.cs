@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace GenshinMod.Characters.SkillAttacks
+namespace GenshinMod.Characters.Yanfei
 {
 	internal class YanfeiSkill : ModProjectile
 	{
@@ -29,6 +29,8 @@ namespace GenshinMod.Characters.SkillAttacks
 			Projectile.tileCollide = false;
 			Projectile.timeLeft = 55;
 			Projectile.penetrate = -1;
+
+			Projectile.ai[1] = -1;
 		}
 
 		public override void Kill(int timeLeft)
@@ -54,17 +56,24 @@ namespace GenshinMod.Characters.SkillAttacks
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.myPlayer == Projectile.owner)
-			{
-				Player player = Main.player[Projectile.owner];
-				player.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>(), 600);
+			if(Projectile.ai[1] != 1)
+            {
+				NPC npc = Main.npc[(int)Projectile.ai[1]];
+				npc.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>(), 600);
+            }
+			else
+            {
+				if (Main.myPlayer == Projectile.owner)
+				{
+					Player player = Main.player[Projectile.owner];
+					player.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>(), 600);
+				}
 			}
 		}
 
 		public override void AI()
         {
-			Projectile.ai[0]++;
-			if(Projectile.ai[0] >= 50) // Let an animation play before the hitbox actually comes out
+			if(Projectile.timeLeft <= 5) // Let an animation play before the hitbox actually comes out
             {
 				Projectile.damage = 50;
 				Projectile.width = 150;

@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace GenshinMod.Characters.BurstAttacks
+namespace GenshinMod.Characters.Yanfei
 {
 	internal class YanfeiBurst : ModProjectile
 	{
@@ -29,6 +29,8 @@ namespace GenshinMod.Characters.BurstAttacks
 			Projectile.tileCollide = false;
 			Projectile.timeLeft = 55;
 			Projectile.penetrate = -1;
+
+			Projectile.ai[1] = -1;
 		}
 
 		public override void Kill(int timeLeft)

@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace GenshinMod.Characters.NormalAttacks
+namespace GenshinMod.Characters.Yanfei
 {
 
 	internal class YanfeiProjectile : ModProjectile
@@ -30,6 +30,8 @@ namespace GenshinMod.Characters.NormalAttacks
 			Projectile.tileCollide = true;
 			Projectile.timeLeft = 600;
 			Projectile.penetrate = 1;
+
+			Projectile.ai[1] = -1;
 		}
 
 		public override void AI()
@@ -90,31 +92,61 @@ namespace GenshinMod.Characters.NormalAttacks
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.myPlayer == Projectile.owner)
+			if (Projectile.ai[1] != -1)
 			{
-				Player player = Main.player[Projectile.owner];
-				if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>()))
+				NPC npc = Main.npc[(int) Projectile.ai[1]];
+				if (npc.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>()))
 				{
-					player.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>(), 600);
+					npc.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>(), 600);
 				}
-				else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff3>()))
+				else if (npc.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff3>()))
 				{
-					player.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>(), 600);
-					player.ClearBuff(ModContent.BuffType<Buffs.ScarletSealBuff3>());
+					npc.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>(), 600);
+					npc.DelBuff(npc.FindBuffIndex(ModContent.BuffType<Buffs.ScarletSealBuff3>()));
 				}
-				else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff2>()))
+				else if (npc.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff2>()))
 				{
-					player.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff3>(), 600);
-					player.ClearBuff(ModContent.BuffType<Buffs.ScarletSealBuff2>());
+					npc.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff3>(), 600);
+					npc.DelBuff(npc.FindBuffIndex(ModContent.BuffType<Buffs.ScarletSealBuff2>()));
 				}
-				else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff1>()))
+				else if (npc.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff1>()))
 				{
-					player.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff2>(), 600);
-					player.ClearBuff(ModContent.BuffType<Buffs.ScarletSealBuff1>());
+					npc.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff2>(), 600);
+					npc.DelBuff(npc.FindBuffIndex(ModContent.BuffType<Buffs.ScarletSealBuff1>()));
 				}
 				else
 				{
-					player.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff1>(), 600);
+					npc.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff1>(), 600);
+				}
+			}
+			else
+            {
+				if (Main.myPlayer == Projectile.owner)
+				{
+					Player player = Main.player[Projectile.owner];
+					if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>()))
+					{
+						player.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>(), 600);
+					}
+					else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff3>()))
+					{
+						player.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>(), 600);
+						player.ClearBuff(ModContent.BuffType<Buffs.ScarletSealBuff3>());
+					}
+					else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff2>()))
+					{
+						player.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff3>(), 600);
+						player.ClearBuff(ModContent.BuffType<Buffs.ScarletSealBuff2>());
+					}
+					else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff1>()))
+					{
+						player.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff2>(), 600);
+						player.ClearBuff(ModContent.BuffType<Buffs.ScarletSealBuff1>());
+					}
+					else
+					{
+						player.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff1>(), 600);
+					}
 				}
 			}
 		}
@@ -127,7 +159,7 @@ namespace GenshinMod.Characters.NormalAttacks
 		public override string Texture => "GenshinMod/Characters/Yanfei/YanfeiChargedAttack";
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Seal of Approval");
+			DisplayName.SetDefault("Charged Seal of Approval");
 		}
 
 		public override void SetDefaults()
@@ -144,6 +176,8 @@ namespace GenshinMod.Characters.NormalAttacks
 			Projectile.tileCollide = true;
 			Projectile.timeLeft = 600;
 			Projectile.scale = 2;
+
+			Projectile.ai[1] = -1;
 		}
 
 		public override void AI()
@@ -161,34 +195,68 @@ namespace GenshinMod.Characters.NormalAttacks
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			alreadyHit = target;
-			if (Main.myPlayer == Projectile.owner)
-			{
-				Player player = Main.player[Projectile.owner];
-				if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff1>()))
+
+			if(Projectile.ai[1] != -1)
+            {
+				NPC npc = Main.npc[(int) Projectile.ai[1]];
+				if (npc.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff1>()))
 				{
 					damage = (int)(damage * 1.18);
 					knockback = (float)(knockback * 1.18);
 				}
-				else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff2>()))
+				else if (npc.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff2>()))
 				{
 					damage = (int)(damage * 1.36);
 					knockback = (float)(knockback * 1.36);
 				}
-				else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff3>()))
+				else if (npc.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff3>()))
 				{
 					damage = (int)(damage * 1.54);
 					knockback = (float)(knockback * 1.54);
 				}
-				else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>()))
+				else if (npc.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>()))
 				{
 					damage = (int)(damage * 1.72);
 					knockback = (float)(knockback * 1.72);
 				}
 
-				if (player.HasBuff(ModContent.BuffType<Buffs.BrillianceBuff>()))
+				if (npc.HasBuff(ModContent.BuffType<Buffs.BrillianceBuff>()))
 				{
 					damage = (int)(damage * 1.5);
 					knockback = (float)(knockback * 1.25);
+				}
+			}
+			else
+            {
+				if (Main.myPlayer == Projectile.owner)
+				{
+					Player player = Main.player[Projectile.owner];
+					if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff1>()))
+					{
+						damage = (int)(damage * 1.18);
+						knockback = (float)(knockback * 1.18);
+					}
+					else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff2>()))
+					{
+						damage = (int)(damage * 1.36);
+						knockback = (float)(knockback * 1.36);
+					}
+					else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff3>()))
+					{
+						damage = (int)(damage * 1.54);
+						knockback = (float)(knockback * 1.54);
+					}
+					else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>()))
+					{
+						damage = (int)(damage * 1.72);
+						knockback = (float)(knockback * 1.72);
+					}
+
+					if (player.HasBuff(ModContent.BuffType<Buffs.BrillianceBuff>()))
+					{
+						damage = (int)(damage * 1.5);
+						knockback = (float)(knockback * 1.25);
+					}
 				}
 			}
 		}
@@ -215,51 +283,101 @@ namespace GenshinMod.Characters.NormalAttacks
 			int damage = Projectile.damage;
 			float knockback = Projectile.knockBack;
 
-			if (Main.myPlayer == Projectile.owner)
-			{
-				Player player = Main.player[Projectile.owner];
-				if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff1>()))
+			if(Projectile.ai[1] != -1)
+            {
+				NPC npc = Main.npc[(int) Projectile.ai[1]];
+				if (npc.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff1>()))
 				{
 					damage = (int)(damage * 1.18);
 					knockback = (float)(knockback * 1.18);
 				}
-				else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff2>()))
+				else if (npc.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff2>()))
 				{
 					damage = (int)(damage * 1.36);
 					knockback = (float)(knockback * 1.36);
 				}
-				else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff3>()))
+				else if (npc.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff3>()))
 				{
 					damage = (int)(damage * 1.54);
 					knockback = (float)(knockback * 1.54);
 				}
-				else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>()))
+				else if (npc.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>()))
 				{
 					damage = (int)(damage * 1.72);
 					knockback = (float)(knockback * 1.72);
 				}
 
-				if (player.HasBuff(ModContent.BuffType<Buffs.BrillianceBuff>()))
+				if (npc.HasBuff(ModContent.BuffType<Buffs.BrillianceBuff>()))
 				{
 					damage = (int)(damage * 1.5);
 					knockback = (float)(knockback * 1.25);
 				}
 
-				if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff1>()))
+				if (npc.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff1>()))
 				{
-					player.ClearBuff(ModContent.BuffType<Buffs.ScarletSealBuff1>());
+					npc.DelBuff(npc.FindBuffIndex(ModContent.BuffType<Buffs.ScarletSealBuff1>()));
 				}
-				else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff2>()))
+				else if (npc.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff2>()))
 				{
-					player.ClearBuff(ModContent.BuffType<Buffs.ScarletSealBuff2>());
+					npc.DelBuff(npc.FindBuffIndex(ModContent.BuffType<Buffs.ScarletSealBuff2>()));
 				}
-				else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff3>()))
+				else if (npc.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff3>()))
 				{
-					player.ClearBuff(ModContent.BuffType<Buffs.ScarletSealBuff3>());
+					npc.DelBuff(npc.FindBuffIndex(ModContent.BuffType<Buffs.ScarletSealBuff3>()));
 				}
-				else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>()))
+				else if (npc.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>()))
 				{
-					player.ClearBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>());
+					npc.DelBuff(npc.FindBuffIndex(ModContent.BuffType<Buffs.ScarletSealBuff4>()));
+				}
+			}
+			else
+            {
+				if (Main.myPlayer == Projectile.owner)
+				{
+					Player player = Main.player[Projectile.owner];
+					if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff1>()))
+					{
+						damage = (int)(damage * 1.18);
+						knockback = (float)(knockback * 1.18);
+					}
+					else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff2>()))
+					{
+						damage = (int)(damage * 1.36);
+						knockback = (float)(knockback * 1.36);
+					}
+					else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff3>()))
+					{
+						damage = (int)(damage * 1.54);
+						knockback = (float)(knockback * 1.54);
+					}
+					else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>()))
+					{
+						damage = (int)(damage * 1.72);
+						knockback = (float)(knockback * 1.72);
+					}
+
+					if (player.HasBuff(ModContent.BuffType<Buffs.BrillianceBuff>()))
+					{
+						damage = (int)(damage * 1.5);
+						knockback = (float)(knockback * 1.25);
+					}
+
+					if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff1>()))
+					{
+						player.ClearBuff(ModContent.BuffType<Buffs.ScarletSealBuff1>());
+					}
+					else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff2>()))
+					{
+						player.ClearBuff(ModContent.BuffType<Buffs.ScarletSealBuff2>());
+					}
+					else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff3>()))
+					{
+						player.ClearBuff(ModContent.BuffType<Buffs.ScarletSealBuff3>());
+					}
+					else if (player.HasBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>()))
+					{
+						player.ClearBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>());
+					}
 				}
 			}
 

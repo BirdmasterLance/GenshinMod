@@ -1,5 +1,4 @@
-﻿using GenshinMod.Characters.NormalAttacks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -77,7 +76,7 @@ namespace GenshinMod.Items
 				if (!hasUsedRegularAttack)
 				{
 					hasUsedRegularAttack = true;
-					Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<YanfeiProjectile>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
+					Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<Characters.Yanfei.YanfeiProjectile>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
 				}
 
 				Vector2 rotatePoint = player.RotatedRelativePoint(player.MountedCenter);
@@ -100,12 +99,12 @@ namespace GenshinMod.Items
 					Projectile.ai[0] += 1f;
 					if (Projectile.ai[0] >= 30f)
 					{
-						if (player.ownedProjectileCounts[ModContent.ProjectileType<YanfeiCharged>()] < 1 && !hasUsedChargeAttack)
+						if (player.ownedProjectileCounts[ModContent.ProjectileType<Characters.Yanfei.YanfeiCharged>()] < 1 && !hasUsedChargeAttack)
 						{
 							if(Collision.CanHitLine(player.position, 0, 0, Main.MouseWorld, 0, 0))
 							{
 								hasUsedChargeAttack = true;
-								Projectile.NewProjectile(Projectile.InheritSource(Projectile), Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<YanfeiCharged>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
+								Projectile.NewProjectile(Projectile.InheritSource(Projectile), Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<Characters.Yanfei.YanfeiCharged>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
 							}
 						}
 					}

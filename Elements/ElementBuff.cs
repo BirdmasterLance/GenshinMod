@@ -149,6 +149,7 @@ namespace GenshinMod.Elements
 				buffIndex -= 1;
 				npc.DelBuff(npc.FindBuffIndex(ModContent.BuffType<ElectroBuff>()));
 				CombatText.NewText(npc.getRect(), CrystalizeColor, "Crystalize");
+				Item.NewItem(npc.GetSource_FromThis(), npc.getRect(), ModContent.ItemType<CrystalizeElectroItem>());
 			}
 			else if (npc.HasBuff(BuffID.Wet))
 			{
@@ -156,6 +157,7 @@ namespace GenshinMod.Elements
 				buffIndex -= 1;
 				npc.DelBuff(npc.FindBuffIndex(BuffID.Wet));
 				CombatText.NewText(npc.getRect(), CrystalizeColor, "Crystalize");
+				Item.NewItem(npc.GetSource_FromThis(), npc.getRect(), ModContent.ItemType<CrystalizeHydroItem>());
 			}
 			else if (npc.HasBuff(ModContent.BuffType<PyroBuff>()))
 			{
@@ -171,6 +173,7 @@ namespace GenshinMod.Elements
 				buffIndex -= 1;
 				npc.DelBuff(npc.FindBuffIndex(ModContent.BuffType<CryoBuff>()));
 				CombatText.NewText(npc.getRect(), CrystalizeColor, "Crystalize");
+				Item.NewItem(npc.GetSource_FromThis(), npc.getRect(), ModContent.ItemType<CrystalizeCryoItem>());
 			}
 		}
 	}
@@ -212,6 +215,8 @@ namespace GenshinMod.Elements
 				buffIndex -= 1;
 				player.DelBuff(player.FindBuffIndex(ModContent.BuffType<PyroBuff>()));
 				CombatText.NewText(player.getRect(), OverloadColor, "Overload");
+				Vector2 projSpawnPos = new Vector2(player.position.X, player.position.Y);
+				if (Main.netMode != NetmodeID.MultiplayerClient) Projectile.NewProjectile(player.GetSource_FromThis(), projSpawnPos, Vector2.Zero, ModContent.ProjectileType<OverloadHostileProjectile>(), 50, 50, Main.myPlayer);
 
 			}
 			else if (player.HasBuff(ModContent.BuffType<CryoBuff>()))
@@ -220,6 +225,8 @@ namespace GenshinMod.Elements
 				buffIndex -= 1;
 				player.DelBuff(player.FindBuffIndex(ModContent.BuffType<CryoBuff>()));
 				CombatText.NewText(player.getRect(), ElectroColor, "Super-Conduct");
+				Vector2 projSpawnPos = new Vector2(player.position.X, player.position.Y);
+				if (Main.netMode != NetmodeID.MultiplayerClient) Projectile.NewProjectile(player.GetSource_FromThis(), projSpawnPos, Vector2.Zero, ModContent.ProjectileType<SuperconductHostileProjectile>(), 50, 5, Main.myPlayer);
 			}
 
 			for (int d = 0; d < 1; d++)
@@ -262,6 +269,8 @@ namespace GenshinMod.Elements
 				buffIndex -= 1;
 				npc.DelBuff(npc.FindBuffIndex(ModContent.BuffType<CryoBuff>()));
 				CombatText.NewText(npc.getRect(), ElectroColor, "Superconduct");
+				Vector2 projSpawnPos = new Vector2(npc.position.X, npc.position.Y);
+				if (Main.netMode != NetmodeID.MultiplayerClient) Projectile.NewProjectile(npc.GetSource_FromAI(), projSpawnPos, Vector2.Zero, ModContent.ProjectileType<SuperconductFriendlyProjectile>(), 50, 5, Main.myPlayer);
 			}
 
 			for (int d = 0; d < 1; d++)
@@ -374,9 +383,9 @@ namespace GenshinMod.Elements
 
 			if (player.HasBuff(BuffID.Wet))
 			{
-				player.DelBuff(player.FindBuffIndex(BuffID.Wet));
 				player.DelBuff(buffIndex);
 				buffIndex -= 1;
+				player.DelBuff(player.FindBuffIndex(BuffID.Wet));
 				player.AddBuff(BuffID.Frozen, 60);
 				CombatText.NewText(player.getRect(), new Color(159, 214, 227), "Frozen");
 			}
@@ -393,16 +402,65 @@ namespace GenshinMod.Elements
 
 			if(npc.HasBuff(BuffID.Wet))
             {
-				npc.DelBuff(npc.FindBuffIndex(BuffID.Wet));
 				npc.DelBuff(buffIndex);
 				buffIndex -= 1;
-				npc.AddBuff(BuffID.Frozen, 180);
+				npc.DelBuff(npc.FindBuffIndex(BuffID.Wet));
+				npc.AddBuff(ModContent.BuffType<FrozenNPCBuff>(), 180);
 				CombatText.NewText(npc.getRect(), new Color(159, 214, 227), "Frozen");
             }
 
 			for (int d = 0; d < 1; d++)
 			{
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.MagicMirror, 0f, 0f, 150, new Color(165, 200, 59), 1.5f);
+			}
+        }
+    }
+
+    internal class FrozenNPCBuff : ModBuff
+    {
+		public override string Texture => "Terraria/Images/Buff_" + BuffID.Frozen;
+
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Frozen");
+			Description.SetDefault("You can't move!");
+			Main.buffNoSave[Type] = true;
+			Main.buffNoTimeDisplay[Type] = false;
+		}
+
+		public override void Update(NPC npc, ref int buffIndex)
+		{
+			for (int d = 0; d < 1; d++)
+			{
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.IceTorch, 0f, 0f, 150, new Color(255, 255, 0), 1.5f);
+			}
+		}
+	}
+
+
+	internal class SuperconductBuff : ModBuff
+	{
+		public override string Texture => "Terraria/Images/Buff_" + BuffID.Electrified;
+
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Superconduct");
+			Description.SetDefault("Reduced Defense");
+			Main.buffNoSave[Type] = true;
+			Main.buffNoTimeDisplay[Type] = false;
+		}
+
+		public override void Update(Player player, ref int buffIndex)
+		{
+			player.statDefense -= 10;
+		}
+
+		public override void Update(NPC npc, ref int buffIndex)
+		{
+			npc.defense -= 10;
+			for (int d = 0; d < 1; d++)
+			{
+				Dust.NewDust(npc.position, npc.width, npc.height, DustID.MagicMirror, 0f, 0f, 150, new Color(255, 255, 0), 1.5f);
 			}
 		}
 	}
