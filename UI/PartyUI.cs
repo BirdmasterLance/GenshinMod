@@ -25,6 +25,7 @@ namespace GenshinMod.UI
         UIText characterLife1, characterLife2, characterLife3, characterLife4;
         UIText characterDamage1, characterDamage2, characterDamage3, characterDamage4;
         UIText characterDefense1, characterDefense2, characterDefense3, characterDefense4;
+        UIGrid characterItemGrid1, characterItemGrid2, characterItemGrid3, characterItemGrid4;
         VanillaItemSlotWrapper characterWeapon1, characterWeapon2, characterWeapon3, characterWeapon4;
         VanillaItemSlotWrapper character1Artifact1, character1Artifact2, character1Artifact3, character1Artifact4, character1Artifact5;
         VanillaItemSlotWrapper character2Artifact1, character2Artifact2, character2Artifact3, character2Artifact4, character2Artifact5;
@@ -97,31 +98,23 @@ namespace GenshinMod.UI
             characterPanel1.Append(characterDefense1);
 
             characterWeapon1 = new();
-            characterWeapon1.Top.Set(100f, 0);
-            characterPanel1.Append(characterWeapon1);
-
             character1Artifact1 = new();
-            character1Artifact1.Top.Set(160f, 0);
-            characterPanel1.Append(character1Artifact1);
-
             character1Artifact2 = new();
-            character1Artifact2.Top.Set(220f, 0);
-            characterPanel1.Append(character1Artifact2);
-
             character1Artifact3 = new();
-            character1Artifact3.Left.Set(60f, 0);
-            character1Artifact3.Top.Set(100f, 0);
-            characterPanel1.Append(character1Artifact3);
-
             character1Artifact4 = new();
-            character1Artifact4.Left.Set(60f, 0);
-            character1Artifact4.Top.Set(160f, 0);
-            characterPanel1.Append(character1Artifact4);
-
             character1Artifact5 = new();
-            character1Artifact5.Left.Set(60f, 0);
-            character1Artifact5.Top.Set(220f, 0);
-            characterPanel1.Append(character1Artifact5);
+
+            characterItemGrid1 = new();
+            characterItemGrid1.Width.Set(130f, 0);
+            characterItemGrid1.Height.Set(180f, 0);
+            characterItemGrid1.Top.Set(60f, 0);
+            characterItemGrid1.Add(characterWeapon1);
+            characterItemGrid1.Add(character1Artifact1);
+            characterItemGrid1.Add(character1Artifact2);
+            characterItemGrid1.Add(character1Artifact3);
+            characterItemGrid1.Add(character1Artifact4);
+            characterItemGrid1.Add(character1Artifact5);
+            characterPanel1.Append(characterItemGrid1);
         }
 
         public void IntializeCharacter2Panel()
@@ -159,31 +152,23 @@ namespace GenshinMod.UI
             characterPanel2.Append(characterDefense2);
 
             characterWeapon2 = new();
-            characterWeapon2.Top.Set(100f, 0);
-            characterPanel2.Append(characterWeapon2);
-
+            character2Artifact1 = new();
             character2Artifact2 = new();
-            character2Artifact2.Top.Set(160f, 0);
-            characterPanel2.Append(character2Artifact2);
-        
-            character2Artifact2 = new();
-            character2Artifact2.Top.Set(220f, 0);
-            characterPanel2.Append(character2Artifact2);
-
             character2Artifact3 = new();
-            character2Artifact3.Left.Set(60f, 0);
-            character2Artifact3.Top.Set(100f, 0);
-            characterPanel2.Append(character2Artifact3);
-
             character2Artifact4 = new();
-            character2Artifact4.Left.Set(60f, 0);
-            character2Artifact4.Top.Set(160f, 0);
-            characterPanel2.Append(character2Artifact4);
-
             character2Artifact5 = new();
-            character2Artifact5.Left.Set(60f, 0);
-            character2Artifact5.Top.Set(220f, 0);
-            characterPanel2.Append(character2Artifact5);
+
+            characterItemGrid2 = new();
+            characterItemGrid2.Width.Set(130f, 0);
+            characterItemGrid2.Height.Set(180f, 0);
+            characterItemGrid2.Top.Set(60f, 0);
+            characterItemGrid2.Add(characterWeapon2);
+            characterItemGrid2.Add(character2Artifact1);
+            characterItemGrid2.Add(character2Artifact2);
+            characterItemGrid2.Add(character2Artifact3);
+            characterItemGrid2.Add(character2Artifact4);
+            characterItemGrid2.Add(character2Artifact5);
+            characterPanel2.Append(characterItemGrid2);
         }
 
         public void IntializeCharacter3Panel()
@@ -221,31 +206,23 @@ namespace GenshinMod.UI
             characterPanel3.Append(characterDefense3);
 
             characterWeapon3 = new();
-            characterWeapon3.Top.Set(100f, 0);
-            characterPanel3.Append(characterWeapon3);
-
+            character3Artifact1 = new();
+            character3Artifact2 = new();
             character3Artifact3 = new();
-            character3Artifact3.Top.Set(160f, 0);
-            characterPanel3.Append(character3Artifact3);
-
-            character3Artifact3 = new();
-            character3Artifact3.Top.Set(220f, 0);
-            characterPanel3.Append(character3Artifact3);
-
-            character3Artifact3 = new();
-            character3Artifact3.Left.Set(60f, 0);
-            character3Artifact3.Top.Set(100f, 0);
-            characterPanel3.Append(character3Artifact3);
-
             character3Artifact4 = new();
-            character3Artifact4.Left.Set(60f, 0);
-            character3Artifact4.Top.Set(160f, 0);
-            characterPanel3.Append(character3Artifact4);
-
             character3Artifact5 = new();
-            character3Artifact5.Left.Set(60f, 0);
-            character3Artifact5.Top.Set(220f, 0);
-            characterPanel3.Append(character3Artifact5);
+
+            characterItemGrid3 = new();
+            characterItemGrid3.Width.Set(130f, 0);
+            characterItemGrid3.Height.Set(180f, 0);
+            characterItemGrid3.Top.Set(60f, 0);
+            characterItemGrid3.Add(characterWeapon3);
+            characterItemGrid3.Add(character3Artifact1);
+            characterItemGrid3.Add(character3Artifact2);
+            characterItemGrid3.Add(character3Artifact3);
+            characterItemGrid3.Add(character3Artifact4);
+            characterItemGrid3.Add(character3Artifact5);
+            characterPanel3.Append(characterItemGrid3);
         }
 
         public void IntializeCharacter4Panel()
@@ -283,31 +260,23 @@ namespace GenshinMod.UI
             characterPanel4.Append(characterDefense4);
 
             characterWeapon4 = new();
-            characterWeapon4.Top.Set(100f, 0);
-            characterPanel4.Append(characterWeapon4);
-
+            character4Artifact1 = new();
+            character4Artifact2 = new();
+            character4Artifact3 = new();
             character4Artifact4 = new();
-            character4Artifact4.Top.Set(160f, 0);
-            characterPanel4.Append(character4Artifact4);
-
-            character4Artifact4 = new();
-            character4Artifact4.Top.Set(220f, 0);
-            characterPanel4.Append(character4Artifact4);
-
-            character4Artifact4 = new();
-            character4Artifact4.Left.Set(60f, 0);
-            character4Artifact4.Top.Set(100f, 0);
-            characterPanel4.Append(character4Artifact4);
-
-            character4Artifact4 = new();
-            character4Artifact4.Left.Set(60f, 0);
-            character4Artifact4.Top.Set(160f, 0);
-            characterPanel4.Append(character4Artifact4);
-
             character4Artifact5 = new();
-            character4Artifact5.Left.Set(60f, 0);
-            character4Artifact5.Top.Set(220f, 0);
-            characterPanel4.Append(character4Artifact5);
+
+            characterItemGrid4 = new();
+            characterItemGrid4.Width.Set(130f, 0);
+            characterItemGrid4.Height.Set(180f, 0);
+            characterItemGrid4.Top.Set(60f, 0);
+            characterItemGrid4.Add(characterWeapon4);
+            characterItemGrid4.Add(character4Artifact1);
+            characterItemGrid4.Add(character4Artifact2);
+            characterItemGrid4.Add(character4Artifact3);
+            characterItemGrid4.Add(character4Artifact4);
+            characterItemGrid4.Add(character4Artifact5);
+            characterPanel4.Append(characterItemGrid4);
         }
 
         public override void Update(GameTime gameTime)
@@ -458,7 +427,7 @@ namespace GenshinMod.UI
 
             if (partyCharacters.Count >= 1)
             {
-                if(partyCharacters[0].Name == "None")
+                else if(partyCharacters[0].Name == "None")
                 {
                     characterName1.SetText("");
                     characterLife1.SetText("");

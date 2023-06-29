@@ -45,7 +45,7 @@ namespace GenshinMod.Commands
             }
 			else if(args.Length == 2)
             {
-				Character selectedCharacter = modPlayer.GetCharacter(args[1]);
+				Character selectedCharacter = modPlayer.partyCharacters[int.Parse(args[1])];
 				if(selectedCharacter == null)
                 {
 					Main.NewText("Not a valid character!");
@@ -64,16 +64,17 @@ namespace GenshinMod.Commands
 						Main.NewText("Removed " + args[1]);
 						break;
 					case "spawn":
-						if(!modPlayer.IsActiveCharacter(args[1]))
-                        {
-							selectedCharacter.SpawnCharacter(modPlayer.Player);
-							modPlayer.AddActiveCharacter(args[1]);
-							Main.NewText("Spawned " + selectedCharacter.Name);
-						}
-						else
-                        {
-							Main.NewText(args[1] + " is already on the field!");
-                        }
+						selectedCharacter.SpawnCharacter(modPlayer.Player);
+						//if(!modPlayer.IsActiveCharacter(args[1]))
+						//                  {
+						//	selectedCharacter.SpawnCharacter(modPlayer.Player);
+						//	modPlayer.AddActiveCharacter(args[1]);
+						//	Main.NewText("Spawned " + selectedCharacter.Name);
+						//}
+						//else
+						//                  {
+						//	Main.NewText(args[1] + " is already on the field!");
+						//                  }
 						break;
 					case "teleport":
 						selectedCharacter.GetNPC().Teleport(Main.player[selectedCharacter.GetPlayerID()].position);

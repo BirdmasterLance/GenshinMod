@@ -37,7 +37,7 @@ namespace GenshinMod
 	}
 
 	class KeybindPlayer : ModPlayer
-    {
+	{
 		public int partyCharacterIndex = 0;
 
 		// Handles whenever a specific keybind is pressed
@@ -63,20 +63,20 @@ namespace GenshinMod
 
 
 			if (Main.myPlayer == Player.whoAmI)
-            {
+			{
 				Player player = Main.player[Main.myPlayer];
 				PlayerCharacterCode modPlayer = Main.player[Main.myPlayer].GetModPlayer<PlayerCharacterCode>();
-				
+
 				if (Keybinds.SwapCharacter.JustPressed)
-                {
-					CycleThroughPartyCharacters(modPlayer);
-                }
+				{
+					modPlayer.partyCharacters[0].SpawnCharacter(player);
+				}
 
 				//if (Keybinds.ElementalSkill.JustPressed && modPlayer.activeCharacter != null && Collision.CanHitLine(player.position, 0, 0, Main.MouseWorld, 0, 0))
 				//{
 				//	if (modPlayer.activeCharacter == null) return;
 				//	if(modPlayer.activeCharacter.Name == "Yanfei" && !player.HasBuff<Characters.Yanfei.YanfeiSkillCooldown>())
-    //                {
+				//                {
 				//		Projectile proj = Main.projectile[ModContent.ProjectileType<Characters.Yanfei.YanfeiSkill>()];
 				//		Vector2 projSpawnPos = new Vector2(Main.MouseWorld.X - proj.width, Main.MouseWorld.Y - proj.height);
 				//		Projectile.NewProjectile(Projectile.InheritSource(proj), projSpawnPos, Vector2.Zero, ModContent.ProjectileType<Characters.Yanfei.YanfeiSkill>(), proj.damage, proj.knockBack, Main.myPlayer);
@@ -95,41 +95,45 @@ namespace GenshinMod
 				//		player.AddBuff(ModContent.BuffType<Characters.Yanfei.YanfeiBurstCooldown>(), 1200);
 				//	}
 				//}
-			}      
+			}
 		}
 
 		// Used to cycle through the party characters one by one
 		// Might be deleted in favor of using a specific key to pick specific characters
 		private void CycleThroughPartyCharacters(PlayerCharacterCode modPlayer)
         {
-			int lastValidCharacter = 0;
-			for (int i = 0; i < 4; i++)
-			{
-				if (modPlayer.partyCharacters[i].Name == "None") continue;
-				lastValidCharacter = i;
-			}
 
-			if (partyCharacterIndex == lastValidCharacter)
-			{
-				for (int i = 0; i < 3; i++)
-				{
-					if (modPlayer.partyCharacters[i].Name == "None") continue;
-					//modPlayer.ChangeActiveCharacter(modPlayer.partyCharacters[i].Name);
-					partyCharacterIndex = i;
-					break;
-				}
-			}
-			else
-            {
-				for (int i = 0; i < 4; i++)
-				{
-					if (modPlayer.partyCharacters[i].Name == "None") continue;
-					if (i <= partyCharacterIndex) continue;
-					//modPlayer.ChangeActiveCharacter(modPlayer.partyCharacters[i].Name);
-					partyCharacterIndex = i;
-					break;
-				}
-			}
 		}
+  //private void CycleThroughPartyCharacters(PlayerCharacterCode modPlayer)
+  //      {
+  //	int lastValidCharacter = 0;
+  //	for (int i = 0; i < 4; i++)
+  //	{
+  //		if (modPlayer.partyCharacters[i].Name == "None") continue;
+  //		lastValidCharacter = i;
+  //	}
+
+		//	if (partyCharacterIndex == lastValidCharacter)
+		//	{
+		//		for (int i = 0; i < 3; i++)
+		//		{
+		//			if (modPlayer.partyCharacters[i].Name == "None") continue;
+		//			//modPlayer.ChangeActiveCharacter(modPlayer.partyCharacters[i].Name);
+		//			partyCharacterIndex = i;
+		//			break;
+		//		}
+		//	}
+		//	else
+		//          {
+		//		for (int i = 0; i < 4; i++)
+		//		{
+		//			if (modPlayer.partyCharacters[i].Name == "None") continue;
+		//			if (i <= partyCharacterIndex) continue;
+		//			//modPlayer.ChangeActiveCharacter(modPlayer.partyCharacters[i].Name);
+		//			partyCharacterIndex = i;
+		//			break;
+		//		}
+		//	}
+		//}
 	}
 }

@@ -58,8 +58,8 @@ namespace GenshinMod
 
         public override void LoadData(TagCompound tag)
         {
-            tag.Remove("characters");
-            tag.Remove("partyCharacters");
+            //tag.Remove("characters");
+            //tag.Remove("partyCharacters");
             characters = (List<Character>)tag.GetList<Character>("characters");
             partyCharacters = (List<Character>)tag.GetList<Character>("partyCharacters");
             //ChangeActiveCharacter(tag.Get<string>("activeChar"));
