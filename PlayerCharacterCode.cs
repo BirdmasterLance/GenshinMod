@@ -60,16 +60,16 @@ namespace GenshinMod
         {
             tag.Remove("characters");
             tag.Remove("partyCharacters");
-            //characters = (List<Character>)tag.GetList<Character>("characters");
-            //partyCharacters = (List<Character>)tag.GetList<Character>("partyCharacters");
+            characters = (List<Character>)tag.GetList<Character>("characters");
+            partyCharacters = (List<Character>)tag.GetList<Character>("partyCharacters");
             //ChangeActiveCharacter(tag.Get<string>("activeChar"));
-            //if(partyCharacters.Count == 0)
-            //{
-            //    for (int i = 0; i < 4; i++)
-            //    {
-            //        partyCharacters.Add(new Character("None"));
-            //    }
-            //}
+            if (partyCharacters.Count == 0)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    partyCharacters.Add(new Character("None"));
+                }
+            }
         }
 
         /// <summary>
@@ -171,10 +171,10 @@ namespace GenshinMod
         public void ChangePartyCharacters(string character, int slot)
         {
             if (slot >= 4) return;
-            //if(character == "Remove" || character == "None")
-            //{
-            //    partyCharacters[slot] = new Character("None");
-            //}
+            if (character == "Remove" || character == "None")
+            {
+                partyCharacters[slot] = new Character("None");
+            }
             if (!HasCharacter(character)) return;
             if(HasPartyCharacter(character))
             {

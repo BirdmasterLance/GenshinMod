@@ -169,12 +169,13 @@ namespace GenshinMod
         }
     }
 
-    //public class Barbara : Character
-    //{
-    //    public Barbara(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Barbara", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
-    //    {
-    //    }
-    //}
+    public class Barbara : Character
+    {
+        public Barbara() : base("Barbara")
+        {
+            npcType = NPCID.Dolphin;
+        }
+    }
 
     public class RaidenShogun : Character
     {
@@ -191,12 +192,29 @@ namespace GenshinMod
     //    }
     //}
 
-    //public class Sucrose : Character
-    //{
-    //    public Sucrose(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Sucrose", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
-    //    {
-    //    }
-    //}
+    public class Sucrose : Character
+    {
+        public Sucrose() : base("Sucrose")
+        {
+            npcType = NPCID.BirdBlue;
+        }
+    }
+
+    public class Klee : Character
+    {
+        public Klee() : base("Klee")
+        {
+            npcType = NPCID.GemBunnyRuby;
+        }
+    }
+
+    public class HuTao : Character
+    {
+        public HuTao() : base("HuTao")
+        {
+            npcType = NPCID.GemSquirrelRuby;
+        }
+    }
 
     // TODO: artifacts
 
@@ -238,15 +256,28 @@ namespace GenshinMod
                     character = new Yanfei();
                     break;
                 case "Kaeya":
-                    return new Kaeya();
+                    character = new Kaeya();
+                    break;
                 case "Noelle":
-                    return new Noelle();
-                //case "Barbara":
-                //    return new Barbara(atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade);
+                    character = new Noelle();
+                    break;
+                case "Barbara":
+                    character = new Barbara();
+                    break;
                 //case "Yae Miko":
                 //    return new YaeMiko(atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade);
                 case "Raiden Shogun":
-                    return new RaidenShogun();
+                    character = new RaidenShogun();
+                    break;
+                case "Sucrose":
+                    character = new Sucrose();
+                    break;
+                case "Klee":
+                    character = new Klee();
+                    break;
+                case "Hu Tao":
+                    character = new HuTao();
+                    break;
             }
             character.AttackLevel = atkLVL;
             character.SkillLevel = skillLVL;
@@ -337,7 +368,7 @@ namespace GenshinMod
                 case "Alebdo" : return null;
                 case "Aloy" : return null;
                 case "Amber" : return null;
-                case "Barbara" : return null;
+                case "Barbara" : return new Barbara();
                 case "Beidou" : return null;
                 case "Bennett" : return null;
                 case "Childe" : return null;
@@ -347,10 +378,10 @@ namespace GenshinMod
                 case "Eula" : return null;
                 case "Fischl" : return null;
                 case "Ganyu" : return null;
-                case "HuTao" : return null;
+                case "Hu Tao" : return new HuTao();
                 case "Itto" : return null;
                 case "Jean" : return null;
-                case "Klee" : return null;
+                case "Klee" : return new Klee();
                 case "Kaeya" : return new Kaeya();
                 case "Kazuha" : return null;
                 case "Keqing" : return null;
@@ -361,7 +392,7 @@ namespace GenshinMod
                 case "Qiqi" : return null;
                 case "Raiden Shogun" : return new RaidenShogun();
                 case "Sayu" : return null;
-                case "Sucrose" : return null;
+                case "Sucrose" : return new Sucrose();
                 case "Venti" : return null;
                 case "Xiao" : return null;
                 case "Xiangling" : return null;

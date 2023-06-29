@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ModLoader.UI.Elements;
 using Terraria.UI;
 
 namespace GenshinMod.UI
@@ -17,7 +18,7 @@ namespace GenshinMod.UI
         // We assign these values globally so we can edit them whenever the player does something (their values are not static)
         UIText header;
         UIPanel listPanel;
-        UIList characterList;
+        UIGrid characterList;
         UIPanel characterPanel1, characterPanel2, characterPanel3, characterPanel4;
         UIPanel characterPfp1, characterPfp2, characterPfp3, characterPfp4;
         UIText characterName1, characterName2, characterName3, characterName4;
@@ -41,7 +42,7 @@ namespace GenshinMod.UI
 
             // Same list from CharacterUI
             listPanel = new();
-            listPanel.Width.Set(280, 0f);
+            listPanel.Width.Set(270, 0f);
             listPanel.Height.Set(370, 0f);
             listPanel.Left.Set(250, 0f);
             listPanel.Top.Set(220, 0f);
@@ -53,7 +54,7 @@ namespace GenshinMod.UI
             // The element that will store the buttons for all the characters the player has
             characterList = new();
             characterList.SetPadding(0);
-            characterList.Width.Set(280, 0f);
+            characterList.Width.Set(270, 0f);
             characterList.Height.Set(370, 0f);
             characterList.Left.Set(0, 0);
             characterList.Top.Set(0, 0);
@@ -336,34 +337,7 @@ namespace GenshinMod.UI
 
             characterSelected = 0;
 
-            if (partyCharacters.Count >= 1)
-            {
-                characterName1.SetText(partyCharacters[0].Name);
-                characterLife1.SetText(string.Format("{0} / {1}", partyCharacters[0].life, partyCharacters[0].lifeMax));
-                characterDamage1.SetText(string.Format("Damage: {0}", partyCharacters[0].damage));
-                characterDefense1.SetText(string.Format("Defense: {0}", partyCharacters[0].defense));
-            }
-            if (partyCharacters.Count >= 2)
-            {
-                characterName2.SetText(partyCharacters[1].Name);
-                characterLife2.SetText(string.Format("{0} / {1}", partyCharacters[1].life, partyCharacters[1].lifeMax));
-                characterDamage2.SetText(string.Format("Damage: {0}", partyCharacters[1].damage));
-                characterDefense2.SetText(string.Format("Defense: {0}", partyCharacters[1].defense));
-            }
-            if (partyCharacters.Count >= 3)
-            {
-                characterName3.SetText(partyCharacters[2].Name);
-                characterLife3.SetText(string.Format("{0} / {1}", partyCharacters[2].life, partyCharacters[2].lifeMax));
-                characterDamage3.SetText(string.Format("Damage: {0}", partyCharacters[2].damage));
-                characterDefense3.SetText(string.Format("Defense: {0}", partyCharacters[2].defense));
-            }
-            if (partyCharacters.Count >= 4)
-            {
-                characterName4.SetText(partyCharacters[3].Name);
-                characterLife4.SetText(string.Format("{0} / {1}", partyCharacters[3].life, partyCharacters[3].lifeMax));
-                characterDamage4.SetText(string.Format("Damage: {0}", partyCharacters[3].damage));
-                characterDefense4.SetText(string.Format("Defense: {0}", partyCharacters[3].defense));
-            }
+            UpdateCharacterInfo(partyCharacters);
 
             foreach (Character character in playerCharacters)
             {
@@ -470,16 +444,86 @@ namespace GenshinMod.UI
                 List<Character> partyCharacters = modPlayer.GetPartyCharacters();
 
                 // If the player selects the character that is already in that position, remove the character from the party
-                if(text.Text != partyCharacters[characterSelected-1].Name) modPlayer.ChangePartyCharacters(text.Text, characterSelected-1);
-                else modPlayer.ChangePartyCharacters("Remove", characterSelected - 1);
+                if (text.Text != partyCharacters[characterSelected - 1].Name) modPlayer.ChangePartyCharacters(text.Text, characterSelected - 1);
+                else modPlayer.ChangePartyCharacters("None", characterSelected - 1);
 
-                if (partyCharacters.Count > 0) characterName1.SetText(partyCharacters[0].Name);
-                if (partyCharacters.Count > 1) characterName2.SetText(partyCharacters[1].Name);
-                if (partyCharacters.Count > 2) characterName3.SetText(partyCharacters[2].Name);
-                if (partyCharacters.Count > 3) characterName4.SetText(partyCharacters[3].Name);
+                UpdateCharacterInfo(partyCharacters);
             }
 
             characterSelected = 0;
+        }
+
+        private void UpdateCharacterInfo(List<Character> partyCharacters)
+        {
+
+            if (partyCharacters.Count >= 1)
+            {
+                if(partyCharacters[0].Name == "None")
+                {
+                    characterName1.SetText("");
+                    characterLife1.SetText("");
+                    characterDamage1.SetText("");
+                    characterDefense1.SetText("");
+                }
+                else
+                {
+                    characterName1.SetText(partyCharacters[0].Name);
+                    characterLife1.SetText(string.Format("{0} / {1}", partyCharacters[0].life, partyCharacters[0].lifeMax));
+                    characterDamage1.SetText(string.Format("Damage: {0}", partyCharacters[0].damage));
+                    characterDefense1.SetText(string.Format("Defense: {0}", partyCharacters[0].defense));
+                }
+            }
+            if (partyCharacters.Count >= 2)
+            {
+                if (partyCharacters[1].Name == "None")
+                {
+                    characterName2.SetText("");
+                    characterLife2.SetText("");
+                    characterDamage2.SetText("");
+                    characterDefense2.SetText("");
+                }
+                else
+                {
+                    characterName2.SetText(partyCharacters[1].Name);
+                    characterLife2.SetText(string.Format("{0} / {1}", partyCharacters[1].life, partyCharacters[1].lifeMax));
+                    characterDamage2.SetText(string.Format("Damage: {0}", partyCharacters[1].damage));
+                    characterDefense2.SetText(string.Format("Defense: {0}", partyCharacters[1].defense));
+                }
+            }
+            if (partyCharacters.Count >= 3)
+            {
+                if (partyCharacters[2].Name == "None")
+                {
+                    characterName3.SetText("");
+                    characterLife3.SetText("");
+                    characterDamage3.SetText("");
+                    characterDefense3.SetText("");
+                }
+                else
+                {
+                    characterName3.SetText(partyCharacters[2].Name);
+                    characterLife3.SetText(string.Format("{0} / {1}", partyCharacters[2].life, partyCharacters[2].lifeMax));
+                    characterDamage3.SetText(string.Format("Damage: {0}", partyCharacters[2].damage));
+                    characterDefense3.SetText(string.Format("Defense: {0}", partyCharacters[2].defense));
+                }
+            }
+            if (partyCharacters.Count >= 4)
+            {
+                if (partyCharacters[3].Name == "None")
+                {
+                    characterName4.SetText("");
+                    characterLife4.SetText("");
+                    characterDamage4.SetText("");
+                    characterDefense4.SetText("");
+                }
+                else
+                {
+                    characterName4.SetText(partyCharacters[3].Name);
+                    characterLife4.SetText(string.Format("{0} / {1}", partyCharacters[3].life, partyCharacters[3].lifeMax));
+                    characterDamage4.SetText(string.Format("Damage: {0}", partyCharacters[3].damage));
+                    characterDefense4.SetText(string.Format("Defense: {0}", partyCharacters[3].defense));
+                }
+            }
         }
     }
 }
