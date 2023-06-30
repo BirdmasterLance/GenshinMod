@@ -12,12 +12,12 @@ namespace GenshinMod.UI
 {
     class GachaUI : UIState
     {
-        DragableUIPanel mainWindow;
+        UIPanel mainWindow;
 
         public override void OnInitialize()
         {
             // The Main Window
-            mainWindow = new DragableUIPanel();
+            mainWindow = new UIPanel();
             mainWindow.Width.Set(740, 0);
             mainWindow.Height.Set(400, 0);
             mainWindow.BackgroundColor = new Color(181, 225, 255);

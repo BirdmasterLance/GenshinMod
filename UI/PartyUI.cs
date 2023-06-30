@@ -13,7 +13,7 @@ namespace GenshinMod.UI
 {
     internal class PartyUI : UIState
     {
-        DragableUIPanel mainWindow;
+        UIPanel mainWindow;
 
         // We assign these values globally so we can edit them whenever the player does something (their values are not static)
         UIText header;
@@ -37,11 +37,17 @@ namespace GenshinMod.UI
 
         public override void OnInitialize()
         {
+            // Initialize the main window where everything will be in
             mainWindow = new();
-            mainWindow.Width.Set(530f, 0);
-            mainWindow.Height.Set(700f, 0);
+            mainWindow.Width.Set(1050, 0);
+            mainWindow.Height.Set(320, 0);
+            mainWindow.HAlign = 0.5f;
+            mainWindow.VAlign = 0.65f;
             Append(mainWindow);
 
+            // Initialize each panel for each character
+            // In its own separate methods to make code look cleaner
+            // Since its a lot of repetitive code
             IntializeCharacter1Panel();
             IntializeCharacter2Panel();
             IntializeCharacter3Panel();
@@ -49,10 +55,10 @@ namespace GenshinMod.UI
 
             // Same list from CharacterUI
             listPanel = new();
-            listPanel.Width.Set(270, 0f);
-            listPanel.Height.Set(370, 0f);
-            listPanel.Left.Set(250, 0f);
-            listPanel.Top.Set(220, 0f);
+            listPanel.Width.Set(1050, 0);
+            listPanel.Height.Set(320, 0);
+            listPanel.HAlign = 0.5f;
+            listPanel.VAlign = 0.65f;
             listPanel.BackgroundColor = new Color(99, 98, 112);
             listPanel.BorderColor = new Color(166, 165, 181);
             listPanel.OverflowHidden = false;
@@ -61,10 +67,8 @@ namespace GenshinMod.UI
             // The element that will store the buttons for all the characters the player has
             characterList = new();
             characterList.SetPadding(0);
-            characterList.Width.Set(270, 0f);
-            characterList.Height.Set(370, 0f);
-            characterList.Left.Set(0, 0);
-            characterList.Top.Set(0, 0);
+            characterList.Width.Set(1050, 0);
+            characterList.Height.Set(320, 0);
             characterList.ListPadding = 10;
             listPanel.Append(characterList);
         }
@@ -77,7 +81,7 @@ namespace GenshinMod.UI
             characterPanel1.Width.Set(250, 0);
             characterPanel1.Height.Set(350, 0);
             characterPanel1.Left.Set(0f, 0);
-            characterPanel1.Top.Set(20f, 0);
+            characterPanel1.Top.Set(0f, 0);
             mainWindow.Append(characterPanel1);
 
             characterPfp1 = new();
@@ -142,7 +146,7 @@ namespace GenshinMod.UI
             characterPanel2.Width.Set(250, 0);
             characterPanel2.Height.Set(300, 0);
             characterPanel2.Left.Set(270f, 0);
-            characterPanel2.Top.Set(20f, 0);
+            characterPanel2.Top.Set(0f, 0);
             mainWindow.Append(characterPanel2);
 
             characterPfp2 = new();
@@ -206,8 +210,8 @@ namespace GenshinMod.UI
             characterPanel3.BorderColor = new Color(0, 0, 0, 0);
             characterPanel3.Width.Set(250, 0);
             characterPanel3.Height.Set(300, 0);
-            characterPanel3.Left.Set(0f, 0);
-            characterPanel3.Top.Set(320f, 0);
+            characterPanel3.Left.Set(530f, 0);
+            characterPanel3.Top.Set(0f, 0);
             mainWindow.Append(characterPanel3);
 
             characterPfp3 = new();
@@ -271,8 +275,8 @@ namespace GenshinMod.UI
             characterPanel4.BorderColor = new Color(0, 0, 0, 0);
             characterPanel4.Width.Set(250, 0);
             characterPanel4.Height.Set(300, 0);
-            characterPanel4.Left.Set(270f, 0);
-            characterPanel4.Top.Set(320f, 0);
+            characterPanel4.Left.Set(790f, 0);
+            characterPanel4.Top.Set(0f, 0);
             mainWindow.Append(characterPanel4);
 
             characterPfp4 = new();
@@ -363,9 +367,9 @@ namespace GenshinMod.UI
                 if (character == null) continue;
 
                 UIPanel button = new UIPanel();
-                button.Width.Set(50, 0);
-                button.Height.Set(50, 0);
-                button.Left.Set(0, 0f);
+                button.Width.Set(100, 0);
+                button.Height.Set(100, 0);
+                button.Left.Set(0, 0);
                 button.Top.Set(100, 0);
                 button.BackgroundColor = new Color(48, 51, 59);
                 button.OnClick += OnCharacterListClick;
