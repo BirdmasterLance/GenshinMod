@@ -37,6 +37,11 @@ namespace GenshinMod.UI
 
         public override void OnInitialize()
         {
+            mainWindow = new();
+            mainWindow.Width.Set(530f, 0);
+            mainWindow.Height.Set(700f, 0);
+            Append(mainWindow);
+
             IntializeCharacter1Panel();
             IntializeCharacter2Panel();
             IntializeCharacter3Panel();
@@ -67,15 +72,17 @@ namespace GenshinMod.UI
         public void IntializeCharacter1Panel()
         {
             characterPanel1 = new();
+            characterPanel1.BackgroundColor = new Color(0, 0, 0, 0);
+            characterPanel1.BorderColor = new Color(0, 0, 0, 0);
             characterPanel1.Width.Set(250, 0);
-            characterPanel1.Height.Set(300, 0);
-            characterPanel1.HAlign = 0.45f;
+            characterPanel1.Height.Set(350, 0);
+            characterPanel1.Left.Set(0f, 0);
             characterPanel1.Top.Set(20f, 0);
-            Append(characterPanel1);
+            mainWindow.Append(characterPanel1);
 
             characterPfp1 = new();
-            characterPfp1.Width.Set(50, 0);
-            characterPfp1.Height.Set(50, 0);
+            characterPfp1.Width.Set(100, 0);
+            characterPfp1.Height.Set(100, 0);
             characterPfp1.OnClick += OnCharacter1Click;
             characterPanel1.Append(characterPfp1);
 
@@ -108,7 +115,7 @@ namespace GenshinMod.UI
             characterItemGrid1 = new();
             characterItemGrid1.Width.Set(130f, 0);
             characterItemGrid1.Height.Set(180f, 0);
-            characterItemGrid1.Top.Set(60f, 0);
+            characterItemGrid1.Top.Set(110f, 0);
             characterItemGrid1.Add(characterWeapon1);
             characterItemGrid1.Add(character1Artifact1);
             characterItemGrid1.Add(character1Artifact2);
@@ -121,8 +128,8 @@ namespace GenshinMod.UI
             activeCharacterButton1.Width.Set(50f, 0);
             activeCharacterButton1.Height.Set(50f, 0);
             activeCharacterButton1.BackgroundColor = new Color(255, 0, 0, 1);
-            activeCharacterButton1.Top.Set(250f, 0);
-            activeCharacterButton1.Left.Set(200f, 0);
+            activeCharacterButton1.Top.Set(225f, 0);
+            activeCharacterButton1.Left.Set(175f, 0);
             activeCharacterButton1.OnClick += OnActiveCharacter1Select;
             characterPanel1.Append(activeCharacterButton1);
         }
@@ -130,15 +137,17 @@ namespace GenshinMod.UI
         public void IntializeCharacter2Panel()
         {
             characterPanel2 = new();
+            characterPanel2.BackgroundColor = new Color(0, 0, 0, 0);
+            characterPanel2.BorderColor = new Color(0, 0, 0, 0);
             characterPanel2.Width.Set(250, 0);
             characterPanel2.Height.Set(300, 0);
-            characterPanel2.HAlign = 0.65f;
+            characterPanel2.Left.Set(270f, 0);
             characterPanel2.Top.Set(20f, 0);
-            Append(characterPanel2);
+            mainWindow.Append(characterPanel2);
 
             characterPfp2 = new();
-            characterPfp2.Width.Set(50, 0);
-            characterPfp2.Height.Set(50, 0);
+            characterPfp2.Width.Set(100, 0);
+            characterPfp2.Height.Set(100, 0);
             characterPfp2.OnClick += OnCharacter2Click;
             characterPanel2.Append(characterPfp2);
 
@@ -171,7 +180,7 @@ namespace GenshinMod.UI
             characterItemGrid2 = new();
             characterItemGrid2.Width.Set(130f, 0);
             characterItemGrid2.Height.Set(180f, 0);
-            characterItemGrid2.Top.Set(60f, 0);
+            characterItemGrid2.Top.Set(110f, 0);
             characterItemGrid2.Add(characterWeapon2);
             characterItemGrid2.Add(character2Artifact1);
             characterItemGrid2.Add(character2Artifact2);
@@ -184,8 +193,8 @@ namespace GenshinMod.UI
             activeCharacterButton2.Width.Set(50f, 0);
             activeCharacterButton2.Height.Set(50f, 0);
             activeCharacterButton2.BackgroundColor = new Color(255, 0, 0, 1);
-            activeCharacterButton2.Top.Set(250f, 0);
-            activeCharacterButton2.Left.Set(200f, 0);
+            activeCharacterButton2.Top.Set(225f, 0);
+            activeCharacterButton2.Left.Set(175f, 0);
             activeCharacterButton2.OnClick += OnActiveCharacter2Select;
             characterPanel2.Append(activeCharacterButton2);
         }
@@ -193,15 +202,17 @@ namespace GenshinMod.UI
         public void IntializeCharacter3Panel()
         {
             characterPanel3 = new();
+            characterPanel3.BackgroundColor = new Color(0, 0, 0, 0);
+            characterPanel3.BorderColor = new Color(0, 0, 0, 0);
             characterPanel3.Width.Set(250, 0);
             characterPanel3.Height.Set(300, 0);
-            characterPanel3.HAlign = 0.45f;
-            characterPanel3.Top.Set(330f, 0);
-            Append(characterPanel3);
+            characterPanel3.Left.Set(0f, 0);
+            characterPanel3.Top.Set(320f, 0);
+            mainWindow.Append(characterPanel3);
 
             characterPfp3 = new();
-            characterPfp3.Width.Set(50, 0);
-            characterPfp3.Height.Set(50, 0);
+            characterPfp3.Width.Set(100, 0);
+            characterPfp3.Height.Set(100, 0);
             characterPfp3.OnClick += OnCharacter3Click;
             characterPanel3.Append(characterPfp3);
 
@@ -234,7 +245,7 @@ namespace GenshinMod.UI
             characterItemGrid3 = new();
             characterItemGrid3.Width.Set(130f, 0);
             characterItemGrid3.Height.Set(180f, 0);
-            characterItemGrid3.Top.Set(60f, 0);
+            characterItemGrid3.Top.Set(110f, 0);
             characterItemGrid3.Add(characterWeapon3);
             characterItemGrid3.Add(character3Artifact1);
             characterItemGrid3.Add(character3Artifact2);
@@ -247,8 +258,8 @@ namespace GenshinMod.UI
             activeCharacterButton3.Width.Set(50f, 0);
             activeCharacterButton3.Height.Set(50f, 0);
             activeCharacterButton3.BackgroundColor = new Color(255, 0, 0, 1);
-            activeCharacterButton3.Top.Set(250f, 0);
-            activeCharacterButton3.Left.Set(200f, 0);
+            activeCharacterButton3.Top.Set(225f, 0);
+            activeCharacterButton3.Left.Set(175f, 0);
             activeCharacterButton3.OnClick += OnActiveCharacter3Select;
             characterPanel3.Append(activeCharacterButton3);
         }
@@ -256,15 +267,17 @@ namespace GenshinMod.UI
         public void IntializeCharacter4Panel()
         {
             characterPanel4 = new();
+            characterPanel4.BackgroundColor = new Color(0, 0, 0, 0);
+            characterPanel4.BorderColor = new Color(0, 0, 0, 0);
             characterPanel4.Width.Set(250, 0);
             characterPanel4.Height.Set(300, 0);
-            characterPanel4.HAlign = 0.65f;
-            characterPanel4.Top.Set(330f, 0);
-            Append(characterPanel4);
+            characterPanel4.Left.Set(270f, 0);
+            characterPanel4.Top.Set(320f, 0);
+            mainWindow.Append(characterPanel4);
 
             characterPfp4 = new();
-            characterPfp4.Width.Set(50, 0);
-            characterPfp4.Height.Set(50, 0);
+            characterPfp4.Width.Set(100, 0);
+            characterPfp4.Height.Set(100, 0);
             characterPfp4.OnClick += OnCharacter4Click;
             characterPanel4.Append(characterPfp4);
 
@@ -297,7 +310,7 @@ namespace GenshinMod.UI
             characterItemGrid4 = new();
             characterItemGrid4.Width.Set(130f, 0);
             characterItemGrid4.Height.Set(180f, 0);
-            characterItemGrid4.Top.Set(60f, 0);
+            characterItemGrid4.Top.Set(110f, 0);
             characterItemGrid4.Add(characterWeapon4);
             characterItemGrid4.Add(character4Artifact1);
             characterItemGrid4.Add(character4Artifact2);
@@ -310,8 +323,8 @@ namespace GenshinMod.UI
             activeCharacterButton4.Width.Set(50f, 0);
             activeCharacterButton4.Height.Set(50f, 0);
             activeCharacterButton4.BackgroundColor = new Color(255, 0, 0, 1);
-            activeCharacterButton4.Top.Set(250f, 0);
-            activeCharacterButton4.Left.Set(200f, 0);
+            activeCharacterButton4.Top.Set(225f, 0);
+            activeCharacterButton4.Left.Set(175f, 0);
             activeCharacterButton4.OnClick += OnActiveCharacter4Select;
             characterPanel4.Append(activeCharacterButton4);
         }
@@ -347,6 +360,8 @@ namespace GenshinMod.UI
 
             foreach (Character character in playerCharacters)
             {
+                if (character == null) continue;
+
                 UIPanel button = new UIPanel();
                 button.Width.Set(50, 0);
                 button.Height.Set(50, 0);

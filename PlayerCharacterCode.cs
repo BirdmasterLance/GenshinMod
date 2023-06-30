@@ -122,7 +122,12 @@ namespace GenshinMod
                 //Character partyCharacter = GetCharacter(character);
                 //if (partyCharacter.ConstellationUpgrade < 6) partyCharacter.ConstellationUpgrade++;
                 //return true;
-                characters.Add(CharacterLists.GetNewCharacter(character));
+                Character characterToAdd = CharacterLists.GetNewCharacter(character);
+                if (characterToAdd == null)
+                {
+                    Main.NewText(string.Format("Could not add {0}!", character));
+                }
+                characters.Add(characterToAdd);
                 return true;
             }
             return false;
@@ -153,7 +158,13 @@ namespace GenshinMod
         {
             if (HasCharacter(character))
             {
-                partyCharacters.Add(GetCharacter(character));
+                Character characterToAdd = GetCharacter(character);
+                if(characterToAdd == null)
+                {
+                    Main.NewText(string.Format("Could not add {0}!", characterToAdd));
+                }
+                partyCharacters.Add(characterToAdd);
+                return true;
             }
             return false;
         }

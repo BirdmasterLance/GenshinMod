@@ -76,12 +76,13 @@ namespace GenshinMod
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 playerID = player.whoAmI;
+                Main.NewText(npcType);
                 npcID = NPC.NewNPC(player.GetSource_FromThis(), (int)player.position.X, (int)player.position.Y, npcType);
                 NPC npc = Main.npc[npcID];
                 npc.life = life;
                 npc.lifeMax = lifeMax;
                 npc.defense = defense;
-                npc.damage = damage;
+                //npc.damage = damage;
                 return npcID;
             }
             return 0;

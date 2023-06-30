@@ -350,6 +350,8 @@ namespace GenshinMod.UI
             List<Character> playerCharacters = modPlayer.GetCharacters();
             foreach (Character character in playerCharacters)
             {
+                if (character == null) continue;
+
                 UIPanel button = new UIPanel();
                 button.Width.Set(50, 0);
                 button.Height.Set(50, 0);

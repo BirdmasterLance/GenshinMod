@@ -49,11 +49,11 @@ namespace GenshinMod.Commands
 					//modPlayer.RemoveActiveCharacter();
 
 					modPlayer.GetPartyCharacters().Clear();
-					//for (int i = 0; i < 4; i++)
-					//{
-					//	modPlayer.partyCharacters.Add(new Character("None"));
-					//}
-					Main.NewText("Removed all characters");
+                    for (int i = 0; i < 4; i++)
+                    {
+                        modPlayer.partyCharacters.Add(new Character("None"));
+                    }
+                    Main.NewText("Removed all characters");
                 }
 				else if(args[0] == "partyfill")
                 {
