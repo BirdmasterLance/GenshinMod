@@ -484,7 +484,14 @@ namespace GenshinMod
             AddedCharacters.AddRange(new string[] 
             {
                 Yanfei,
-                Sucrose
+                Sucrose,
+                Kaeya,
+                Noelle,
+                RaidenShogun,
+                Barbara,
+                HuTao,
+                Klee
+
             });
 
             FourStarCharacters.Add(Amber);
