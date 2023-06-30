@@ -69,7 +69,7 @@ namespace GenshinMod
 
 				if (Keybinds.SwapCharacter.JustPressed)
 				{
-					modPlayer.partyCharacters[0].SpawnCharacter(player);
+					modPlayer.activeCharacters[0].SpawnCharacter(player);
 				}
 
 				//if (Keybinds.ElementalSkill.JustPressed && modPlayer.activeCharacter != null && Collision.CanHitLine(player.position, 0, 0, Main.MouseWorld, 0, 0))

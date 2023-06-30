@@ -31,6 +31,7 @@ namespace GenshinMod.UI
         VanillaItemSlotWrapper character2Artifact1, character2Artifact2, character2Artifact3, character2Artifact4, character2Artifact5;
         VanillaItemSlotWrapper character3Artifact1, character3Artifact2, character3Artifact3, character3Artifact4, character3Artifact5;
         VanillaItemSlotWrapper character4Artifact1, character4Artifact2, character4Artifact3, character4Artifact4, character4Artifact5;
+        UIPanel activeCharacterButton1, activeCharacterButton2, activeCharacterButton3, activeCharacterButton4;
 
         int characterSelected = 0;
 
@@ -115,6 +116,15 @@ namespace GenshinMod.UI
             characterItemGrid1.Add(character1Artifact4);
             characterItemGrid1.Add(character1Artifact5);
             characterPanel1.Append(characterItemGrid1);
+
+            activeCharacterButton1 = new();
+            activeCharacterButton1.Width.Set(50f, 0);
+            activeCharacterButton1.Height.Set(50f, 0);
+            activeCharacterButton1.BackgroundColor = new Color(255, 0, 0, 1);
+            activeCharacterButton1.Top.Set(250f, 0);
+            activeCharacterButton1.Left.Set(200f, 0);
+            activeCharacterButton1.OnClick += OnActiveCharacter1Select;
+            characterPanel1.Append(activeCharacterButton1);
         }
 
         public void IntializeCharacter2Panel()
@@ -169,6 +179,15 @@ namespace GenshinMod.UI
             characterItemGrid2.Add(character2Artifact4);
             characterItemGrid2.Add(character2Artifact5);
             characterPanel2.Append(characterItemGrid2);
+
+            activeCharacterButton2 = new();
+            activeCharacterButton2.Width.Set(50f, 0);
+            activeCharacterButton2.Height.Set(50f, 0);
+            activeCharacterButton2.BackgroundColor = new Color(255, 0, 0, 1);
+            activeCharacterButton2.Top.Set(250f, 0);
+            activeCharacterButton2.Left.Set(200f, 0);
+            activeCharacterButton2.OnClick += OnActiveCharacter2Select;
+            characterPanel2.Append(activeCharacterButton2);
         }
 
         public void IntializeCharacter3Panel()
@@ -223,6 +242,15 @@ namespace GenshinMod.UI
             characterItemGrid3.Add(character3Artifact4);
             characterItemGrid3.Add(character3Artifact5);
             characterPanel3.Append(characterItemGrid3);
+
+            activeCharacterButton3 = new();
+            activeCharacterButton3.Width.Set(50f, 0);
+            activeCharacterButton3.Height.Set(50f, 0);
+            activeCharacterButton3.BackgroundColor = new Color(255, 0, 0, 1);
+            activeCharacterButton3.Top.Set(250f, 0);
+            activeCharacterButton3.Left.Set(200f, 0);
+            activeCharacterButton3.OnClick += OnActiveCharacter3Select;
+            characterPanel3.Append(activeCharacterButton3);
         }
 
         public void IntializeCharacter4Panel()
@@ -277,6 +305,15 @@ namespace GenshinMod.UI
             characterItemGrid4.Add(character4Artifact4);
             characterItemGrid4.Add(character4Artifact5);
             characterPanel4.Append(characterItemGrid4);
+
+            activeCharacterButton4 = new();
+            activeCharacterButton4.Width.Set(50f, 0);
+            activeCharacterButton4.Height.Set(50f, 0);
+            activeCharacterButton4.BackgroundColor = new Color(255, 0, 0, 1);
+            activeCharacterButton4.Top.Set(250f, 0);
+            activeCharacterButton4.Left.Set(200f, 0);
+            activeCharacterButton4.OnClick += OnActiveCharacter4Select;
+            characterPanel4.Append(activeCharacterButton4);
         }
 
         public override void Update(GameTime gameTime)
@@ -422,12 +459,52 @@ namespace GenshinMod.UI
             characterSelected = 0;
         }
 
+        private void OnActiveCharacter1Select(UIMouseEvent evt, UIElement listeningElement)
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            modPlayer.SetActiveCharacter(characterName1.Text);
+            activeCharacterButton1.BackgroundColor = new Color(0, 255, 0, 1);
+            activeCharacterButton2.BackgroundColor = new Color(255, 0, 0, 1);
+            activeCharacterButton3.BackgroundColor = new Color(255, 0, 0, 1);
+            activeCharacterButton4.BackgroundColor = new Color(255, 0, 0, 1);
+        }
+
+        private void OnActiveCharacter2Select(UIMouseEvent evt, UIElement listeningElement)
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            modPlayer.SetActiveCharacter(characterName2.Text);
+            activeCharacterButton2.BackgroundColor = new Color(0, 255, 0, 1);
+            activeCharacterButton1.BackgroundColor = new Color(255, 0, 0, 1);
+            activeCharacterButton3.BackgroundColor = new Color(255, 0, 0, 1);
+            activeCharacterButton4.BackgroundColor = new Color(255, 0, 0, 1);
+        }
+
+        private void OnActiveCharacter3Select(UIMouseEvent evt, UIElement listeningElement)
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            modPlayer.SetActiveCharacter(characterName3.Text);
+            activeCharacterButton3.BackgroundColor = new Color(0, 255, 0, 1);
+            activeCharacterButton2.BackgroundColor = new Color(255, 0, 0, 1);
+            activeCharacterButton1.BackgroundColor = new Color(255, 0, 0, 1);
+            activeCharacterButton4.BackgroundColor = new Color(255, 0, 0, 1);
+        }
+
+        private void OnActiveCharacter4Select(UIMouseEvent evt, UIElement listeningElement)
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            modPlayer.SetActiveCharacter(characterName4.Text);
+            activeCharacterButton4.BackgroundColor = new Color(0, 255, 0, 1);
+            activeCharacterButton2.BackgroundColor = new Color(255, 0, 0, 1);
+            activeCharacterButton3.BackgroundColor = new Color(255, 0, 0, 1);
+            activeCharacterButton1.BackgroundColor = new Color(255, 0, 0, 1);
+        }
+
         private void UpdateCharacterInfo(List<Character> partyCharacters)
         {
 
             if (partyCharacters.Count >= 1)
             {
-                else if(partyCharacters[0].Name == "None")
+                if(partyCharacters[0].Name == "None")
                 {
                     characterName1.SetText("");
                     characterLife1.SetText("");

@@ -58,8 +58,8 @@ namespace GenshinMod
 
         public override void LoadData(TagCompound tag)
         {
-            //tag.Remove("characters");
-            //tag.Remove("partyCharacters");
+            tag.Remove("characters");
+            tag.Remove("partyCharacters");
             characters = (List<Character>)tag.GetList<Character>("characters");
             partyCharacters = (List<Character>)tag.GetList<Character>("partyCharacters");
             //ChangeActiveCharacter(tag.Get<string>("activeChar"));
@@ -70,6 +70,8 @@ namespace GenshinMod
                     partyCharacters.Add(new Character("None"));
                 }
             }
+            activeCharacters.Clear();
+            activeCharacters.Add(new Character("None"));
         }
 
         /// <summary>
@@ -211,12 +213,12 @@ namespace GenshinMod
             return false;
         }
 
-        public bool AddActiveCharacter(string character)
+        public bool SetActiveCharacter(string character)
         {
             if (activeCharacters.Count >= 2) return false;
             if (!HasCharacter(character)) return false;
             Character activeCharacter = GetCharacter(character);
-            activeCharacters.Add(activeCharacter);
+            activeCharacters[0] = activeCharacter;
             return true;
         }
 

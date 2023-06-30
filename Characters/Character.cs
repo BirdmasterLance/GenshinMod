@@ -210,7 +210,7 @@ namespace GenshinMod
 
     public class HuTao : Character
     {
-        public HuTao() : base("HuTao")
+        public HuTao() : base("Hu Tao")
         {
             npcType = NPCID.GemSquirrelRuby;
         }

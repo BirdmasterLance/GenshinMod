@@ -65,7 +65,7 @@ namespace GenshinMod.UI
 			base.DrawSelf(spriteBatch);
 
 			var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
-			var character = modPlayer.partyCharacters[0];
+			var character = modPlayer.activeCharacters[0];
 			// Calculate quotient
 			float quotient = (float)character.life / character.lifeMax; // Creating a quotient that represents the difference of your currentResource vs your maximumResource, resulting in a float of 0-1f.
 			quotient = Utils.Clamp(quotient, 0f, 1f); // Clamping it to 0-1f so it doesn't go over that.
@@ -94,7 +94,7 @@ namespace GenshinMod.UI
 			//if (Main.LocalPlayer.HeldItem.ModItem is not ExampleCustomResourceWeapon)
 			//	return;
 			var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
-			var characterNPC = modPlayer.partyCharacters[0].GetNPC();
+			var characterNPC = modPlayer.activeCharacters[0].GetNPC();
 			//Main.NewText(modPlayer.partyCharacters[0].GetNPCID());
 			if (characterNPC == null) return;
 			// Setting the text per tick to update and show our resource values.
