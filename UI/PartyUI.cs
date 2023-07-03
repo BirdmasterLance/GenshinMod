@@ -32,6 +32,7 @@ namespace GenshinMod.UI
         VanillaItemSlotWrapper character3Artifact1, character3Artifact2, character3Artifact3, character3Artifact4, character3Artifact5;
         VanillaItemSlotWrapper character4Artifact1, character4Artifact2, character4Artifact3, character4Artifact4, character4Artifact5;
         UIPanel activeCharacterButton1, activeCharacterButton2, activeCharacterButton3, activeCharacterButton4;
+        UIPanel closeCharacterList;
 
         int characterSelected = 0;
 
@@ -71,6 +72,14 @@ namespace GenshinMod.UI
             characterList.Height.Set(320, 0);
             characterList.ListPadding = 10;
             listPanel.Append(characterList);
+
+            // A button to close the Character list Panel
+            // If the person doesn't want to choose a character
+            closeCharacterList = new();
+            closeCharacterList.Width.Set(50, 0);
+            closeCharacterList.Height.Set(50, 0);
+            closeCharacterList.Left.Set(0, 0);
+            closeCharacterList.Top.Set(0, 0);
         }
 
         public void IntializeCharacter1Panel()
@@ -390,12 +399,14 @@ namespace GenshinMod.UI
             if(characterSelected == 0)
             {
                 Append(listPanel);
+                Append(closeCharacterList);
                 characterSelected = 1;
                 //header.SetText("Select a character from the list");
             }
             else
             {
                 listPanel.Remove();
+                closeCharacterList.Remove();
                 characterSelected = 0;
                 //header.SetText("Party Setup");
             }
@@ -409,12 +420,14 @@ namespace GenshinMod.UI
             if (characterSelected == 0)
             {
                 Append(listPanel);
+                Append(closeCharacterList);
                 characterSelected = 2;
                 //header.SetText("Select a character from the list");
             }
             else
             {
                 listPanel.Remove();
+                closeCharacterList.Remove();
                 characterSelected = 0;
                 //header.SetText("Party Setup");
             }
@@ -427,12 +440,14 @@ namespace GenshinMod.UI
             if (characterSelected == 0)
             {
                 Append(listPanel);
+                Append(closeCharacterList);
                 characterSelected = 3;
                 //header.SetText("Select a character from the list");
             }
             else
             {
                 listPanel.Remove();
+                closeCharacterList.Remove();
                 characterSelected = 0;
                 //header.SetText("Party Setup");
 
@@ -446,12 +461,14 @@ namespace GenshinMod.UI
             if (characterSelected == 0)
             {
                 Append(listPanel);
+                Append(closeCharacterList);
                 characterSelected = 4;
                 //header.SetText("Select a character from the list");
             }
             else
             {
                 listPanel.Remove();
+                closeCharacterList.Remove();
                 characterSelected = 0;
                 //header.SetText("Party Setup");
             }
@@ -460,6 +477,7 @@ namespace GenshinMod.UI
         private void OnCharacterListClick(UIMouseEvent evt, UIElement listeningElement)
         {
             listPanel.Remove();
+            closeCharacterList.Remove();
             //header.SetText("Party Setup");
 
             foreach (UIElement element in listeningElement.Children)
