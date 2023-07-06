@@ -50,5 +50,15 @@ namespace GenshinMod.UI
 			ItemSlot.Draw(spriteBatch, ref Item, _context, rectangle.TopLeft());
 			Main.inventoryScale = oldScale;
 		}
+
+		public void AddItem(ref Item item)
+        {
+			Item = item;
+		}
+
+		public ref Item GetItem()
+        {
+			return ref Item;
+        }
 	}
 }

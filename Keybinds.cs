@@ -69,7 +69,37 @@ namespace GenshinMod
 
 				if (Keybinds.SwapCharacter.JustPressed)
 				{
-					modPlayer.activeCharacters[0].SpawnCharacter(player);
+					if(modPlayer.selectedCharacter == -1)
+                    {
+						Main.NewText("No Character selected!");
+						return;
+                    }
+					if (modPlayer.partyCharacters.Count == 0)
+					{
+						Main.NewText("A character is already summoned!");
+						return;
+					}
+					if (modPlayer.partyCharacters[modPlayer.selectedCharacter].Name == "None")
+                    {
+						Main.NewText("No Character selected!");
+						return;
+					}
+					if (!modPlayer.IsActiveCharacter(modPlayer.partyCharacters[modPlayer.selectedCharacter].Name))
+					{
+						if (modPlayer.activeCharacters.Count == 1)
+						{
+							Main.NewText("A character is already summoned!");
+							return;
+						}
+						modPlayer.partyCharacters[modPlayer.selectedCharacter].SpawnCharacter(player);
+						Main.NewText(string.Format("Spawned", modPlayer.partyCharacters[modPlayer.selectedCharacter].Name));
+					}
+					else
+					{
+						modPlayer.partyCharacters[modPlayer.selectedCharacter].DespawnCharacter(player);
+						Main.NewText(string.Format("Despawned", modPlayer.partyCharacters[modPlayer.selectedCharacter].Name));
+					}
+
 				}
 
 				//if (Keybinds.ElementalSkill.JustPressed && modPlayer.activeCharacter != null && Collision.CanHitLine(player.position, 0, 0, Main.MouseWorld, 0, 0))

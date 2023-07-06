@@ -58,7 +58,7 @@ namespace GenshinMod.NPCH
 
 		public override void AI()
 		{
-			AI_026();
+			AI_066();
 		}
 
 		private void AI_026()
@@ -68,20 +68,16 @@ namespace GenshinMod.NPCH
 				Projectile.active = false;
 				return;
 			}
-			bool flag = false;
 			bool flag2 = false;
 			bool flag3 = false;
 			bool flag4 = false;
 			bool flag5 = false;
-			int num = 85;
-			//bool flag6 = Projectile.type >= 191 && Projectile.type <= 194;
 
 			if (Projectile.lavaWet)
 			{
 				Projectile.ai[0] = 1f;
 				Projectile.ai[1] = 0f;
 			}
-			num = 60 + 30 * Projectile.minionPos;
 
 			bool flag7 = Projectile.ai[0] == -1f || Projectile.ai[0] == -2f;
 			bool num2 = Projectile.ai[0] == -1f;
@@ -101,7 +97,7 @@ namespace GenshinMod.NPCH
 				Projectile.timeLeft = 2;
 			}
 
-			num = 10;
+			int num = 10;
 			int num3 = 40 * (Projectile.minionPos + 1) * Main.player[Projectile.owner].direction;
 			if (Main.player[Projectile.owner].position.X + (float)(Main.player[Projectile.owner].width / 2) < Projectile.position.X + (float)(Projectile.width / 2) - (float)num + (float)num3)
 			{
@@ -125,11 +121,7 @@ namespace GenshinMod.NPCH
 			}
 
 			bool flag11 = Projectile.ai[1] == 0f;
-			if (flag)
-			{
-				flag11 = true;
-			}
-			if (flag11)
+			if (flag11) // When the Projectile is not attacking
 			{
 				int num78 = 500;
 
@@ -156,14 +148,9 @@ namespace GenshinMod.NPCH
 					}
 				}
 			}
-			if (Projectile.ai[0] != 0f && !flag7)
+			if (Projectile.ai[0] != 0f && !flag7) // When the Projectile is returning to the player
 			{
-				//Main.NewText("returning to player");
-				float num83 = 0.2f;
-				int num84 = 200;
-
-				num83 = 0.5f;
-				num84 = 100;
+				int num84 = 100;
 
 				Projectile.tileCollide = false;
 				Vector2 vector8 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
@@ -204,12 +191,9 @@ namespace GenshinMod.NPCH
 
 				float num91 = Main.player[Projectile.owner].position.Y + (float)(Main.player[Projectile.owner].height / 2) - vector8.Y;
 				float num92 = (float)Math.Sqrt(num85 * num85 + num91 * num91);
-				float num93 = num92;
-				float num94 = 10f;
-				float num95 = num92;
 
-				num83 = 0.4f;
-				num94 = 12f;
+				float num83 = 0.4f;
+				float num94 = 12f;
 
 				if (num94 < Math.Abs(Main.player[Projectile.owner].velocity.X) + Math.Abs(Main.player[Projectile.owner].velocity.Y))
 				{
@@ -293,9 +277,8 @@ namespace GenshinMod.NPCH
 					Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + 3.14f;
 				}
 			}
-			else
+			else // When the Projectile moves around on the ground
 			{
-				//Main.NewText("else");
 				float num115 = 40 * Projectile.minionPos;
 				int num116 = 30;
 				int num117 = 60;
@@ -437,8 +420,6 @@ namespace GenshinMod.NPCH
 					}
 				}
 
-				bool flag13 = false;
-				Vector2 vector12 = Vector2.Zero;
 				bool flag14 = false;
 
 				if (Projectile.ai[1] != 0f)
@@ -456,11 +437,8 @@ namespace GenshinMod.NPCH
 				}
 				Projectile.tileCollide = true;
 
-				float num164 = 0.08f;
-				float num165 = 6.5f;
-
-				num165 = 6f;
-				num164 = 0.2f;
+				float num165 = 6f;
+				float num164 = 0.2f;
 				if (num165 < Math.Abs(Main.player[Projectile.owner].velocity.X) + Math.Abs(Main.player[Projectile.owner].velocity.Y))
 				{
 					num165 = Math.Abs(Main.player[Projectile.owner].velocity.X) + Math.Abs(Main.player[Projectile.owner].velocity.Y);
@@ -701,6 +679,691 @@ namespace GenshinMod.NPCH
 				_ = Projectile.velocity;
 
 			}
+		}
+
+		private void AI_066()
+        {
+			float num555 = 0f;
+			float num556 = 0f;
+			float num557 = 0f;
+			float num558 = 0f;
+			bool flag26 = true;
+			if (flag26)
+			{
+				num555 = 2000f;
+				num556 = 800f;
+				num557 = 1200f;
+				num558 = 150f;
+				if (Main.player[Projectile.owner].dead)
+				{
+					Main.player[Projectile.owner].twinsMinion = false;
+				}
+				if (Main.player[Projectile.owner].twinsMinion)
+				{
+					Projectile.timeLeft = 2;
+				}
+			}
+			if (Projectile.type == 533)
+			{
+				num555 = 2000f;
+				num556 = 900f;
+				num557 = 1500f;
+				num558 = 450f;
+				if (Main.player[Projectile.owner].dead)
+				{
+					Main.player[Projectile.owner].DeadlySphereMinion = false;
+				}
+				if (Main.player[Projectile.owner].DeadlySphereMinion)
+				{
+					Projectile.timeLeft = 2;
+				}
+				Projectile.localAI[2] = Utils.Clamp(Projectile.localAI[2] - 1f, 0f, 60f);
+			}
+			float num559 = 0.05f;
+			for (int num560 = 0; num560 < 1000; num560++)
+			{
+				bool flag27 = (Main.projectile[num560].type == 387 || Main.projectile[num560].type == 388) && (Projectile.type == 387 || Projectile.type == 388);
+				if (!flag27)
+				{
+					flag27 = Projectile.type == 533 && Main.projectile[num560].type == 533;
+				}
+				if (num560 != Projectile.whoAmI && Main.projectile[num560].active && Main.projectile[num560].owner == Projectile.owner && flag27 && Math.Abs(Projectile.position.X - Main.projectile[num560].position.X) + Math.Abs(Projectile.position.Y - Main.projectile[num560].position.Y) < (float)Projectile.width)
+				{
+					if (Projectile.position.X < Main.projectile[num560].position.X)
+					{
+						Projectile.velocity.X -= num559;
+					}
+					else
+					{
+						Projectile.velocity.X += num559;
+					}
+					if (Projectile.position.Y < Main.projectile[num560].position.Y)
+					{
+						Projectile.velocity.Y -= num559;
+					}
+					else
+					{
+						Projectile.velocity.Y += num559;
+					}
+				}
+			}
+			if (Projectile.type == 533)
+			{
+				if ((int)Projectile.ai[0] % 3 != 2)
+				{
+					Lighting.AddLight(Projectile.Center, 0.8f, 0.3f, 0.1f);
+				}
+				else
+				{
+					Lighting.AddLight(Projectile.Center, 0.3f, 0.5f, 0.7f);
+				}
+			}
+			bool flag28 = false;
+			if (Projectile.ai[0] == 2f && Projectile.type == 388)
+			{
+				Projectile.ai[1]++;
+				Projectile.extraUpdates = 1;
+				Projectile.rotation = Projectile.velocity.ToRotation() + (float)Math.PI;
+				Projectile.frameCounter++;
+				if (Projectile.frameCounter > 1)
+				{
+					Projectile.frame++;
+					Projectile.frameCounter = 0;
+				}
+				if (Projectile.frame > 2)
+				{
+					Projectile.frame = 0;
+				}
+				if (Projectile.ai[1] > 40f)
+				{
+					Projectile.ai[1] = 1f;
+					Projectile.ai[0] = 0f;
+					Projectile.extraUpdates = 0;
+					Projectile.numUpdates = 0;
+					Projectile.netUpdate = true;
+				}
+				else
+				{
+					flag28 = true;
+				}
+			}
+			if (Projectile.type == 533 && Projectile.ai[0] >= 3f && Projectile.ai[0] <= 5f)
+			{
+				int num561 = 2;
+				flag28 = true;
+				Projectile.velocity *= 0.9f;
+				Projectile.ai[1]++;
+				int num562 = (int)Projectile.ai[1] / num561 + (int)(Projectile.ai[0] - 3f) * 8;
+				if (num562 < 4)
+				{
+					Projectile.frame = 17 + num562;
+				}
+				else if (num562 < 5)
+				{
+					Projectile.frame = 0;
+				}
+				else if (num562 < 8)
+				{
+					Projectile.frame = 1 + num562 - 5;
+				}
+				else if (num562 < 11)
+				{
+					Projectile.frame = 11 - num562;
+				}
+				else if (num562 < 12)
+				{
+					Projectile.frame = 0;
+				}
+				else if (num562 < 16)
+				{
+					Projectile.frame = num562 - 2;
+				}
+				else if (num562 < 20)
+				{
+					Projectile.frame = 29 - num562;
+				}
+				else if (num562 < 21)
+				{
+					Projectile.frame = 0;
+				}
+				else
+				{
+					Projectile.frame = num562 - 4;
+				}
+				if (Projectile.ai[1] > (float)(num561 * 8))
+				{
+					Projectile.ai[0] -= 3f;
+					Projectile.ai[1] = 0f;
+				}
+			}
+			if (Projectile.type == 533 && Projectile.ai[0] >= 6f && Projectile.ai[0] <= 8f)
+			{
+				Projectile.ai[1]++;
+				Projectile.MaxUpdates = 2;
+				if (Projectile.ai[0] == 7f)
+				{
+					Projectile.rotation = Projectile.velocity.ToRotation() + (float)Math.PI;
+				}
+				else
+				{
+					Projectile.rotation += (float)Math.PI / 6f;
+				}
+				int num563 = 0;
+				switch ((int)Projectile.ai[0])
+				{
+					case 6:
+						Projectile.frame = 5;
+						num563 = 40;
+						break;
+					case 7:
+						Projectile.frame = 13;
+						num563 = 30;
+						break;
+					case 8:
+						Projectile.frame = 17;
+						num563 = 30;
+						break;
+				}
+				if (Projectile.ai[1] > (float)num563)
+				{
+					Projectile.ai[1] = 1f;
+					Projectile.ai[0] -= 6f;
+					Projectile.localAI[0]++;
+					Projectile.extraUpdates = 0;
+					Projectile.numUpdates = 0;
+					Projectile.netUpdate = true;
+				}
+				else
+				{
+					flag28 = true;
+				}
+				if (Projectile.ai[0] == 8f)
+				{
+					for (int num564 = 0; num564 < 4; num564++)
+					{
+						int num565 = Utils.SelectRandom<int>(Main.rand, 226, 228, 75);
+						int num566 = Dust.NewDust(Projectile.Center, 0, 0, num565);
+						Dust dust14 = Main.dust[num566];
+						Vector2 vector43 = Vector2.One.RotatedBy((float)num564 * ((float)Math.PI / 2f)).RotatedBy(Projectile.rotation);
+						dust14.position = Projectile.Center + vector43 * 10f;
+						dust14.velocity = vector43 * 1f;
+						dust14.scale = 0.6f + Main.rand.NextFloat() * 0.5f;
+						dust14.noGravity = true;
+					}
+				}
+			}
+			if (flag28)
+			{
+				return;
+			}
+			Vector2 center5 = Projectile.position;
+			Vector2 zero = Vector2.Zero;
+			bool flag29 = false;
+			if (Projectile.ai[0] != 1f && flag26)
+			{
+				Projectile.tileCollide = true;
+			}
+			if (Projectile.type == 533 && Projectile.ai[0] < 9f)
+			{
+				Projectile.tileCollide = true;
+			}
+			if (Projectile.tileCollide && WorldGen.SolidTile(Framing.GetTileSafely((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16)))
+			{
+				Projectile.tileCollide = false;
+			}
+			NPC ownerMinionAttackTargetNPC3 = Projectile.OwnerMinionAttackTargetNPC;
+			if (ownerMinionAttackTargetNPC3 != null && ownerMinionAttackTargetNPC3.CanBeChasedBy(this))
+			{
+				float num567 = Vector2.Distance(ownerMinionAttackTargetNPC3.Center, Projectile.Center);
+				float num568 = num555 * 3f;
+				if (num567 < num568 && !flag29 && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, ownerMinionAttackTargetNPC3.position, ownerMinionAttackTargetNPC3.width, ownerMinionAttackTargetNPC3.height))
+				{
+					num555 = num567;
+					center5 = ownerMinionAttackTargetNPC3.Center;
+					flag29 = true;
+				}
+			}
+			if (!flag29)
+			{
+				for (int num569 = 0; num569 < 200; num569++)
+				{
+					NPC nPC5 = Main.npc[num569];
+					if (nPC5.CanBeChasedBy(this))
+					{
+						float num570 = Vector2.Distance(nPC5.Center, Projectile.Center);
+						if (!(num570 >= num555) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, nPC5.position, nPC5.width, nPC5.height))
+						{
+							num555 = num570;
+							center5 = nPC5.Center;
+							zero = nPC5.velocity;
+							flag29 = true;
+						}
+					}
+				}
+			}
+			float num571 = num556;
+			if (flag29)
+			{
+				num571 = num557;
+			}
+			Player player4 = Main.player[Projectile.owner];
+			if (Vector2.Distance(player4.Center, Projectile.Center) > num571)
+			{
+				if (flag26)
+				{
+					Projectile.ai[0] = 1f;
+				}
+				if (Projectile.type == 533 && Projectile.ai[0] < 9f)
+				{
+					Projectile.ai[0] += 3 * (3 - (int)(Projectile.ai[0] / 3f));
+				}
+				Projectile.tileCollide = false;
+				Projectile.netUpdate = true;
+			}
+			if (flag26 && flag29 && Projectile.ai[0] == 0f)
+			{
+				Vector2 vector44 = center5 - Projectile.Center;
+				float num572 = vector44.Length();
+				vector44.Normalize();
+				if (num572 > 200f)
+				{
+					float num573 = 6f;
+					if (Projectile.type == 388)
+					{
+						num573 = 14f;
+					}
+					vector44 *= num573;
+					Projectile.velocity = (Projectile.velocity * 40f + vector44) / 41f;
+				}
+				else
+				{
+					float num574 = 4f;
+					vector44 *= 0f - num574;
+					Projectile.velocity = (Projectile.velocity * 40f + vector44) / 41f;
+				}
+			}
+			else
+			{
+				bool flag30 = false;
+				if (!flag30 && flag26)
+				{
+					flag30 = Projectile.ai[0] == 1f;
+				}
+				if (!flag30 && Projectile.type == 533)
+				{
+					flag30 = Projectile.ai[0] >= 9f;
+				}
+				float num575 = 6f;
+				float num576 = 40f;
+				if (Projectile.type == 533)
+				{
+					num575 = 12f;
+				}
+				if (flag30)
+				{
+					num575 = 15f;
+				}
+				Vector2 center6 = Projectile.Center;
+				Vector2 vector45 = player4.Center - center6 + new Vector2(0f, -60f);
+				float num577 = vector45.Length();
+				float num578 = num577;
+				if (num577 > 200f && num575 < 8f)
+				{
+					num575 = 8f;
+				}
+				if (num575 < Math.Abs(Main.player[Projectile.owner].velocity.X) + Math.Abs(Main.player[Projectile.owner].velocity.Y))
+				{
+					num576 = 30f;
+					num575 = Math.Abs(Main.player[Projectile.owner].velocity.X) + Math.Abs(Main.player[Projectile.owner].velocity.Y);
+					if (num577 > 200f)
+					{
+						num576 = 20f;
+						num575 += 4f;
+					}
+					else if (num577 > 100f)
+					{
+						num575 += 3f;
+					}
+				}
+				if (flag30 && num577 > 300f)
+				{
+					num575 += 6f;
+					num576 -= 10f;
+				}
+				if (num577 < num558 && flag30 && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
+				{
+					if (Projectile.type == 387 || Projectile.type == 388)
+					{
+						Projectile.ai[0] = 0f;
+					}
+					if (Projectile.type == 533)
+					{
+						Projectile.ai[0] -= 9f;
+					}
+					Projectile.netUpdate = true;
+				}
+				if (num577 > 2000f)
+				{
+					Projectile.position.X = Main.player[Projectile.owner].Center.X - (float)(Projectile.width / 2);
+					Projectile.position.Y = Main.player[Projectile.owner].Center.Y - (float)(Projectile.height / 2);
+					Projectile.netUpdate = true;
+				}
+				if (num577 > 70f)
+				{
+					Vector2 vector46 = vector45;
+					vector45.Normalize();
+					vector45 *= num575;
+					Projectile.velocity = (Projectile.velocity * num576 + vector45) / (num576 + 1f);
+				}
+				else if (Projectile.velocity.X == 0f && Projectile.velocity.Y == 0f)
+				{
+					Projectile.velocity.X = -0.15f;
+					Projectile.velocity.Y = -0.05f;
+				}
+				if (Projectile.velocity.Length() > num575)
+				{
+					Projectile.velocity *= 0.95f;
+				}
+			}
+			if (Projectile.type == 388)
+			{
+				Projectile.rotation = Projectile.velocity.ToRotation() + (float)Math.PI;
+			}
+			if (Projectile.type == 387)
+			{
+				if (Projectile.ai[0] != 1f && flag29)
+				{
+					Projectile.rotation = (center5 - Projectile.Center).ToRotation() + (float)Math.PI;
+				}
+				else
+				{
+					Projectile.rotation = Projectile.velocity.ToRotation() + (float)Math.PI;
+				}
+			}
+			if (Projectile.type == 533 && (Projectile.ai[0] < 3f || Projectile.ai[0] >= 9f))
+			{
+				Projectile.rotation += Projectile.velocity.X * 0.04f;
+			}
+			if (Projectile.type == 388 || Projectile.type == 387)
+			{
+				Projectile.frameCounter++;
+				if (Projectile.frameCounter > 3)
+				{
+					Projectile.frame++;
+					Projectile.frameCounter = 0;
+				}
+				if (Projectile.frame > 2)
+				{
+					Projectile.frame = 0;
+				}
+			}
+			else if (Projectile.type == 533)
+			{
+				if (Projectile.ai[0] < 3f || Projectile.ai[0] >= 9f)
+				{
+					Projectile.frameCounter++;
+					if (Projectile.frameCounter >= 24)
+					{
+						Projectile.frameCounter = 0;
+					}
+					int num579 = Projectile.frameCounter / 4;
+					Projectile.frame = 4 + num579;
+					switch ((int)Projectile.ai[0])
+					{
+						case 0:
+						case 9:
+							Projectile.frame = 4 + num579;
+							break;
+						case 1:
+						case 10:
+							num579 = Projectile.frameCounter / 8;
+							Projectile.frame = 14 + num579;
+							break;
+						case 2:
+						case 11:
+							num579 = Projectile.frameCounter / 3;
+							if (num579 >= 4)
+							{
+								num579 -= 4;
+							}
+							Projectile.frame = 17 + num579;
+							break;
+					}
+				}
+				if (Projectile.ai[0] == 2f && Main.rand.Next(2) == 0)
+				{
+					for (int num580 = 0; num580 < 4; num580++)
+					{
+						if (Main.rand.Next(2) != 0)
+						{
+							int num581 = Utils.SelectRandom<int>(Main.rand, 226, 228, 75);
+							int num582 = Dust.NewDust(Projectile.Center, 0, 0, num581);
+							Dust dust15 = Main.dust[num582];
+							Vector2 vector47 = Vector2.One.RotatedBy((float)num580 * ((float)Math.PI / 2f)).RotatedBy(Projectile.rotation);
+							dust15.position = Projectile.Center + vector47 * 10f;
+							dust15.velocity = vector47 * 1f;
+							dust15.scale = 0.3f + Main.rand.NextFloat() * 0.5f;
+							dust15.noGravity = true;
+							dust15.customData = this;
+							dust15.noLight = true;
+						}
+					}
+				}
+			}
+			if (Projectile.ai[1] > 0f && flag26)
+			{
+				Projectile.ai[1] += Main.rand.Next(1, 4);
+			}
+			if (Projectile.ai[1] > 90f)
+			{
+				Projectile.ai[1] = 0f;
+				Projectile.netUpdate = true;
+			}
+			if (Projectile.ai[1] > 40f)
+			{
+				Projectile.ai[1] = 0f;
+				Projectile.netUpdate = true;
+			}
+			if (Projectile.ai[1] > 0f && Projectile.type == 533)
+			{
+				Projectile.ai[1]++;
+				int num583 = 10;
+				if (Projectile.ai[1] > (float)num583)
+				{
+					Projectile.ai[1] = 0f;
+					Projectile.netUpdate = true;
+				}
+			}
+			if (Projectile.ai[0] == 0f && flag26)
+			{
+				if (true)
+				{
+					float num584 = 8f;
+					int num585 = 389;
+					if (flag29 && Projectile.ai[1] == 0f)
+					{
+						Projectile.ai[1]++;
+						if (Main.myPlayer == Projectile.owner && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, center5, 0, 0))
+						{
+							Vector2 vector48 = center5 - Projectile.Center;
+							vector48.Normalize();
+							vector48 *= num584;
+							int num586 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, vector48.X, vector48.Y, num585, (int)((float)Projectile.damage * 1.15f), 0f, Main.myPlayer);
+							Main.projectile[num586].timeLeft = 300;
+							Projectile.netUpdate = true;
+						}
+					}
+				}
+				if (Projectile.ai[1] == 0f && flag29 && num555 < 500f)
+				{
+					Projectile.ai[1]++;
+					if (Main.myPlayer == Projectile.owner)
+					{
+						Projectile.ai[0] = 2f;
+						Vector2 v4 = center5 - Projectile.Center;
+						v4 = v4.SafeNormalize(Projectile.velocity);
+						float num587 = 8f;
+						Projectile.velocity = v4 * num587;
+						AI_066_TryInterceptingTarget(center5, zero, num587);
+						Projectile.netUpdate = true;
+					}
+				}
+			}
+			else
+			{
+				if (Projectile.type != 533 || !(Projectile.ai[0] < 9f))
+				{
+					return;
+				}
+				int num588 = 0;
+				num588 = 800;
+				if (!(Projectile.ai[1] == 0f && flag29) || !(num555 < (float)num588))
+				{
+					return;
+				}
+				Projectile.ai[1]++;
+				if (Main.myPlayer != Projectile.owner)
+				{
+					return;
+				}
+				if (Projectile.localAI[0] >= 3f)
+				{
+					Projectile.ai[0] += 4f;
+					if (Projectile.ai[0] == 6f)
+					{
+						Projectile.ai[0] = 3f;
+					}
+					Projectile.localAI[0] = 0f;
+				}
+				else
+				{
+					Projectile.ai[0] += 6f;
+					Vector2 v5 = center5 - Projectile.Center;
+					v5 = v5.SafeNormalize(Vector2.Zero);
+					float num589 = ((Projectile.ai[0] == 8f) ? 12f : 10f);
+					Projectile.velocity = v5 * num589;
+					AI_066_TryInterceptingTarget(center5, zero, num589);
+					Projectile.netUpdate = true;
+				}
+			}
+		}
+
+		private void AI_066_TryInterceptingTarget(Vector2 targetDir, Vector2 targetVelocity, float speed)
+		{
+			float num = 5f;
+			float num2 = 30f;
+			float num3 = num2 + num;
+			int num4 = 1;
+			int num5 = 4;
+			int num6 = 2;
+			bool flag = false;
+			if (Projectile.type == 533)
+			{
+				num4 = 2;
+			}
+			if (Projectile.type == 388)
+			{
+				num4 = 2;
+				num2 = 40f;
+			}
+			targetVelocity /= (float)num4;
+			for (float num7 = 1f; num7 <= 1.5f; num7 += 0.1f)
+			{
+				ChaseResults chaseResults = GetChaseResults(Projectile.Center, speed, targetDir, targetVelocity);
+				if (chaseResults.InterceptionHappens && chaseResults.InterceptionTime <= num3)
+				{
+					Projectile.velocity = chaseResults.ChaserVelocity;
+					if (flag)
+					{
+						int num8 = (int)Utils.Clamp((float)Math.Ceiling(chaseResults.InterceptionTime) + (float)num6, num5, num2 - 1f) / num4;
+						float num9 = num2 / (float)num4 - (float)num8;
+						Projectile.ai[1] += num9 * (float)num4;
+					}
+					break;
+				}
+			}
+		}
+
+		public struct ChaseResults
+		{
+			public bool InterceptionHappens;
+
+			public Vector2 InterceptionPosition;
+
+			public float InterceptionTime;
+
+			public Vector2 ChaserVelocity;
+		}
+
+		public ChaseResults GetChaseResults(Vector2 chaserPosition, float chaserSpeed, Vector2 runnerPosition, Vector2 runnerVelocity)
+		{
+			ChaseResults result = default(ChaseResults);
+			if (chaserPosition == runnerPosition)
+			{
+				ChaseResults result2 = default(ChaseResults);
+				result2.InterceptionHappens = true;
+				result2.InterceptionPosition = chaserPosition;
+				result2.InterceptionTime = 0f;
+				result2.ChaserVelocity = Vector2.Zero;
+				return result2;
+			}
+			if (chaserSpeed <= 0f)
+			{
+				return default(ChaseResults);
+			}
+			Vector2 value = chaserPosition - runnerPosition;
+			float num = value.Length();
+			float num2 = runnerVelocity.Length();
+			if (num2 == 0f)
+			{
+				result.InterceptionTime = num / chaserSpeed;
+				result.InterceptionPosition = runnerPosition;
+			}
+			else
+			{
+				float a = chaserSpeed * chaserSpeed - num2 * num2;
+				float b = 2f * Vector2.Dot(value, runnerVelocity);
+				float c = (0f - num) * num;
+				if (!SolveQuadratic(a, b, c, out var result3, out var result4))
+				{
+					return default(ChaseResults);
+				}
+				if (result3 < 0f && result4 < 0f)
+				{
+					return default(ChaseResults);
+				}
+				if (result3 > 0f && result4 > 0f)
+				{
+					result.InterceptionTime = Math.Min(result3, result4);
+				}
+				else
+				{
+					result.InterceptionTime = Math.Max(result3, result4);
+				}
+				result.InterceptionPosition = runnerPosition + runnerVelocity * result.InterceptionTime;
+			}
+			result.ChaserVelocity = (result.InterceptionPosition - chaserPosition) / result.InterceptionTime;
+			result.InterceptionHappens = true;
+			return result;
+		}
+
+		public bool SolveQuadratic(float a, float b, float c, out float result1, out float result2)
+		{
+			float num = b * b - 4f * a * c;
+			result1 = 0f;
+			result2 = 0f;
+			if (num > 0f)
+			{
+				result1 = (0f - b + (float)Math.Sqrt(num)) / (2f * a);
+				result2 = (0f - b - (float)Math.Sqrt(num)) / (2f * a);
+				return true;
+			}
+			if (num < 0f)
+			{
+				return false;
+			}
+			result1 = (result2 = (0f - b + (float)Math.Sqrt(num)) / (2f * a));
+			return true;
 		}
 	}
 }

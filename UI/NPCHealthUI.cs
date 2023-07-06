@@ -77,6 +77,7 @@ namespace GenshinMod.UI
 		{
 			base.DrawSelf(spriteBatch);
 			var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+			if (modPlayer.activeCharacters.Count == 0) return;
 			var characterNPC = modPlayer.activeCharacters[0].GetNPC();
 			if (characterNPC == null) return;
 			// Calculate quotient
@@ -107,6 +108,7 @@ namespace GenshinMod.UI
 			//if (Main.LocalPlayer.HeldItem.ModItem is not ExampleCustomResourceWeapon)
 			//	return;
 			var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+			if (modPlayer.activeCharacters.Count == 0) return;
 			var characterNPC = modPlayer.activeCharacters[0].GetNPC();
 			if (characterNPC == null) return;
 			// Setting the text per tick to update and show our resource values.

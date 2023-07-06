@@ -27,6 +27,13 @@ namespace GenshinMod
         public int damage = 10;
         public int defense = 10;
 
+        public Item weapon = new Item();
+        public Item artifact1 = new Item();
+        public Item artifact2 = new Item();
+        public Item artifact3 = new Item();
+        public Item artifact4 = new Item();
+        public Item artifact5 = new Item();
+
         protected int npcType;
 
         #region Description Texts
@@ -68,6 +75,12 @@ namespace GenshinMod
 
         public Character(string name="")
         {
+            weapon.SetDefaults(0);
+            artifact1.SetDefaults(0);
+            artifact2.SetDefaults(0);
+            artifact3.SetDefaults(0);
+            artifact4.SetDefaults(0);
+            artifact5.SetDefaults(0);
             Name = name;
         }
 
@@ -75,6 +88,9 @@ namespace GenshinMod
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
+                PlayerCharacterCode modPlayer = player.GetModPlayer<PlayerCharacterCode>();
+                modPlayer.SetActiveCharacter(Name);
+
                 playerID = player.whoAmI;
                 Main.NewText(npcType);
                 npcID = NPC.NewNPC(player.GetSource_FromThis(), (int)player.position.X, (int)player.position.Y, npcType);
@@ -86,6 +102,14 @@ namespace GenshinMod
                 return npcID;
             }
             return 0;
+        }
+
+        public void DespawnCharacter(Player player)
+        {
+            PlayerCharacterCode modPlayer = player.GetModPlayer<PlayerCharacterCode>();
+            modPlayer.RemoveActiveCharacter(Name);
+            NPC npc = Main.npc[npcID];
+            npc.life = 0;
         }
 
         public int GetNPCID()
@@ -174,7 +198,7 @@ namespace GenshinMod
     {
         public Barbara() : base("Barbara")
         {
-            npcType = NPCID.Dolphin;
+            npcType = ModContent.NPCType<Characters.BARBARA.BarbaraNPC>();
         }
     }
 
@@ -234,7 +258,13 @@ namespace GenshinMod
             ["life"] = value.life,
             ["lifeMax"] = value.lifeMax,
             ["damage"] = value.damage,
-            ["defense"] = value.defense
+            ["defense"] = value.defense,
+            ["weapon"] = value.weapon,
+            ["artifact1"] = value.artifact1,
+            ["artifact2"] = value.artifact2,
+            ["artifact3"] = value.artifact3,
+            ["artifact4"] = value.artifact4,
+            ["artifact5"] = value.artifact5
         };
 
         public override Character Deserialize(TagCompound tag)
@@ -249,6 +279,12 @@ namespace GenshinMod
             int lifeMax = tag.GetInt("lifeMax");
             int damage = tag.GetInt("damage");
             int defense = tag.GetInt("defense");
+            Item weapon = tag.Get<Item>("weapon");
+            Item artifact1 = tag.Get<Item>("artifact1");
+            Item artifact2 = tag.Get<Item>("artifact2");
+            Item artifact3 = tag.Get<Item>("artifact3");
+            Item artifact4 = tag.Get<Item>("artifact4");
+            Item artifact5 = tag.Get<Item>("artifact5");
 
             Character character = new Character("None");
             switch (name)
@@ -289,6 +325,12 @@ namespace GenshinMod
             character.lifeMax = lifeMax;
             character.damage = damage;
             character.defense = defense;
+            character.weapon = weapon;
+            character.artifact1 = artifact1;
+            character.artifact2 = artifact2;
+            character.artifact3 = artifact3;
+            character.artifact4 = artifact4;
+            character.artifact5 = artifact5;
             return character;
         }
     }

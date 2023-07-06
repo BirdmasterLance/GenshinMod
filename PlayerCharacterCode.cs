@@ -12,6 +12,7 @@ namespace GenshinMod
         public List<Character> partyCharacters;
         public List<Character> activeCharacters;
 
+        public int selectedCharacter = -1;
         public bool replaceTexture; // Checks if we want to replace the texture
 
         public override void ResetEffects()
@@ -45,24 +46,15 @@ namespace GenshinMod
             {
                 tag.Set("partyCharacters", partyCharacters);
             }
-
-            //if (tag.ContainsKey("activeChar"))
-            //{
-            //    tag.Add("activeChar", activeCharacterName);
-            //}
-            //else
-            //{
-            //    tag.Set("activeChar", activeCharacterName);
-            //}
         }
 
         public override void LoadData(TagCompound tag)
         {
-            tag.Remove("characters");
-            tag.Remove("partyCharacters");
+            // Uncomment these if you need to wipe out all data related to characters
+            //tag.Remove("characters");
+            //tag.Remove("partyCharacters");
             characters = (List<Character>)tag.GetList<Character>("characters");
             partyCharacters = (List<Character>)tag.GetList<Character>("partyCharacters");
-            //ChangeActiveCharacter(tag.Get<string>("activeChar"));
             if (partyCharacters.Count == 0)
             {
                 for (int i = 0; i < 4; i++)
@@ -71,7 +63,6 @@ namespace GenshinMod
                 }
             }
             activeCharacters.Clear();
-            activeCharacters.Add(new Character("None"));
         }
 
         /// <summary>
@@ -229,7 +220,14 @@ namespace GenshinMod
             if (activeCharacters.Count >= 2) return false;
             if (!HasCharacter(character)) return false;
             Character activeCharacter = GetCharacter(character);
-            activeCharacters[0] = activeCharacter;
+            if(activeCharacters.Count == 0)
+            {
+                activeCharacters.Add(activeCharacter);
+            }
+            else
+            {
+                activeCharacters[0] = activeCharacter;
+            }
             return true;
         }
 

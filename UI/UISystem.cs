@@ -94,6 +94,7 @@ namespace GenshinMod.UI
         internal void HideUIs()
         {
             characterListUI.CloseMenu();
+            partyUI.CloseMenu();
             GenshinInterface?.SetState(null);
         }
     }

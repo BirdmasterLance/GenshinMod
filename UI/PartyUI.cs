@@ -352,7 +352,7 @@ namespace GenshinMod.UI
             }
         }
 
-        // Used so we can laod the UI with player information,
+        // Used so we can load the UI with player information,
         // as doing it in OnInitialize will crash the game
         // as no player has been loaded at that point yet
         public void OpenMenu()
@@ -364,8 +364,6 @@ namespace GenshinMod.UI
             var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
             List<Character> playerCharacters = modPlayer.GetCharacters();
             List<Character> partyCharacters = modPlayer.GetPartyCharacters();
-
-            if (playerCharacters.Count <= 0) return;
 
             characterSelected = 0;
 
@@ -390,6 +388,42 @@ namespace GenshinMod.UI
             }
 
             listPanel.Remove();
+        }
+
+        // Used so we can save information when the UI is closed
+        // It does bring up the chance that if the game crashes
+        // before the UI is closed, items may disappear?
+        public void CloseMenu()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            partyCharacters[0].weapon = characterWeapon1.Item;
+            partyCharacters[0].artifact1 = character1Artifact1.Item;
+            partyCharacters[0].artifact2 = character1Artifact2.Item;
+            partyCharacters[0].artifact3 = character1Artifact3.Item;
+            partyCharacters[0].artifact4 = character1Artifact4.Item;
+            partyCharacters[0].artifact5 = character1Artifact5.Item;
+
+            partyCharacters[1].weapon = characterWeapon2.Item;
+            partyCharacters[1].artifact1 = character2Artifact1.Item;
+            partyCharacters[1].artifact2 = character2Artifact2.Item;
+            partyCharacters[1].artifact3 = character2Artifact3.Item;
+            partyCharacters[1].artifact4 = character2Artifact4.Item;
+            partyCharacters[1].artifact5 = character2Artifact5.Item;
+
+            partyCharacters[2].weapon = characterWeapon3.Item;
+            partyCharacters[2].artifact1 = character3Artifact1.Item;
+            partyCharacters[2].artifact2 = character3Artifact2.Item;
+            partyCharacters[2].artifact3 = character3Artifact3.Item;
+            partyCharacters[2].artifact4 = character3Artifact4.Item;
+            partyCharacters[2].artifact5 = character3Artifact5.Item;
+
+            partyCharacters[3].weapon = characterWeapon4.Item;
+            partyCharacters[3].artifact1 = character4Artifact1.Item;
+            partyCharacters[3].artifact2 = character4Artifact2.Item;
+            partyCharacters[3].artifact3 = character4Artifact3.Item;
+            partyCharacters[3].artifact4 = character4Artifact4.Item;
+            partyCharacters[3].artifact5 = character4Artifact5.Item;
         }
 
         private void OnCharacter1Click(UIMouseEvent evt, UIElement listeningElement)
@@ -499,7 +533,7 @@ namespace GenshinMod.UI
         private void OnActiveCharacter1Select(UIMouseEvent evt, UIElement listeningElement)
         {
             var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
-            modPlayer.SetActiveCharacter(characterName1.Text);
+            modPlayer.selectedCharacter = 0;
             activeCharacterButton1.BackgroundColor = new Color(0, 255, 0, 1);
             activeCharacterButton2.BackgroundColor = new Color(255, 0, 0, 1);
             activeCharacterButton3.BackgroundColor = new Color(255, 0, 0, 1);
@@ -509,7 +543,7 @@ namespace GenshinMod.UI
         private void OnActiveCharacter2Select(UIMouseEvent evt, UIElement listeningElement)
         {
             var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
-            modPlayer.SetActiveCharacter(characterName2.Text);
+            modPlayer.selectedCharacter = 1;
             activeCharacterButton2.BackgroundColor = new Color(0, 255, 0, 1);
             activeCharacterButton1.BackgroundColor = new Color(255, 0, 0, 1);
             activeCharacterButton3.BackgroundColor = new Color(255, 0, 0, 1);
@@ -519,7 +553,7 @@ namespace GenshinMod.UI
         private void OnActiveCharacter3Select(UIMouseEvent evt, UIElement listeningElement)
         {
             var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
-            modPlayer.SetActiveCharacter(characterName3.Text);
+            modPlayer.selectedCharacter = 2;
             activeCharacterButton3.BackgroundColor = new Color(0, 255, 0, 1);
             activeCharacterButton2.BackgroundColor = new Color(255, 0, 0, 1);
             activeCharacterButton1.BackgroundColor = new Color(255, 0, 0, 1);
@@ -529,7 +563,7 @@ namespace GenshinMod.UI
         private void OnActiveCharacter4Select(UIMouseEvent evt, UIElement listeningElement)
         {
             var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
-            modPlayer.SetActiveCharacter(characterName4.Text);
+            modPlayer.selectedCharacter = 3;
             activeCharacterButton4.BackgroundColor = new Color(0, 255, 0, 1);
             activeCharacterButton2.BackgroundColor = new Color(255, 0, 0, 1);
             activeCharacterButton3.BackgroundColor = new Color(255, 0, 0, 1);
@@ -554,6 +588,12 @@ namespace GenshinMod.UI
                     characterLife1.SetText(string.Format("{0} / {1}", partyCharacters[0].life, partyCharacters[0].lifeMax));
                     characterDamage1.SetText(string.Format("Damage: {0}", partyCharacters[0].damage));
                     characterDefense1.SetText(string.Format("Defense: {0}", partyCharacters[0].defense));
+                    characterWeapon1.AddItem(ref partyCharacters[0].weapon);
+                    character1Artifact1.AddItem(ref partyCharacters[0].artifact1);
+                    character1Artifact2.AddItem(ref partyCharacters[0].artifact2);
+                    character1Artifact3.AddItem(ref partyCharacters[0].artifact3);
+                    character1Artifact4.AddItem(ref partyCharacters[0].artifact4);
+                    character1Artifact5.AddItem(ref partyCharacters[0].artifact5);
                 }
             }
             if (partyCharacters.Count >= 2)
@@ -571,6 +611,12 @@ namespace GenshinMod.UI
                     characterLife2.SetText(string.Format("{0} / {1}", partyCharacters[1].life, partyCharacters[1].lifeMax));
                     characterDamage2.SetText(string.Format("Damage: {0}", partyCharacters[1].damage));
                     characterDefense2.SetText(string.Format("Defense: {0}", partyCharacters[1].defense));
+                    characterWeapon2.AddItem(ref partyCharacters[1].weapon);
+                    character2Artifact1.AddItem(ref partyCharacters[1].artifact1);
+                    character2Artifact2.AddItem(ref partyCharacters[1].artifact2);
+                    character2Artifact3.AddItem(ref partyCharacters[1].artifact3);
+                    character2Artifact4.AddItem(ref partyCharacters[1].artifact4);
+                    character2Artifact5.AddItem(ref partyCharacters[1].artifact5);
                 }
             }
             if (partyCharacters.Count >= 3)
@@ -588,6 +634,12 @@ namespace GenshinMod.UI
                     characterLife3.SetText(string.Format("{0} / {1}", partyCharacters[2].life, partyCharacters[2].lifeMax));
                     characterDamage3.SetText(string.Format("Damage: {0}", partyCharacters[2].damage));
                     characterDefense3.SetText(string.Format("Defense: {0}", partyCharacters[2].defense));
+                    characterWeapon3.AddItem(ref partyCharacters[2].weapon);
+                    character3Artifact1.AddItem(ref partyCharacters[2].artifact1);
+                    character3Artifact2.AddItem(ref partyCharacters[2].artifact2);
+                    character3Artifact3.AddItem(ref partyCharacters[2].artifact3);
+                    character3Artifact4.AddItem(ref partyCharacters[2].artifact4);
+                    character3Artifact5.AddItem(ref partyCharacters[2].artifact5);
                 }
             }
             if (partyCharacters.Count >= 4)
@@ -605,6 +657,12 @@ namespace GenshinMod.UI
                     characterLife4.SetText(string.Format("{0} / {1}", partyCharacters[3].life, partyCharacters[3].lifeMax));
                     characterDamage4.SetText(string.Format("Damage: {0}", partyCharacters[3].damage));
                     characterDefense4.SetText(string.Format("Defense: {0}", partyCharacters[3].defense));
+                    characterWeapon4.AddItem(ref partyCharacters[3].weapon);
+                    character4Artifact1.AddItem(ref partyCharacters[3].artifact1);
+                    character4Artifact2.AddItem(ref partyCharacters[3].artifact2);
+                    character4Artifact3.AddItem(ref partyCharacters[3].artifact3);
+                    character4Artifact4.AddItem(ref partyCharacters[3].artifact4);
+                    character4Artifact5.AddItem(ref partyCharacters[3].artifact5);
                 }
             }
         }
