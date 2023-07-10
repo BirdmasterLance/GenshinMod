@@ -76,7 +76,7 @@ namespace GenshinMod
                     }
 					if (modPlayer.partyCharacters.Count == 0)
 					{
-						Main.NewText("A character is already summoned!");
+						Main.NewText("No Character to summon!");
 						return;
 					}
 					if (modPlayer.partyCharacters[modPlayer.selectedCharacter].Name == "None")
@@ -88,8 +88,7 @@ namespace GenshinMod
 					{
 						if (modPlayer.activeCharacters.Count == 1)
 						{
-							Main.NewText("A character is already summoned!");
-							return;
+							modPlayer.activeCharacters[0].DespawnCharacter(player);
 						}
 						modPlayer.partyCharacters[modPlayer.selectedCharacter].SpawnCharacter(player);
 						Main.NewText(string.Format("Spawned", modPlayer.partyCharacters[modPlayer.selectedCharacter].Name));

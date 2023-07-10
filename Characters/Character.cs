@@ -20,6 +20,8 @@ namespace GenshinMod
         public int Constellation { get; set; } = 0;
         public int ConstellationUpgrade { get; set; } = 0; // Needed because it should be the player's decision to upgrade their character's constellation
 
+        public Elements.Element Element { get; protected set; }
+
         protected int npcID = -1;
         protected int playerID = -1;
         public int level;
@@ -116,7 +118,7 @@ namespace GenshinMod
                 modPlayer.SetActiveCharacter(Name);
 
                 playerID = player.whoAmI;
-                Main.NewText(npcType);
+                //Main.NewText(npcType);
                 npcID = NPC.NewNPC(player.GetSource_FromThis(), (int)player.position.X, (int)player.position.Y, npcType);
                 NPC npc = Main.npc[npcID];
                 npc.life = life;
@@ -162,6 +164,7 @@ namespace GenshinMod
         public Yanfei() : base("Yanfei")
         {
             npcType = ModContent.NPCType<Characters.Yanfei.YanfeiNPC>();
+            Element = Elements.Element.Pyro;
             #region Description Texts
 
             NormalAttack = "Seal of Approval";
@@ -207,6 +210,7 @@ namespace GenshinMod
         public Kaeya() : base("Kaeya")
         {
             npcType = NPCID.Penguin;
+            Element = Elements.Element.Cryo;
         }
     }
 
@@ -215,6 +219,7 @@ namespace GenshinMod
         public Noelle() : base("Noelle")
         {
             npcType = NPCID.GemBunnyAmber;
+            Element = Elements.Element.Geo;
         }
     }
 
@@ -223,6 +228,7 @@ namespace GenshinMod
         public Barbara() : base("Barbara")
         {
             npcType = ModContent.NPCType<Characters.Barbara.BarbaraNPC>();
+            Element = Elements.Element.Hydro;
         }
     }
 
@@ -231,21 +237,25 @@ namespace GenshinMod
         public RaidenShogun() : base("Raiden Shogun")
         {
             npcType = NPCID.GemBunnyAmethyst;
+            Element = Elements.Element.Electro;
         }
     }
 
-    //public class YaeMiko : Character
-    //{
-    //    public YaeMiko(int atkLVL = 1, int skillLVL = 1, int burstLVL = 1, int constellationLVL = 0, int constellationUpgrade = 0) : base("Yae Miko", atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade)
-    //    {
-    //    }
-    //}
+    public class YaeMiko : Character
+    {
+        public YaeMiko() : base("Yae Miko")
+        {
+            npcType = NPCID.TownCat;
+            Element = Elements.Element.Electro;
+        }
+    }
 
     public class Sucrose : Character
     {
         public Sucrose() : base("Sucrose")
         {
             npcType = NPCID.BirdBlue;
+            Element = Elements.Element.Anemo;
         }
     }
 
@@ -254,6 +264,7 @@ namespace GenshinMod
         public Klee() : base("Klee")
         {
             npcType = NPCID.GemBunnyRuby;
+            Element = Elements.Element.Pyro;
         }
     }
 
@@ -262,6 +273,16 @@ namespace GenshinMod
         public HuTao() : base("Hu Tao")
         {
             npcType = NPCID.GemSquirrelRuby;
+            Element = Elements.Element.Pyro;
+        }
+    }
+
+    public class Kokomi : Character
+    {
+        public Kokomi() : base("Sangonomiya Kokomi")
+        {
+            npcType = NPCID.Pupfish;
+            Element = Elements.Element.Hydro;
         }
     }
 
@@ -336,8 +357,9 @@ namespace GenshinMod
                 case "Barbara":
                     character = new Barbara();
                     break;
-                //case "Yae Miko":
-                //    return new YaeMiko(atkLVL, skillLVL, burstLVL, constellationLVL, constellationUpgrade);
+                case "Yae Miko":
+                    character = new YaeMiko();
+                    break;
                 case "Raiden Shogun":
                     character = new RaidenShogun();
                     break;
@@ -349,6 +371,9 @@ namespace GenshinMod
                     break;
                 case "Hu Tao":
                     character = new HuTao();
+                    break;
+                case "Sangonomiya Kokomi":
+                    character = new Kokomi();
                     break;
             }
             character.AttackLevel = atkLVL;
@@ -475,13 +500,14 @@ namespace GenshinMod
                 case "Noelle" : return new Noelle();
                 case "Qiqi" : return null;
                 case "Raiden Shogun" : return new RaidenShogun();
+                case "Sangonomiya Kokomi": return new Kokomi();
                 case "Sayu" : return null;
                 case "Sucrose" : return new Sucrose();
                 case "Venti" : return null;
                 case "Xiao" : return null;
                 case "Xiangling" : return null;
                 case "Xinyan" : return null;
-                case "Yae Miko" : return null;
+                case "Yae Miko" : return new YaeMiko();
                 case "Yelan": return null;
                 case "Yanfei" : return new Yanfei();
                 case "Yoimiya" : return null;
@@ -572,9 +598,11 @@ namespace GenshinMod
                 Kaeya,
                 Noelle,
                 RaidenShogun,
+                YaeMiko,
                 Barbara,
                 HuTao,
-                Klee
+                Klee,
+                Kokomi
 
             });
 

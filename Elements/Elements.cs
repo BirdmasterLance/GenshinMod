@@ -4,6 +4,18 @@ using Terraria.ModLoader;
 
 namespace GenshinMod.Elements
 {
+
+    public enum Element
+    {
+        Anemo,
+        Geo,
+        Electro,
+        Dendro,
+        Hydro,
+        Pyro,
+        Cryo
+    }
+
     internal class Elements : ILoadable
     {
         // List of weapons

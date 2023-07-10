@@ -82,57 +82,62 @@ namespace GenshinMod
 
             foreach (Character character in partyCharacters) // Count how many characters are of a certain element for a player
             {
-                switch (CharacterLists.GetElement(character.Name))
+                switch (character.Element)
                 {
-                    case "Anemo":
+                    case Elements.Element.Anemo:
                         elementCounts[0]++;
                         break;
-                    case "Geo":
+                    case Elements.Element.Geo:
                         elementCounts[1]++;
                         break;
-                    case "Electro":
+                    case Elements.Element.Electro:
                         elementCounts[2]++;
                         break;
-                    case "Dendro":
+                    case Elements.Element.Dendro:
                         elementCounts[3]++;
                         break;
-                    case "Hydro":
+                    case Elements.Element.Hydro:
                         elementCounts[4]++;
                         break;
-                    case "Pyro":
+                    case Elements.Element.Pyro:
                         elementCounts[5]++;
                         break;
-                    case "Cryo":
+                    case Elements.Element.Cryo:
                         elementCounts[6]++;
                         break;
                 }
             }
 
-            if (elementCounts[0] >= 2) // Anemo
+            if (elementCounts[(int) Elements.Element.Anemo] >= 2)
             {
                 Player.moveSpeed += 0.25f;
             }
-            else if (elementCounts[5] >= 2) // Pyro
-            {
-                Player.GetDamage(DamageClass.Generic) += 0.25f; // Additive stat boost as this is how Terraria normally does it
-            }
-            else if (elementCounts[6] >= 2)
+            if (elementCounts[(int)Elements.Element.Hydro] >= 2)
             {
                 // TODO: See how 1.4.4 modloader handles health
+            }
+            if (elementCounts[(int)Elements.Element.Pyro] >= 2)
+            {
+                Player.GetDamage(DamageClass.Generic) += 0.25f; // Additive stat boost as this is how Terraria normally does it
             }
 
             for (int i = 0; i < partyCharacters.Count; i++)
             {
                 ModifyCharacterStats.AdjustCharacterStats(partyCharacters[i]);
-                if (elementCounts[5] >= 2)
-                {
-                    partyCharacters[i].damage = (int)(partyCharacters[i].damage * 1.25f);
-                }
-                else if (elementCounts[6] >= 2)
+                if (elementCounts[(int)Elements.Element.Hydro] >= 2)
                 {
                     partyCharacters[i].lifeMax = (int)(partyCharacters[i].lifeMax * 1.25f);
                     partyCharacters[i].life = (int)(partyCharacters[i].life * 1.25f);
                 }
+                if (elementCounts[(int)Elements.Element.Pyro] >= 2)
+                {
+                    partyCharacters[i].damage = (int)(partyCharacters[i].damage * 1.25f);
+                }
+                // Update the character's life based on the NPC's life
+                //if(partyCharacters[i].GetNPCID() != -1)
+                //{
+                //    partyCharacters[i].life = Main.npc[partyCharacters[i].GetNPCID()].life;
+                //}
             }
         }
 
@@ -225,7 +230,7 @@ namespace GenshinMod
                 {
                     Main.NewText(string.Format("Could not add {0}!", characterToAdd));
                 }
-                partyCharacters.Add(characterToAdd);
+                partyCharacters.Add(GetCharacter(character));
                 return true;
             }
             return false;
@@ -290,14 +295,13 @@ namespace GenshinMod
         {
             if (activeCharacters.Count >= 2) return false;
             if (!HasCharacter(character)) return false;
-            Character activeCharacter = GetCharacter(character);
             if(activeCharacters.Count == 0)
             {
-                activeCharacters.Add(activeCharacter);
+                activeCharacters.Add(GetCharacter(character));
             }
             else
             {
-                activeCharacters[0] = activeCharacter;
+                activeCharacters[0] = GetCharacter(character);
             }
             return true;
         }
@@ -306,8 +310,7 @@ namespace GenshinMod
         {
             if (activeCharacters.Count <= 0) return false;
             if (!HasCharacter(character)) return false;
-            Character activeCharacter = GetCharacter(character);
-            activeCharacters.Remove(activeCharacter);
+            activeCharacters.Remove(GetCharacter(character));
             return true;
         }
 
@@ -315,8 +318,7 @@ namespace GenshinMod
         {
             if (activeCharacters.Count <= 0) return false;
             if (!HasCharacter(character)) return false;
-            Character activeCharacter = GetCharacter(character);
-            return activeCharacters.Contains(activeCharacter);
+            return activeCharacters.Contains(GetCharacter(character));
         }
 
         ///// <summary>
