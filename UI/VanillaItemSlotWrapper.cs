@@ -16,9 +16,11 @@ namespace GenshinMod.UI
 	internal class VanillaItemSlotWrapper : UIElement
 	{
 		internal Item Item;
+		internal Item itemToChange;
 		private readonly int _context;
 		private readonly float _scale;
 		internal Func<Item, bool> ValidItemFunc;
+		public EventHandler<ItemSlot.ItemTransferInfo> OnAddItem;
 
 		public VanillaItemSlotWrapper(int context = ItemSlot.Context.BankItem, float scale = 1f)
 		{
@@ -27,11 +29,27 @@ namespace GenshinMod.UI
 			Item = new Item();
 			Item.SetDefaults(0);
 
+			itemToChange = new Item();
+			itemToChange.SetDefaults(0);
+
 			Width.Set(50 * scale, 0f);
 			Height.Set(50 * scale, 0f);
+
+			ItemSlot.OnItemTransferred += OnTransfer;
 		}
 
-		protected override void DrawSelf(SpriteBatch spriteBatch)
+        private void OnTransfer(ItemSlot.ItemTransferInfo info)
+        {
+			// We need this condition here so this event is only invoked
+			// when an item is transferred on the item slot we are clicking on
+			// Without it, this will run whenever ANY item slot is clicked on (even in the inventory!!)
+			if (ContainsPoint(Main.MouseScreen) && !PlayerInput.IgnoreMouseInterface)
+			{
+				OnAddItem?.Invoke(this, info);
+			}
+        }
+
+        protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			float oldScale = Main.inventoryScale;
 			Main.inventoryScale = _scale;
@@ -51,7 +69,7 @@ namespace GenshinMod.UI
 			Main.inventoryScale = oldScale;
 		}
 
-		public void AddItem(ref Item item)
+		public void SetItem(ref Item item)
         {
 			Item = item;
 		}

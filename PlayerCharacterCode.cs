@@ -65,6 +65,66 @@ namespace GenshinMod
             activeCharacters.Clear();
         }
 
+        public override void PostUpdate()
+        {
+            // Just going to store the number of characters that have a specific element in an array
+            // 0: Anemo
+            // 1: Geo
+            // 2: Electro
+            // 3: Dendro
+            // 4: Hydro
+            // 5: Pyro
+            // 6: Cryo
+            int[] elementCounts = [0, 0, 0, 0, 0, 0, 0];
+
+            foreach (Character character in partyCharacters)
+            {
+                switch (CharacterLists.GetElement(character.Name))
+                {
+                    case "Anemo":
+                        elementCounts[0]++;
+                        break;
+                    case "Geo":
+                        elementCounts[1]++;
+                        break;
+                    case "Electro":
+                        elementCounts[2]++;
+                        break;
+                    case "Dendro":
+                        elementCounts[3]++;
+                        break;
+                    case "Hydro":
+                        elementCounts[4]++;
+                        break;
+                    case "Pyro":
+                        elementCounts[5]++;
+                        break;
+                    case "Cryo":
+                        elementCounts[6]++;
+                        break;
+                }
+            }
+
+            if (elementCounts[0] == 2) // Anemo
+            {
+                Player.moveSpeed += 0.25f;
+            }
+            else if (elementCounts[5] == 2) // Pyro
+            {
+                Player.GetDamage(DamageClass.Generic) += 0.25f; // Additive stat boost as this is how Terraria normally does it
+                if (activeCharacters.Count > 0) activeCharacters[0].damage = (int)(activeCharacters[0].damage * 1.25f); // Adjust active character's attack
+            }
+            else if (elementCounts[6] == 2)
+            {
+                // TODO: See how 1.4.4 modloader handles health
+                if (activeCharacters.Count > 0)
+                {
+                    activeCharacters[0].lifeMax = (int)(activeCharacters[0].lifeMax * 1.25f); // Adjust active character's HP
+                    activeCharacters[0].life = (int)(activeCharacters[0].life * 1.25f);
+                }
+
+            }
+        }
         /// <summary>
         /// Get the string List of all the characters a player has.
         /// </summary>

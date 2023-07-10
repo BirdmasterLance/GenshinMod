@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GenshinMod.Characters;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -186,9 +188,9 @@ namespace GenshinMod.UI
             characterWeapon2 = new();
             character2Artifact1 = new();
             character2Artifact2 = new();
-            character2Artifact3 = new();
-            character2Artifact4 = new();
-            character2Artifact5 = new();
+            character2Artifact3 = new();                                                                      
+            character2Artifact4 = new();                                                                      
+            character2Artifact5 = new();                                                                      
 
             characterItemGrid2 = new();
             characterItemGrid2.Width.Set(130f, 0);
@@ -250,10 +252,10 @@ namespace GenshinMod.UI
 
             characterWeapon3 = new();
             character3Artifact1 = new();
-            character3Artifact2 = new();
-            character3Artifact3 = new();
-            character3Artifact4 = new();
-            character3Artifact5 = new();
+            character3Artifact2 = new();                                                                      
+            character3Artifact3 = new();                                                                      
+            character3Artifact4 = new();                                                                      
+            character3Artifact5 = new();                                                                      
 
             characterItemGrid3 = new();
             characterItemGrid3.Width.Set(130f, 0);
@@ -346,10 +348,21 @@ namespace GenshinMod.UI
         {
             base.Update(gameTime);
 
-            if (listPanel.IsMouseHovering)
+            if (listPanel.IsMouseHovering || mainWindow.IsMouseHovering)
             {
                 Main.LocalPlayer.mouseInterface = true;
             }
+
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            UpdateCharacterInfo(partyCharacters);
+        }
+        protected override void DrawSelf(SpriteBatch spriteBatch)
+        {
+            base.DrawSelf(spriteBatch);
+
+            // This will hide the crafting menu similar to the reforge menu. For best results this UI is placed before "Vanilla: Inventory" to prevent 1 frame of the craft menu showing.
+            Main.hidePlayerCraftingMenu = true;
         }
 
         // Used so we can load the UI with player information,
@@ -358,16 +371,14 @@ namespace GenshinMod.UI
         public void OpenMenu()
         {
             characterList.Clear();
+            listPanel.Remove();
             characterSelected = -1;
-            //header.SetText("Party Setup");
 
             var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
             List<Character> playerCharacters = modPlayer.GetCharacters();
             List<Character> partyCharacters = modPlayer.GetPartyCharacters();
 
             characterSelected = 0;
-
-            UpdateCharacterInfo(partyCharacters);
 
             foreach (Character character in playerCharacters)
             {
@@ -387,12 +398,52 @@ namespace GenshinMod.UI
                 button.Append(text);
             }
 
-            listPanel.Remove();
+            if(partyCharacters[0] != null)
+            {
+                partyCharacters[0].weapon = characterWeapon1.Item;
+                partyCharacters[0].artifact1 = character1Artifact1.Item;
+                partyCharacters[0].artifact2 = character1Artifact2.Item;
+                partyCharacters[0].artifact3 = character1Artifact3.Item;
+                partyCharacters[0].artifact4 = character1Artifact4.Item;
+                partyCharacters[0].artifact5 = character1Artifact5.Item;
+            }
+
+            if (partyCharacters[1] != null)
+            {
+                partyCharacters[1].weapon = characterWeapon2.Item;
+                partyCharacters[1].artifact1 = character2Artifact1.Item;
+                partyCharacters[1].artifact2 = character2Artifact2.Item;
+                partyCharacters[1].artifact3 = character2Artifact3.Item;
+                partyCharacters[1].artifact4 = character2Artifact4.Item;
+                partyCharacters[1].artifact5 = character2Artifact5.Item;
+            }
+
+
+            if (partyCharacters[2] != null)
+            {
+                partyCharacters[2].weapon = characterWeapon3.Item;
+                partyCharacters[2].artifact1 = character3Artifact1.Item;
+                partyCharacters[2].artifact2 = character3Artifact2.Item;
+                partyCharacters[2].artifact3 = character3Artifact3.Item;
+                partyCharacters[2].artifact4 = character3Artifact4.Item;
+                partyCharacters[2].artifact5 = character3Artifact5.Item;
+            }
+
+            if (partyCharacters[3] != null)
+            {
+                partyCharacters[3].weapon = characterWeapon4.Item;
+                partyCharacters[3].artifact1 = character4Artifact1.Item;
+                partyCharacters[3].artifact2 = character4Artifact2.Item;
+                partyCharacters[3].artifact3 = character4Artifact3.Item;
+                partyCharacters[3].artifact4 = character4Artifact4.Item;
+                partyCharacters[3].artifact5 = character4Artifact5.Item;
+            }
         }
 
         // Used so we can save information when the UI is closed
         // It does bring up the chance that if the game crashes
         // before the UI is closed, items may disappear?
+        // Eventually we must find a way to save it as item is placed
         public void CloseMenu()
         {
             var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
@@ -523,8 +574,6 @@ namespace GenshinMod.UI
                 // If the player selects the character that is already in that position, remove the character from the party
                 if (text.Text != partyCharacters[characterSelected - 1].Name) modPlayer.ChangePartyCharacters(text.Text, characterSelected - 1);
                 else modPlayer.ChangePartyCharacters("None", characterSelected - 1);
-
-                UpdateCharacterInfo(partyCharacters);
             }
 
             characterSelected = 0;
@@ -585,15 +634,16 @@ namespace GenshinMod.UI
                 else
                 {
                     characterName1.SetText(partyCharacters[0].Name);
+                    partyCharacters[0].weapon = characterWeapon1.Item;
+                    partyCharacters[0].artifact1 = character1Artifact1.Item;
+                    partyCharacters[0].artifact2 = character1Artifact2.Item;
+                    partyCharacters[0].artifact3 = character1Artifact3.Item;
+                    partyCharacters[0].artifact4 = character1Artifact4.Item;
+                    partyCharacters[0].artifact5 = character1Artifact5.Item;
+                    ModifyCharacterStats.AdjustCharacterStats(partyCharacters[0]);
                     characterLife1.SetText(string.Format("{0} / {1}", partyCharacters[0].life, partyCharacters[0].lifeMax));
                     characterDamage1.SetText(string.Format("Damage: {0}", partyCharacters[0].damage));
                     characterDefense1.SetText(string.Format("Defense: {0}", partyCharacters[0].defense));
-                    characterWeapon1.AddItem(ref partyCharacters[0].weapon);
-                    character1Artifact1.AddItem(ref partyCharacters[0].artifact1);
-                    character1Artifact2.AddItem(ref partyCharacters[0].artifact2);
-                    character1Artifact3.AddItem(ref partyCharacters[0].artifact3);
-                    character1Artifact4.AddItem(ref partyCharacters[0].artifact4);
-                    character1Artifact5.AddItem(ref partyCharacters[0].artifact5);
                 }
             }
             if (partyCharacters.Count >= 2)
@@ -608,15 +658,16 @@ namespace GenshinMod.UI
                 else
                 {
                     characterName2.SetText(partyCharacters[1].Name);
+                    partyCharacters[1].weapon = characterWeapon2.Item;
+                    partyCharacters[1].artifact1 = character2Artifact1.Item;
+                    partyCharacters[1].artifact2 = character2Artifact2.Item;
+                    partyCharacters[1].artifact3 = character2Artifact3.Item;
+                    partyCharacters[1].artifact4 = character2Artifact4.Item;
+                    partyCharacters[1].artifact5 = character2Artifact5.Item;
+                    ModifyCharacterStats.AdjustCharacterStats(partyCharacters[1]);
                     characterLife2.SetText(string.Format("{0} / {1}", partyCharacters[1].life, partyCharacters[1].lifeMax));
                     characterDamage2.SetText(string.Format("Damage: {0}", partyCharacters[1].damage));
                     characterDefense2.SetText(string.Format("Defense: {0}", partyCharacters[1].defense));
-                    characterWeapon2.AddItem(ref partyCharacters[1].weapon);
-                    character2Artifact1.AddItem(ref partyCharacters[1].artifact1);
-                    character2Artifact2.AddItem(ref partyCharacters[1].artifact2);
-                    character2Artifact3.AddItem(ref partyCharacters[1].artifact3);
-                    character2Artifact4.AddItem(ref partyCharacters[1].artifact4);
-                    character2Artifact5.AddItem(ref partyCharacters[1].artifact5);
                 }
             }
             if (partyCharacters.Count >= 3)
@@ -631,15 +682,16 @@ namespace GenshinMod.UI
                 else
                 {
                     characterName3.SetText(partyCharacters[2].Name);
+                    partyCharacters[2].weapon = characterWeapon3.Item;
+                    partyCharacters[2].artifact1 = character3Artifact1.Item;
+                    partyCharacters[2].artifact2 = character3Artifact2.Item;
+                    partyCharacters[2].artifact3 = character3Artifact3.Item;
+                    partyCharacters[2].artifact4 = character3Artifact4.Item;
+                    partyCharacters[2].artifact5 = character3Artifact5.Item;
+                    ModifyCharacterStats.AdjustCharacterStats(partyCharacters[2]);
                     characterLife3.SetText(string.Format("{0} / {1}", partyCharacters[2].life, partyCharacters[2].lifeMax));
                     characterDamage3.SetText(string.Format("Damage: {0}", partyCharacters[2].damage));
                     characterDefense3.SetText(string.Format("Defense: {0}", partyCharacters[2].defense));
-                    characterWeapon3.AddItem(ref partyCharacters[2].weapon);
-                    character3Artifact1.AddItem(ref partyCharacters[2].artifact1);
-                    character3Artifact2.AddItem(ref partyCharacters[2].artifact2);
-                    character3Artifact3.AddItem(ref partyCharacters[2].artifact3);
-                    character3Artifact4.AddItem(ref partyCharacters[2].artifact4);
-                    character3Artifact5.AddItem(ref partyCharacters[2].artifact5);
                 }
             }
             if (partyCharacters.Count >= 4)
@@ -654,17 +706,267 @@ namespace GenshinMod.UI
                 else
                 {
                     characterName4.SetText(partyCharacters[3].Name);
+                    partyCharacters[3].weapon = characterWeapon4.Item;
+                    partyCharacters[3].artifact1 = character4Artifact1.Item;
+                    partyCharacters[3].artifact2 = character4Artifact2.Item;
+                    partyCharacters[3].artifact3 = character4Artifact3.Item;
+                    partyCharacters[3].artifact4 = character4Artifact4.Item;
+                    partyCharacters[3].artifact5 = character4Artifact5.Item;
+                    ModifyCharacterStats.AdjustCharacterStats(partyCharacters[3]);
                     characterLife4.SetText(string.Format("{0} / {1}", partyCharacters[3].life, partyCharacters[3].lifeMax));
                     characterDamage4.SetText(string.Format("Damage: {0}", partyCharacters[3].damage));
                     characterDefense4.SetText(string.Format("Defense: {0}", partyCharacters[3].defense));
-                    characterWeapon4.AddItem(ref partyCharacters[3].weapon);
-                    character4Artifact1.AddItem(ref partyCharacters[3].artifact1);
-                    character4Artifact2.AddItem(ref partyCharacters[3].artifact2);
-                    character4Artifact3.AddItem(ref partyCharacters[3].artifact3);
-                    character4Artifact4.AddItem(ref partyCharacters[3].artifact4);
-                    character4Artifact5.AddItem(ref partyCharacters[3].artifact5);
                 }
             }
         }
+
+        #region Save Items
+
+        private void SetCharacter1Weapon()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[0] != null)
+            {
+                partyCharacters[0].weapon = characterWeapon1.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[0]);
+            }
+        }
+        private void SetCharacter1Artifact1()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[0] != null)
+            {
+                partyCharacters[0].artifact1 = character1Artifact1.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[0]);
+            }
+        }
+        private void SetCharacter1Artifact2()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[0] != null)
+            {
+                partyCharacters[0].artifact2 = character1Artifact2.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[0]);
+            }
+        }
+        private void SetCharacter1Artifact3()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[0] != null)
+            {
+                partyCharacters[0].artifact3 = character1Artifact3.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[0]);
+            }
+        }
+        private void SetCharacter1Artifact4()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[0] != null)
+            {
+                partyCharacters[0].artifact4 = character1Artifact4.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[0]);
+            }
+        }
+        private void SetCharacter1Artifact5()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[0] != null)
+            {
+                partyCharacters[0].artifact5 = character1Artifact5.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[0]);
+            }
+        }
+
+        private void SetCharacter2Weapon()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[1] != null)
+            {
+                partyCharacters[1].weapon = characterWeapon2.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[1]);
+            }
+        }
+        private void SetCharacter2Artifact1()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[1] != null)
+            {
+                partyCharacters[1].artifact1 = character2Artifact1.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[1]);
+            }
+        }
+        private void SetCharacter2Artifact2()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[1] != null)
+            {
+                partyCharacters[1].artifact2 = character2Artifact2.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[1]);
+            }
+        }
+        private void SetCharacter2Artifact3()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[1] != null)
+            {
+                partyCharacters[1].artifact3 = character2Artifact3.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[1]);
+            }
+        }
+        private void SetCharacter2Artifact4()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[1] != null)
+            {
+                partyCharacters[1].artifact4 = character2Artifact4.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[1]);
+            }
+        }
+        private void SetCharacter2Artifact5()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[1] != null)
+            {
+                partyCharacters[1].artifact5 = character2Artifact5.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[1]);
+            }
+        }
+
+        private void SetCharacter3Weapon()
+        {
+            Main.NewText(characterWeapon3.Item.Name);
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[2] != null)
+            {
+                partyCharacters[2].weapon = characterWeapon3.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[2]);
+            }
+        }
+        private void SetCharacter3Artifact1()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[2] != null)
+            {
+                partyCharacters[2].artifact1 = character3Artifact1.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[2]);
+            }
+        }
+        private void SetCharacter3Artifact2()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[2] != null)
+            {
+                partyCharacters[2].artifact2 = character3Artifact2.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[2]);
+            }
+        }
+        private void SetCharacter3Artifact3()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[2] != null)
+            {
+                partyCharacters[2].artifact3 = character3Artifact3.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[2]);
+            }
+        }
+        private void SetCharacter3Artifact4()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[2] != null)
+            {
+                partyCharacters[2].artifact4 = character3Artifact4.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[2]);
+            }
+        }
+        private void SetCharacter3Artifact5()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[2] != null)
+            {
+                partyCharacters[2].artifact5 = character3Artifact5.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[2]);
+            }
+        }
+
+        private void SetCharacter4Weapon()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[3] != null)
+            {
+                partyCharacters[3].weapon = characterWeapon4.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[3]);
+            }
+        }
+        private void SetCharacter4Artifact1()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[3] != null)
+            {
+                partyCharacters[3].artifact1 = character4Artifact1.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[3]);
+            }
+        }
+        private void SetCharacter4Artifact2()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[3] != null)
+            {
+                partyCharacters[3].artifact2 = character4Artifact2.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[3]);
+            }
+        }
+        private void SetCharacter4Artifact3()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[3] != null)
+            {
+                partyCharacters[3].artifact3 = character4Artifact3.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[3]);
+            }
+        }
+        private void SetCharacter4Artifact4()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[3] != null)
+            {
+                partyCharacters[3].artifact4 = character4Artifact4.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[3]);
+            }
+        }
+        private void SetCharacter4Artifact5()
+        {
+            var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            List<Character> partyCharacters = modPlayer.GetPartyCharacters();
+            if (partyCharacters[3] != null)
+            {
+                partyCharacters[3].artifact5 = character4Artifact5.Item;
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[3]);
+            }
+        }
+
+        #endregion
     }
 }

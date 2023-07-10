@@ -1,4 +1,4 @@
-﻿using GenshinMod.Characters.BARBARA;
+﻿using GenshinMod.Characters.Barbara;
 using GenshinMod.Characters.Klee;
 using GenshinMod.Elements;
 using Microsoft.Xna.Framework;
@@ -11,7 +11,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 
-namespace GenshinMod.Characters.BARBARA
+namespace GenshinMod.Characters.Barbara
 {
     internal class BarbaraNPC : ModNPC
     {
@@ -773,7 +773,7 @@ namespace GenshinMod.Characters.BARBARA
 
                             //NPC.velocity.X += 2f;
                             NPC.direction = 1;
-                            Projectile.NewProjectile(entitySource, NPC.Center, Vector2.Zero, ModContent.ProjectileType<BarbaraWater>(), NPC.damage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(entitySource, NPC.Center, Vector2.Zero, ModContent.ProjectileType<BarbaraWater>(), NPC.damage, 0f, Main.myPlayer, ai1:NPC.whoAmI);
                             //foreach (NPC npc in Main.npc)
                             //{
                             //    if (npc.Distance(npc.Center) > distanceFromTarget)
@@ -1923,6 +1923,9 @@ internal class BarbaraWater : ModProjectile
         Projectile.hostile = false;
         Projectile.ignoreWater = true;
         //Projectile.scale = 0.01f;
+
+        // We are going to use Projectile.ai[1] to store the ID of the NPC who shot this projectile
+        Projectile.ai[1] = -1;
     }
     private void SearchForTargets(/*Player owner, out bool foundTarget, out float distanceFromTarget, out Vector2 targetCenter*/)
     {
@@ -1996,7 +1999,7 @@ internal class BarbaraWater : ModProjectile
 
 
 
-                if ((npc.type == ModContent.NPCType<KleeNPC>() || npc.type == ModContent.NPCType<BarbaraNPC>() || npc.friendly) && npc.life > 00)
+                if ((/*npc.type == ModContent.NPCType<KleeNPC>() ||*/ npc.type == ModContent.NPCType<BarbaraNPC>() || npc.friendly) && npc.life > 00)
                 {
                     float between = Vector2.Distance(npc.Center, Projectile.Center);
                     bool closest = Vector2.Distance(Projectile.Center, targetCenter) > between;

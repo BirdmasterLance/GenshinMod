@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GenshinMod.Characters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,11 +23,34 @@ namespace GenshinMod
         protected int npcID = -1;
         protected int playerID = -1;
         public int level;
+
+        // Character Stats
         public int life = 100;
+        public int baseLifeMax = 100;
         public int lifeMax = 100;
+
+        public int baseDamage = 10;
         public int damage = 10;
+
+        public int baseDefense = 10;
         public int defense = 10;
 
+        public int baseCritDmg = 0;
+        public int critDmg = 0;
+
+        public int baseCrit = 0;
+        public int crit = 0;
+
+        public int baseElementalMastery = 0;
+        public int elementalMastery = 0;
+
+        public int baseEnergyRecharge = 0;
+        public int energyRecharge = 0;
+
+        public int baseHealingBonus = 0;
+        public int healingBonus = 0;
+
+        // Character Items
         public Item weapon = new Item();
         public Item artifact1 = new Item();
         public Item artifact2 = new Item();
@@ -198,7 +222,7 @@ namespace GenshinMod
     {
         public Barbara() : base("Barbara")
         {
-            npcType = ModContent.NPCType<Characters.BARBARA.BarbaraNPC>();
+            npcType = ModContent.NPCType<Characters.Barbara.BarbaraNPC>();
         }
     }
 
@@ -246,6 +270,7 @@ namespace GenshinMod
     // For saving character info to the player
     public class CharacterSerializer : TagSerializer<Character, TagCompound>
     {
+        // Only saving the base values because we can just calculate them again
         public override TagCompound Serialize(Character value) => new TagCompound
         {
             ["name"] = value.Name,
@@ -255,10 +280,15 @@ namespace GenshinMod
             ["constellationLVL"] = value.Constellation,
             ["constellationUpgrade"] = value.ConstellationUpgrade,
             ["level"] = value.level,
-            ["life"] = value.life,
-            ["lifeMax"] = value.lifeMax,
-            ["damage"] = value.damage,
-            ["defense"] = value.defense,
+            ["life"] = (int) (value.baseLifeMax * (value.life / value.lifeMax)), // This needs a formula to calculate what the life WOULD BE b4 modifiers
+            ["lifeMax"] = value.baseLifeMax,
+            ["damage"] = value.baseDamage,
+            ["defense"] = value.baseDefense,
+            ["crit"] = value.baseCrit,
+            ["critDmg"] = value.critDmg,
+            ["elementalMastery"] = value.baseElementalMastery,
+            ["energyRecharge"] = value.baseEnergyRecharge,
+            ["healingBonus"] = value.baseHealingBonus,
             ["weapon"] = value.weapon,
             ["artifact1"] = value.artifact1,
             ["artifact2"] = value.artifact2,
@@ -279,6 +309,11 @@ namespace GenshinMod
             int lifeMax = tag.GetInt("lifeMax");
             int damage = tag.GetInt("damage");
             int defense = tag.GetInt("defense");
+            int crit = tag.GetInt("crit");
+            int critDmg = tag.GetInt("critDmg");
+            int elementalMastery = tag.GetInt("elementalMastery");
+            int energyRecharge = tag.GetInt("energyRecharge");
+            int healingBonus = tag.GetInt("healingBonus");
             Item weapon = tag.Get<Item>("weapon");
             Item artifact1 = tag.Get<Item>("artifact1");
             Item artifact2 = tag.Get<Item>("artifact2");
@@ -322,15 +357,21 @@ namespace GenshinMod
             character.Constellation = constellationLVL;
             character.ConstellationUpgrade = constellationUpgrade;
             character.life = life;
-            character.lifeMax = lifeMax;
-            character.damage = damage;
-            character.defense = defense;
+            character.baseLifeMax = lifeMax;
+            character.baseDamage = damage;
+            character.baseDefense = defense;
+            character.baseCrit = crit;
+            character.baseCritDmg = critDmg;
+            character.baseElementalMastery = elementalMastery;
+            character.baseEnergyRecharge = energyRecharge;
+            character.baseHealingBonus = healingBonus;
             character.weapon = weapon;
             character.artifact1 = artifact1;
             character.artifact2 = artifact2;
             character.artifact3 = artifact3;
             character.artifact4 = artifact4;
             character.artifact5 = artifact5;
+            ModifyCharacterStats.AdjustCharacterStats(character);
             return character;
         }
     }
