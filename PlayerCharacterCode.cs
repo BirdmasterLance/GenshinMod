@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using GenshinMod.Characters;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -65,6 +66,8 @@ namespace GenshinMod
             activeCharacters.Clear();
         }
 
+        // We're going to use this as a loop for important player Character information
+        // Since it always runs when the player exists
         public override void PostUpdate()
         {
             // Just going to store the number of characters that have a specific element in an array
@@ -75,9 +78,9 @@ namespace GenshinMod
             // 4: Hydro
             // 5: Pyro
             // 6: Cryo
-            int[] elementCounts = [0, 0, 0, 0, 0, 0, 0];
+            int[] elementCounts = new int[] { 0, 0, 0, 0, 0, 0, 0 };
 
-            foreach (Character character in partyCharacters)
+            foreach (Character character in partyCharacters) // Count how many characters are of a certain element for a player
             {
                 switch (CharacterLists.GetElement(character.Name))
                 {
@@ -105,26 +108,34 @@ namespace GenshinMod
                 }
             }
 
-            if (elementCounts[0] == 2) // Anemo
+            if (elementCounts[0] >= 2) // Anemo
             {
                 Player.moveSpeed += 0.25f;
             }
-            else if (elementCounts[5] == 2) // Pyro
+            else if (elementCounts[5] >= 2) // Pyro
             {
                 Player.GetDamage(DamageClass.Generic) += 0.25f; // Additive stat boost as this is how Terraria normally does it
-                if (activeCharacters.Count > 0) activeCharacters[0].damage = (int)(activeCharacters[0].damage * 1.25f); // Adjust active character's attack
             }
-            else if (elementCounts[6] == 2)
+            else if (elementCounts[6] >= 2)
             {
                 // TODO: See how 1.4.4 modloader handles health
-                if (activeCharacters.Count > 0)
-                {
-                    activeCharacters[0].lifeMax = (int)(activeCharacters[0].lifeMax * 1.25f); // Adjust active character's HP
-                    activeCharacters[0].life = (int)(activeCharacters[0].life * 1.25f);
-                }
+            }
 
+            for (int i = 0; i < partyCharacters.Count; i++)
+            {
+                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[i]);
+                if (elementCounts[5] >= 2)
+                {
+                    partyCharacters[i].damage = (int)(partyCharacters[i].damage * 1.25f);
+                }
+                else if (elementCounts[6] >= 2)
+                {
+                    partyCharacters[i].lifeMax = (int)(partyCharacters[i].lifeMax * 1.25f);
+                    partyCharacters[i].life = (int)(partyCharacters[i].life * 1.25f);
+                }
             }
         }
+
         /// <summary>
         /// Get the string List of all the characters a player has.
         /// </summary>

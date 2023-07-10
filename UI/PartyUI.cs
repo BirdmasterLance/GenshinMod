@@ -640,7 +640,6 @@ namespace GenshinMod.UI
                     partyCharacters[0].artifact3 = character1Artifact3.Item;
                     partyCharacters[0].artifact4 = character1Artifact4.Item;
                     partyCharacters[0].artifact5 = character1Artifact5.Item;
-                    ModifyCharacterStats.AdjustCharacterStats(partyCharacters[0]);
                     characterLife1.SetText(string.Format("{0} / {1}", partyCharacters[0].life, partyCharacters[0].lifeMax));
                     characterDamage1.SetText(string.Format("Damage: {0}", partyCharacters[0].damage));
                     characterDefense1.SetText(string.Format("Defense: {0}", partyCharacters[0].defense));
@@ -663,8 +662,7 @@ namespace GenshinMod.UI
                     partyCharacters[1].artifact2 = character2Artifact2.Item;
                     partyCharacters[1].artifact3 = character2Artifact3.Item;
                     partyCharacters[1].artifact4 = character2Artifact4.Item;
-                    partyCharacters[1].artifact5 = character2Artifact5.Item;
-                    ModifyCharacterStats.AdjustCharacterStats(partyCharacters[1]);
+                    partyCharacters[1].artifact5 = character2Artifact5.Item;                   
                     characterLife2.SetText(string.Format("{0} / {1}", partyCharacters[1].life, partyCharacters[1].lifeMax));
                     characterDamage2.SetText(string.Format("Damage: {0}", partyCharacters[1].damage));
                     characterDefense2.SetText(string.Format("Defense: {0}", partyCharacters[1].defense));
@@ -688,7 +686,6 @@ namespace GenshinMod.UI
                     partyCharacters[2].artifact3 = character3Artifact3.Item;
                     partyCharacters[2].artifact4 = character3Artifact4.Item;
                     partyCharacters[2].artifact5 = character3Artifact5.Item;
-                    ModifyCharacterStats.AdjustCharacterStats(partyCharacters[2]);
                     characterLife3.SetText(string.Format("{0} / {1}", partyCharacters[2].life, partyCharacters[2].lifeMax));
                     characterDamage3.SetText(string.Format("Damage: {0}", partyCharacters[2].damage));
                     characterDefense3.SetText(string.Format("Defense: {0}", partyCharacters[2].defense));
@@ -712,7 +709,6 @@ namespace GenshinMod.UI
                     partyCharacters[3].artifact3 = character4Artifact3.Item;
                     partyCharacters[3].artifact4 = character4Artifact4.Item;
                     partyCharacters[3].artifact5 = character4Artifact5.Item;
-                    ModifyCharacterStats.AdjustCharacterStats(partyCharacters[3]);
                     characterLife4.SetText(string.Format("{0} / {1}", partyCharacters[3].life, partyCharacters[3].lifeMax));
                     characterDamage4.SetText(string.Format("Damage: {0}", partyCharacters[3].damage));
                     characterDefense4.SetText(string.Format("Defense: {0}", partyCharacters[3].defense));
