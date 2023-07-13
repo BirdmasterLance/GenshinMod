@@ -16,10 +16,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Characters\Kaeya\" />
     <Folder Include="Characters\Barbara\" />
-    <Folder Include="Characters\RaidenShogun\" />
     <Folder Include="Characters\Noelle\" />
-    <Folder Include="Characters\Yanfei\" />
   </ItemGroup>
 </Project>

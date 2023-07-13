@@ -52,8 +52,9 @@ namespace GenshinMod
         public override void LoadData(TagCompound tag)
         {
             // Uncomment these if you need to wipe out all data related to characters
-            //tag.Remove("characters");
-            //tag.Remove("partyCharacters");
+            tag.Remove("characters");
+            tag.Remove("partyCharacters");
+
             characters = (List<Character>)tag.GetList<Character>("characters");
             partyCharacters = (List<Character>)tag.GetList<Character>("partyCharacters");
             if (partyCharacters.Count == 0)
@@ -79,6 +80,7 @@ namespace GenshinMod
             // 5: Pyro
             // 6: Cryo
             int[] elementCounts = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+            int oneOfEachElement = 0;
 
             foreach (Character character in partyCharacters) // Count how many characters are of a certain element for a player
             {
@@ -120,10 +122,28 @@ namespace GenshinMod
             {
                 Player.GetDamage(DamageClass.Generic) += 0.25f; // Additive stat boost as this is how Terraria normally does it
             }
-
-            for (int i = 0; i < partyCharacters.Count; i++)
+            // Use a loop to check if there is only 1 of an element in the array
+            foreach(int i in elementCounts)
             {
-                ModifyCharacterStats.AdjustCharacterStats(partyCharacters[i]);
+                if (i == 1) oneOfEachElement++;
+            }
+            if(oneOfEachElement == 4)
+            {
+                Player.statDefense = (int) (Player.statDefense * 1.25f); // How TMod recommends we do multiplicative increases
+            }
+
+            // Calculate the stats for every character to make sure the values are always up to date
+            // May be inefficient, but without this, bugs can occur
+            // For example, if you switch someone off of your party after they are affected by
+            // Elemental Resonance, they keep their adjusted stats despite not being in any party.
+            for(int i = 0; i < characters.Count; i++)
+            {
+                ModifyCharacterStats.AdjustCharacterStats(characters[i]);
+            }
+
+            // Adjust the stats of every character in the party due to Elemental Resonance
+            for (int i = 0; i < partyCharacters.Count; i++)
+            { 
                 if (elementCounts[(int)Elements.Element.Hydro] >= 2)
                 {
                     partyCharacters[i].lifeMax = (int)(partyCharacters[i].lifeMax * 1.25f);
@@ -133,35 +153,19 @@ namespace GenshinMod
                 {
                     partyCharacters[i].damage = (int)(partyCharacters[i].damage * 1.25f);
                 }
-                // Update the character's life based on the NPC's life
-                //if(partyCharacters[i].GetNPCID() != -1)
-                //{
-                //    partyCharacters[i].life = Main.npc[partyCharacters[i].GetNPCID()].life;
-                //}
+                if(oneOfEachElement == 4)
+                {
+                    partyCharacters[i].defense = (int)(partyCharacters[i].defense * 1.25f);
+                }
             }
         }
 
         /// <summary>
         /// Get the string List of all the characters a player has.
         /// </summary>
-        public List<Character> GetCharacters()
+        public ref List<Character> GetCharacters()
         {
-            return characters;
-        }
-
-        /// <summary>
-        /// Returns the character class based on the name provided.
-        /// </summary>
-        public Character GetCharacter(string character)
-        {
-            for (int i = 0; i < characters.Count; i++)
-            {
-                if (characters[i].Name == character)
-                {
-                    return characters[i];
-                }
-            }
-            return null;
+            return ref characters;
         }
 
         /// <summary>
@@ -207,7 +211,7 @@ namespace GenshinMod
         {
             if (HasCharacter(character))
             {
-                characters.Remove(GetCharacter(character));
+                characters.Remove(characters.Find(chara => chara.Name == character));
                 return true;
             }
             return false;
@@ -216,21 +220,21 @@ namespace GenshinMod
         /// <summary>
         /// Returns a list of all characters in the player's party formation.
         /// </summary>
-        public List<Character> GetPartyCharacters()
+        public ref List<Character> GetPartyCharacters()
         {
-            return partyCharacters;
+            return ref partyCharacters;
         }
 
         public bool AddPartyCharacter(string character)
         {
             if (HasCharacter(character))
             {
-                Character characterToAdd = GetCharacter(character);
+                Character characterToAdd = characters.Find(chara => chara.Name == character);
                 if(characterToAdd == null)
                 {
                     Main.NewText(string.Format("Could not add {0}!", characterToAdd));
                 }
-                partyCharacters.Add(GetCharacter(character));
+                partyCharacters.Add(characters.Find(chara => chara.Name == character));  
                 return true;
             }
             return false;
@@ -240,7 +244,7 @@ namespace GenshinMod
         {
             if (HasCharacter(character))
             {
-                partyCharacters.Remove(GetCharacter(character));
+                partyCharacters.Remove(characters.Find(chara => chara.Name == character));
             }
             return false;
         }
@@ -275,7 +279,7 @@ namespace GenshinMod
             }
             else
             {
-                partyCharacters[slot] = GetCharacter(character);
+                partyCharacters[slot] = characters.Find(chara => chara.Name == character);
             }
         }
 
@@ -297,11 +301,11 @@ namespace GenshinMod
             if (!HasCharacter(character)) return false;
             if(activeCharacters.Count == 0)
             {
-                activeCharacters.Add(GetCharacter(character));
+                activeCharacters.Add(characters.Find(chara => chara.Name == character));
             }
             else
             {
-                activeCharacters[0] = GetCharacter(character);
+                activeCharacters[0] = characters.Find(chara => chara.Name == character);
             }
             return true;
         }
@@ -310,7 +314,7 @@ namespace GenshinMod
         {
             if (activeCharacters.Count <= 0) return false;
             if (!HasCharacter(character)) return false;
-            activeCharacters.Remove(GetCharacter(character));
+            activeCharacters.Remove(characters.Find(chara => chara.Name == character));
             return true;
         }
 
@@ -318,7 +322,7 @@ namespace GenshinMod
         {
             if (activeCharacters.Count <= 0) return false;
             if (!HasCharacter(character)) return false;
-            return activeCharacters.Contains(GetCharacter(character));
+            return activeCharacters.Contains(characters.Find(chara => chara.Name == character));
         }
 
         ///// <summary>

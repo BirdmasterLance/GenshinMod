@@ -281,6 +281,15 @@ namespace GenshinMod.Characters.Barbara
         bool BuffUsed = false;
         public override void AI()
         {
+            PlayerCharacterCode modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            for (int i = 0; i < modPlayer.partyCharacters.Count; i++)
+            {
+                if (NPC.whoAmI == modPlayer.partyCharacters[i].GetNPCID())
+                {
+                    modPlayer.partyCharacters[i].life = NPC.life;
+                }
+            }
+
             if (NPC.target < 0 || NPC.target == 255 || Owner.dead || !Owner.active)
             {
                 NPC.TargetClosest();

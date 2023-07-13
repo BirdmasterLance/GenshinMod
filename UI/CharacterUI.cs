@@ -8,6 +8,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using System.Collections.Generic;
 using GenshinMod.CharacterClasses;
+using GenshinMod.Elements;
 
 namespace GenshinMod.UI
 {
@@ -15,10 +16,11 @@ namespace GenshinMod.UI
     {
         Character selectedCharacter;
 
-        DragableUIPanel mainWindow;
+        UIPanel mainWindow;
         UIList list;
         UIText charName;
         UIText attributeText, artifactsText, constellationText, talentText;
+        UIText lifeText, damageText, defenseText, critText, critDmgText, elementalMasteryText, energyRechargeText, healingBonusText;
 
         // Artifact Elements
         UIPanel artifactSlot1, artifactSlot2;
@@ -40,7 +42,7 @@ namespace GenshinMod.UI
         public override void OnInitialize()
         {
             // The Main Window
-            mainWindow = new DragableUIPanel();
+            mainWindow = new UIPanel();
             mainWindow.Width.Set(900, 0);
             mainWindow.Height.Set(400, 0);
             mainWindow.BackgroundColor = new Color(44, 44, 110);
@@ -73,9 +75,50 @@ namespace GenshinMod.UI
 
             // Character's Name & Element
             charName = new UIText("[c/bcc6cf:element / name]", 0.85f);
-            charName.Top.Set(15, 0);
+            charName.Top.Set(10, 0);
             charName.Left.Set(80, 0);
             mainWindow.Append(charName);
+
+            // Character's Stats
+            lifeText = new UIText("Health: ", 0.85f);
+            lifeText.Top.Set(30, 0);
+            lifeText.Left.Set(500, 0);
+            mainWindow.Append(lifeText);
+
+            damageText = new UIText("Damage: ", 0.85f);
+            damageText.Top.Set(50, 0);
+            damageText.Left.Set(500, 0);
+            mainWindow.Append(damageText);
+
+            defenseText = new UIText("Defense: ", 0.85f);
+            defenseText.Top.Set(70, 0);
+            defenseText.Left.Set(500, 0);
+            mainWindow.Append(defenseText);
+
+            critText = new UIText("Crit Chance: ", 0.85f);
+            critText.Top.Set(90, 0);
+            critText.Left.Set(500, 0);
+            mainWindow.Append(critText);
+
+            critDmgText = new UIText("Crit Damage: ", 0.85f);
+            critDmgText.Top.Set(110, 0);
+            critDmgText.Left.Set(500, 0);
+            mainWindow.Append(critDmgText);
+
+            elementalMasteryText = new UIText("Elemental Mastery: ", 0.85f);
+            elementalMasteryText.Top.Set(130, 0);
+            elementalMasteryText.Left.Set(500, 0);
+            mainWindow.Append(elementalMasteryText);
+
+            energyRechargeText = new UIText("Energy Recharge: ", 0.85f);
+            energyRechargeText.Top.Set(150, 0);
+            energyRechargeText.Left.Set(500, 0);
+            mainWindow.Append(energyRechargeText);
+
+            healingBonusText = new UIText("Healing Bonus: ", 0.85f);
+            healingBonusText.Top.Set(170, 0);
+            healingBonusText.Left.Set(500, 0);
+            mainWindow.Append(healingBonusText);
 
             // Character's Attributes (unknown if needed rn)
             attributeText = new UIText("Attributes", 1.2f);
@@ -330,6 +373,8 @@ namespace GenshinMod.UI
                 Main.LocalPlayer.mouseInterface = true;
             }
 
+            UpdateCharacterStats();
+
             // Automatically closes the menu if any of these conditions are true
             // (These conditions usually refer to opening some other menu, so it'll auto close when we open them)
             // Main.playerInventory || 
@@ -348,9 +393,37 @@ namespace GenshinMod.UI
 
             var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
             List<Character> playerCharacters = modPlayer.GetCharacters();
+
+            // Needed to easily keep track of what characters were added
+            List<string> charactersAddedToList = new List<string>(); 
+
+            // Add the Party characters to the top of the list first
+            foreach(Character character in modPlayer.GetPartyCharacters())
+            {
+                if (character == null) continue;
+                if (character.Name == "None") continue;
+
+                UIPanel button = new UIPanel();
+                button.Width.Set(50, 0);
+                button.Height.Set(50, 0);
+                button.Left.Set(0, 0f);
+                button.Top.Set(100, 0);
+                button.BackgroundColor = new Color(48, 51, 59);
+                button.OnClick += OnCharacterListSelect;
+                list.Add(button);
+
+                UIText text = new UIText(character.Name);
+                text.HAlign = text.VAlign = 0.5f;
+                button.Append(text);
+
+                charactersAddedToList.Add(character.Name);
+            }
+            // Then add the remaining characters
+            // TODO: Sort by strength
             foreach (Character character in playerCharacters)
             {
                 if (character == null) continue;
+                if (charactersAddedToList.Contains(character.Name)) continue;
 
                 UIPanel button = new UIPanel();
                 button.Width.Set(50, 0);
@@ -367,33 +440,25 @@ namespace GenshinMod.UI
             }
 
             //// Scrollbar
-            //UIScrollbar scroll = new();
-            //scroll.Width.Set(20, 0);
-            //scroll.Height.Set(0, 0.825f);
-            //scroll.Left.Set(0, 0.95f);
-            //scroll.Top.Set(0, 0.1f);
+            UIScrollbar scroll = new();
+            scroll.Width.Set(20, 0);
+            scroll.Height.Set(0, 0.825f);
+            scroll.Left.Set(0, 0.95f);
+            scroll.Top.Set(0, 0.1f);
 
-            //list.SetScrollbar(scroll);
-            //list.Append(scroll);
+            list.SetScrollbar(scroll);
+            list.Append(scroll);
 
-            //if (playerCharacters.Count > 0)
-            //{
-            //    if (modPlayer.activeCharacterName != null)
-            //    {
-            //        selectedCharacter = modPlayer.activeCharacter;
-            //        SetCharUI(modPlayer.activeCharacterName);
-            //    }
-            //    else
-            //    {
-            //        selectedCharacter = playerCharacters[0];
-            //        SetCharUI(playerCharacters[0].Name);
-            //    }
-            //}
-            //else
-            //{
-            //    selectedCharacter = null;
-            //    SetCharUI("None");
-            //}
+            if (playerCharacters.Count == 0)
+            {
+                selectedCharacter = null;
+                SetCharUI("None");
+            }
+            if (modPlayer.activeCharacters.Count > 0)
+            {
+                selectedCharacter = modPlayer.activeCharacters[0];
+                SetCharUI(modPlayer.activeCharacters[0].Name);
+            }
         }
 
         public void CloseMenu()
@@ -408,44 +473,77 @@ namespace GenshinMod.UI
             talentText.TextColor = new Color(188, 198, 207);
         }
 
+        // Set up data related to the character
         private void SetCharUI(string name)
-        {
-            string elementName = CharacterLists.GetElement(name);
-            charName.SetText(elementName + " / " + name);
-
+        { 
+            if(selectedCharacter == null)
+            {
+                charName.SetText("None / " + name);
+                mainWindow.BackgroundColor = new Color(44, 44, 110);
+                return;
+            }
             // Set the window color based on their element
-            if (elementName == "Anemo")
+            // Set up Element related data
+            switch (selectedCharacter.Element)
             {
-                mainWindow.BackgroundColor = new Color(80, 230, 205);
+                case Element.Anemo:
+                    charName.SetText("Anemo / " + name);
+                    mainWindow.BackgroundColor = new Color(80, 230, 205);
+                    break;
+                case Element.Geo:
+                    charName.SetText("Geo / " + name);
+                    mainWindow.BackgroundColor = new Color(227, 199, 73);
+                    break;
+                case Element.Electro:
+                    charName.SetText("Electro / " + name);
+                    mainWindow.BackgroundColor = new Color(143, 72, 224);
+                    break;
+                case Element.Dendro:
+                    charName.SetText("Dendro / " + name);
+                    mainWindow.BackgroundColor = new Color(111, 219, 61);
+                    break;
+                case Element.Hydro:
+                    charName.SetText("Hydro / " + name);
+                    mainWindow.BackgroundColor = new Color(37, 112, 232);
+                    break;
+                case Element.Pyro:
+                    charName.SetText("Pyro / " + name);
+                    mainWindow.BackgroundColor = new Color(217, 93, 85);
+                    break;
+                case Element.Cryo:
+                    charName.SetText("Cryo / " + name);
+                    mainWindow.BackgroundColor = new Color(115, 222, 255);
+                    break;
+                default:
+                    charName.SetText("None / " + name);
+                    mainWindow.BackgroundColor = new Color(125, 125, 125);
+                    break;
             }
-            else if(elementName == "Cryo")
+        }
+
+        private void UpdateCharacterStats()
+        {         
+            if (selectedCharacter == null)
             {
-                mainWindow.BackgroundColor = new Color(115, 222, 255);
+                lifeText.SetText("");
+                damageText.SetText("");
+                defenseText.SetText("");
+                critText.SetText("");
+                critDmgText.SetText("");
+                elementalMasteryText.SetText("");
+                energyRechargeText.SetText("");
+                healingBonusText.SetText("");
+                return;
             }
-            else if (elementName == "Dendro")
-            {
-                mainWindow.BackgroundColor = new Color(111, 219, 61);
-            }
-            else if (elementName == "Electro")
-            {
-                mainWindow.BackgroundColor = new Color(143, 72, 224);
-            }
-            else if (elementName == "Geo")
-            {
-                mainWindow.BackgroundColor = new Color(227, 199, 73);
-            }
-            else if (elementName == "Hydro")
-            {
-                mainWindow.BackgroundColor = new Color(37, 112, 232);
-            }
-            else if (elementName == "Pyro")
-            {
-                mainWindow.BackgroundColor = new Color(217, 93, 85);
-            }
-            else
-            {
-                mainWindow.BackgroundColor = new Color(125, 125, 125);
-            }
+
+            lifeText.SetText(string.Format("Life: {0} / {1}", selectedCharacter.life, selectedCharacter.lifeMax));
+            damageText.SetText(string.Format("Damage: {0}", selectedCharacter.damage));
+            defenseText.SetText(string.Format("Defense: {0}", selectedCharacter.defense));
+            critText.SetText(string.Format("Crit Chance: {0}", selectedCharacter.crit));
+            critDmgText.SetText(string.Format("Crit Damage: {0}", selectedCharacter.critDmg));
+            elementalMasteryText.SetText(string.Format("Elemental Mastery: {0}", selectedCharacter.elementalMastery));
+            energyRechargeText.SetText(string.Format("Energy Recharge: {0}", selectedCharacter.energyRecharge));
+            healingBonusText.SetText(string.Format("Healing Bonus: {0}", selectedCharacter.healingBonus));
         }
 
         private void OnCharacterListSelect(UIMouseEvent evt, UIElement listeningElement)
@@ -462,7 +560,7 @@ namespace GenshinMod.UI
             foreach (UIElement element in listeningElement.Children)
             {
                 UIText text = (UIText) element;
-                selectedCharacter = modPlayer.GetCharacter(text.Text);
+                selectedCharacter = modPlayer.GetCharacters().Find(chara => chara.Name == text.Text);
                 //modPlayer.ChangeActiveCharacter(text.Text);
                 SetCharUI(text.Text);
             }

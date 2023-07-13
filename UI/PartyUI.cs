@@ -344,19 +344,24 @@ namespace GenshinMod.UI
             characterPanel4.Append(activeCharacterButton4);
         }
 
+
+        // Update info about the Party UI
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
+            // Prevents the player from using items while their mouse is over the UI
             if (listPanel.IsMouseHovering || mainWindow.IsMouseHovering)
             {
                 Main.LocalPlayer.mouseInterface = true;
             }
 
+            // Update the information of characters onto the UI
             var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
             List<Character> partyCharacters = modPlayer.GetPartyCharacters();
             UpdateCharacterInfo(partyCharacters);
         }
+
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
             base.DrawSelf(spriteBatch);
@@ -372,14 +377,14 @@ namespace GenshinMod.UI
         {
             characterList.Clear();
             listPanel.Remove();
-            characterSelected = -1;
+            characterSelected = 0;
 
             var modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
             List<Character> playerCharacters = modPlayer.GetCharacters();
             List<Character> partyCharacters = modPlayer.GetPartyCharacters();
 
-            characterSelected = 0;
-
+            // Populate the character list with characters the player has
+            // so that the player may choose from here for their party
             foreach (Character character in playerCharacters)
             {
                 if (character == null) continue;
@@ -398,6 +403,7 @@ namespace GenshinMod.UI
                 button.Append(text);
             }
 
+            // Fill in the items that each character has
             if(partyCharacters[0] != null)
             {
                 partyCharacters[0].weapon = characterWeapon1.Item;
@@ -477,6 +483,12 @@ namespace GenshinMod.UI
             partyCharacters[3].artifact5 = character4Artifact5.Item;
         }
 
+        // What to do when a character's icon is clicked
+        // It opens up the character list over the party UI
+        // It also sets characterSelected to the number corresponding to the
+        // selected character so we know which one to replace
+        #region Character Icon Click
+
         private void OnCharacter1Click(UIMouseEvent evt, UIElement listeningElement)
         {
             if (characterSelected == -1) return;
@@ -486,14 +498,12 @@ namespace GenshinMod.UI
                 Append(listPanel);
                 Append(closeCharacterList);
                 characterSelected = 1;
-                //header.SetText("Select a character from the list");
             }
             else
             {
                 listPanel.Remove();
                 closeCharacterList.Remove();
                 characterSelected = 0;
-                //header.SetText("Party Setup");
             }
 
         }
@@ -507,14 +517,12 @@ namespace GenshinMod.UI
                 Append(listPanel);
                 Append(closeCharacterList);
                 characterSelected = 2;
-                //header.SetText("Select a character from the list");
             }
             else
             {
                 listPanel.Remove();
                 closeCharacterList.Remove();
                 characterSelected = 0;
-                //header.SetText("Party Setup");
             }
         }
 
@@ -527,14 +535,12 @@ namespace GenshinMod.UI
                 Append(listPanel);
                 Append(closeCharacterList);
                 characterSelected = 3;
-                //header.SetText("Select a character from the list");
             }
             else
             {
                 listPanel.Remove();
                 closeCharacterList.Remove();
                 characterSelected = 0;
-                //header.SetText("Party Setup");
 
             }
         }
@@ -548,23 +554,26 @@ namespace GenshinMod.UI
                 Append(listPanel);
                 Append(closeCharacterList);
                 characterSelected = 4;
-                //header.SetText("Select a character from the list");
             }
             else
             {
                 listPanel.Remove();
                 closeCharacterList.Remove();
                 characterSelected = 0;
-                //header.SetText("Party Setup");
             }
         }
 
+        #endregion
+
+        // What happens when we click on the UIPanel in the character list
+        // In short, it sets the party character to the specificed character in the specified slot
         private void OnCharacterListClick(UIMouseEvent evt, UIElement listeningElement)
         {
             listPanel.Remove();
             closeCharacterList.Remove();
-            //header.SetText("Party Setup");
 
+            // Get the text in each UIPanel in the list
+            // We may have to change this later when we swtich from text to images
             foreach (UIElement element in listeningElement.Children)
             {
                 UIText text = (UIText)element;
@@ -572,12 +581,14 @@ namespace GenshinMod.UI
                 List<Character> partyCharacters = modPlayer.GetPartyCharacters();
 
                 // If the player selects the character that is already in that position, remove the character from the party
-                if (text.Text != partyCharacters[characterSelected - 1].Name) modPlayer.ChangePartyCharacters(text.Text, characterSelected - 1);
-                else modPlayer.ChangePartyCharacters("None", characterSelected - 1);
+                if (text.Text != partyCharacters[characterSelected - 1].Name) modPlayer.ChangePartyCharacters(text.Text, characterSelected - 1); // Change the character
+                else modPlayer.ChangePartyCharacters("None", characterSelected - 1); // Remove them from the party
             }
 
-            characterSelected = 0;
+            characterSelected = 0; // Set back to 0 so we know there is no character selected
         }
+
+        // Temporary code to determine which character is "active" by making the red UIPanel green
 
         private void OnActiveCharacter1Select(UIMouseEvent evt, UIElement listeningElement)
         {
@@ -619,6 +630,9 @@ namespace GenshinMod.UI
             activeCharacterButton1.BackgroundColor = new Color(255, 0, 0, 1);
         }
 
+        // Code used to update the UI of the stats of the character in real time
+        // Useful to make sure the UI is populated correctly
+        // AND to keep track of the character's health while it is an NPC
         private void UpdateCharacterInfo(List<Character> partyCharacters)
         {
 

@@ -13,7 +13,7 @@ namespace GenshinMod.Commands
 			=> "character";
 
 		public override string Usage
-			=> "/character <add/remove/list/clear> [character name]";
+			=> "/character <add/remove/list/clear/info> [character name]";
 
 		public override string Description
 			=> "Modify information about what characters the player has";
@@ -93,16 +93,9 @@ namespace GenshinMod.Commands
 						Main.NewText("Removed " + character);
 					}
 				}
-				else if (args[0] == "active")
+				else if (args[0] == "info")
 				{
-					//if (!modPlayer.ChangeActiveCharacter(character))
-					//{
-					//	Main.NewText("You don't have that character!");
-					//}
-					//else
-					//{
-					//	Main.NewText("Your active character is now: " + character);
-					//}
+					Main.NewText(modPlayer.GetCharacters().Find(chara => chara.Name == character).life);
 				}
 
 			}

@@ -286,6 +286,33 @@ namespace GenshinMod
         }
     }
 
+    public class Ayaka : Character
+    {
+        public Ayaka() : base("Kamisato Ayaka")
+        {
+            npcType = NPCID.Penguin;
+            Element = Elements.Element.Cryo;
+        }
+    }
+
+    public class Venti : Character
+    {
+        public Venti() : base("Venti")
+        {
+            npcType = NPCID.GoldBird;
+            Element = Elements.Element.Anemo;
+        }
+    }
+
+    public class Zhongli : Character
+    {
+        public Zhongli() : base("Zhongli")
+        {
+            npcType = NPCID.GemBunnyAmber;
+            Element = Elements.Element.Geo;
+        }
+    }
+
     // TODO: artifacts
 
     // For saving character info to the player
@@ -374,6 +401,15 @@ namespace GenshinMod
                     break;
                 case "Sangonomiya Kokomi":
                     character = new Kokomi();
+                    break;
+                case "Kamisato Ayaka":
+                    character = new Ayaka();
+                    break;
+                case "Venti":
+                    character = new Venti();
+                    break;
+                case "Zhongli":
+                    character = new Zhongli();
                     break;
             }
             character.AttackLevel = atkLVL;
@@ -490,6 +526,7 @@ namespace GenshinMod
                 case "Hu Tao" : return new HuTao();
                 case "Itto" : return null;
                 case "Jean" : return null;
+                case "Kamisato Ayaka": return new Ayaka();
                 case "Klee" : return new Klee();
                 case "Kaeya" : return new Kaeya();
                 case "Kazuha" : return null;
@@ -503,7 +540,7 @@ namespace GenshinMod
                 case "Sangonomiya Kokomi": return new Kokomi();
                 case "Sayu" : return null;
                 case "Sucrose" : return new Sucrose();
-                case "Venti" : return null;
+                case "Venti" : return new Venti();
                 case "Xiao" : return null;
                 case "Xiangling" : return null;
                 case "Xinyan" : return null;
@@ -512,7 +549,7 @@ namespace GenshinMod
                 case "Yanfei" : return new Yanfei();
                 case "Yoimiya" : return null;
                 case "Yunjin" : return null;
-                case "Zhongli" : return null;
+                case "Zhongli" : return new Zhongli();
             }
             return null;
         }
@@ -602,8 +639,10 @@ namespace GenshinMod
                 Barbara,
                 HuTao,
                 Klee,
-                Kokomi
-
+                Kokomi,
+                Ayaka,
+                Venti,
+                Zhongli
             });
 
             FourStarCharacters.Add(Amber);

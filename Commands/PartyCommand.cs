@@ -12,7 +12,7 @@ namespace GenshinMod.Commands
 			=> "party";
 
 		public override string Usage
-			=> "/party <add/remove/change/list/clear/spawn> [character name] [slot]";
+			=> "/party <add/remove/change/list/clear/spawn/info> [character name] [slot]";
 
 		public override string Description
 			=> "Modify information about what the player's party";
@@ -79,6 +79,9 @@ namespace GenshinMod.Commands
 					case "teleport":
 						selectedCharacter.GetNPC().Teleport(Main.player[selectedCharacter.GetPlayerID()].position);
 						Main.NewText("Spawned " + selectedCharacter.Name + " to player");
+						break;
+					case "info":
+						Main.NewText(selectedCharacter.life);
 						break;
                 }
             }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
@@ -53,7 +54,21 @@ namespace GenshinMod.Characters.Yanfei
 
         public override void AI()
         {
-            
+			// Might not work in multiplayer?;
+			PlayerCharacterCode modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+			for(int i = 0; i < modPlayer.partyCharacters.Count; i++)
+            {
+				if (NPC.whoAmI == modPlayer.partyCharacters[i].GetNPCID())
+                {
+					modPlayer.partyCharacters[i].life = NPC.life;
+					int flameDust = Dust.NewDust(NPC.position, NPC.width, NPC.height / 2, DustID.CorruptTorch, 0f, 0f, 150, default(Color), 8f);
+					Main.dust[flameDust].noGravity = true;
+					Main.dust[flameDust].noLight = true;
+					Main.dust[flameDust].scale = Main.rand.NextFloat() * 3f;
+					Main.dust[flameDust].fadeIn = Main.rand.NextFloat() * 1f;
+					Main.dust[flameDust].velocity *= Main.rand.NextFloat() * 40f;
+				}
+            }
         }
     }
 }
