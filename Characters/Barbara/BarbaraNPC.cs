@@ -68,7 +68,7 @@ namespace GenshinMod.Characters.Barbara
         public override void SetStaticDefaults()
         {
             //NPCID.Sets.ActsLikeTownNPC[Type] = true;h
-            DisplayName.SetDefault("Barbara");
+            // DisplayName.SetDefault("Barbara");
             Main.npcFrameCount[Type] = Main.npcFrameCount[NPCID.Dryad];
             //NPCID.Sets.ActsLikeTownNPC[Type] = true;
 
@@ -114,7 +114,7 @@ namespace GenshinMod.Characters.Barbara
 
         int item = 0;
 
-        public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
 
             if (!firstButton)
@@ -282,11 +282,12 @@ namespace GenshinMod.Characters.Barbara
         public override void AI()
         {
             PlayerCharacterCode modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
-            for (int i = 0; i < modPlayer.partyCharacters.Count; i++)
+            for (int i = 0; i < modPlayer.activeCharacters.Count; i++)
             {
-                if (NPC.whoAmI == modPlayer.partyCharacters[i].GetNPCID())
+                if (NPC.whoAmI == modPlayer.activeCharacters[i].GetNPCID())
                 {
-                    modPlayer.partyCharacters[i].life = NPC.life;
+                    modPlayer.activeCharacters[i].life = NPC.life;
+                    NPC.damage = modPlayer.activeCharacters[i].damage;
                 }
             }
 
@@ -801,7 +802,7 @@ namespace GenshinMod.Characters.Barbara
                             //NPC.velocity.X -= 1f;
 
                             NPC.direction = -1;
-                            Projectile.NewProjectile(entitySource, NPC.Center, Vector2.Zero, ModContent.ProjectileType<BarbaraWater>(), NPC.damage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(entitySource, NPC.Center, Vector2.Zero, ModContent.ProjectileType<BarbaraWater>(), NPC.damage, 0f, Main.myPlayer, ai1:NPC.whoAmI);
 
                             //for (int i = 0; i < Main.maxNPCs; i++)
                             //{
@@ -1813,8 +1814,8 @@ internal class BarbaraCharm : ModBuff
     public override string Texture => "Terraria/Images/Buff_" + BuffID.Lovestruck;
     public override void SetStaticDefaults()
     {
-        DisplayName.SetDefault("Barbara's Charm.");
-        Description.SetDefault("Water Healing.");
+        // DisplayName.SetDefault("Barbara's Charm.");
+        // Description.SetDefault("Water Healing.");
     }
 
     public override void Update(NPC npc, ref int buffIndex)
@@ -1902,7 +1903,7 @@ internal class BarbaraWater : ModProjectile
     public override string Texture => "Terraria/Images/Item_" + ProjectileID.WaterBolt;
     public override void SetStaticDefaults()
     {
-        DisplayName.SetDefault("Water Attack");
+        // DisplayName.SetDefault("Water Attack");
     }
     public int ParentIndex
     {
@@ -1976,7 +1977,7 @@ internal class BarbaraWater : ModProjectile
             }
         }
     }
-    public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+    public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
     {
 
         for (int g = 0; g < 2; g++)

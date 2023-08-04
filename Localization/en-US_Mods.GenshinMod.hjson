@@ -1,0 +1,218 @@
+Keybinds: {
+	"Character Menu.DisplayName": Character  Menu
+	"Party Menu.DisplayName": Party  Menu
+	"Gacha Menu.DisplayName": Gacha  Menu
+	"Elemental Skill.DisplayName": Elemental  Skill
+	"Elemental Burst.DisplayName": Elemental  Burst
+	"Swap Character.DisplayName": Swap  Character
+}
+
+Buffs: {
+	BarbaraCharm: {
+		DisplayName: Barbara Charm
+		Description: Mods.GenshinMod.Buffs.BarbaraCharm.Description
+	}
+
+	RaidenShogunSkillAttackCooldownBuff: {
+		DisplayName: Raiden Shogun Skill Attack Cooldown Buff
+		Description: Mods.GenshinMod.Buffs.RaidenShogunSkillAttackCooldownBuff.Description
+	}
+
+	RaidenShogunSkillBuff: {
+		DisplayName: Raiden Shogun Skill Buff
+		Description: Mods.GenshinMod.Buffs.RaidenShogunSkillBuff.Description
+	}
+
+	BrillianceBuff: {
+		DisplayName: Brilliance Buff
+		Description: Mods.GenshinMod.Buffs.BrillianceBuff.Description
+	}
+
+	DoneDealCooldown: {
+		DisplayName: Done Deal Cooldown
+		Description: Mods.GenshinMod.Buffs.DoneDealCooldown.Description
+	}
+
+	ScarletSealBuff1: {
+		DisplayName: Scarlet Seal Buff1
+		Description: Mods.GenshinMod.Buffs.ScarletSealBuff1.Description
+	}
+
+	ScarletSealBuff2: {
+		DisplayName: Scarlet Seal Buff2
+		Description: Mods.GenshinMod.Buffs.ScarletSealBuff2.Description
+	}
+
+	ScarletSealBuff3: {
+		DisplayName: Scarlet Seal Buff3
+		Description: Mods.GenshinMod.Buffs.ScarletSealBuff3.Description
+	}
+
+	ScarletSealBuff4: {
+		DisplayName: Scarlet Seal Buff4
+		Description: Mods.GenshinMod.Buffs.ScarletSealBuff4.Description
+	}
+
+	SignedEdictCooldown: {
+		DisplayName: Signed Edict Cooldown
+		Description: Mods.GenshinMod.Buffs.SignedEdictCooldown.Description
+	}
+
+	YanfeiBurstCooldown: {
+		DisplayName: Yanfei Burst Cooldown
+		Description: Mods.GenshinMod.Buffs.YanfeiBurstCooldown.Description
+	}
+
+	YanfeiSkillCooldown: {
+		DisplayName: Yanfei Skill Cooldown
+		Description: Mods.GenshinMod.Buffs.YanfeiSkillCooldown.Description
+	}
+
+	AnemoBuff: {
+		DisplayName: Anemo Buff
+		Description: Mods.GenshinMod.Buffs.AnemoBuff.Description
+	}
+
+	CryoBuff: {
+		DisplayName: Cryo Buff
+		Description: Mods.GenshinMod.Buffs.CryoBuff.Description
+	}
+
+	DendroBuff: {
+		DisplayName: Dendro Buff
+		Description: Mods.GenshinMod.Buffs.DendroBuff.Description
+	}
+
+	ElectroBuff: {
+		DisplayName: Electro Buff
+		Description: Mods.GenshinMod.Buffs.ElectroBuff.Description
+	}
+
+	FrozenNPCBuff: {
+		DisplayName: Frozen N P C Buff
+		Description: Mods.GenshinMod.Buffs.FrozenNPCBuff.Description
+	}
+
+	GeoBuff: {
+		DisplayName: Geo Buff
+		Description: Mods.GenshinMod.Buffs.GeoBuff.Description
+	}
+
+	PyroBuff: {
+		DisplayName: Pyro Buff
+		Description: Mods.GenshinMod.Buffs.PyroBuff.Description
+	}
+
+	SuperconductBuff: {
+		DisplayName: Superconduct Buff
+		Description: Mods.GenshinMod.Buffs.SuperconductBuff.Description
+	}
+}
+
+Items: {
+	KaeyaSkillWeapon: {
+		DisplayName: Kaeya Skill Weapon
+		Tooltip: ""
+	}
+
+	KleeWeapon: {
+		DisplayName: Klee Weapon
+		Tooltip: ""
+	}
+
+	RaidenShogunSkillWeapon: {
+		DisplayName: Raiden Shogun Skill Weapon
+		Tooltip: ""
+	}
+
+	CrystalizeCryoItem: {
+		DisplayName: Crystalize Cryo Item
+		Tooltip: ""
+	}
+
+	CrystalizeElectroItem: {
+		DisplayName: Crystalize Electro Item
+		Tooltip: ""
+	}
+
+	CrystalizeHydroItem: {
+		DisplayName: Crystalize Hydro Item
+		Tooltip: ""
+	}
+
+	CrystalizePyroItem: {
+		DisplayName: Crystalize Pyro Item
+		Tooltip: ""
+	}
+
+	DomainStarter: {
+		DisplayName: Domain Starter
+		Tooltip: ""
+	}
+
+	FlaskItem: {
+		DisplayName: Flask Item
+		Tooltip: ""
+	}
+
+	MagicTestItem: {
+		DisplayName: Magic Test Item
+		Tooltip: ""
+	}
+
+	Swoop: {
+		DisplayName: Swoop
+		Tooltip: ""
+	}
+
+	LostPrayerToSacredWinds: {
+		DisplayName: Lost Prayer To Sacred Winds
+		Tooltip: ""
+	}
+
+	PygmyItem: {
+		DisplayName: Pygmy Item
+		Tooltip: ""
+	}
+}
+
+NPCs: {
+	BarbaraNPC.DisplayName: Barbara N P C
+	YanfeiNPC.DisplayName: Yanfei N P C
+	Cube.DisplayName: Cube
+	HallowedHypostasis.DisplayName: Hallowed Hypostasis
+	Paimon.DisplayName: Paimon
+	TestEnemy2.DisplayName: Test Enemy2
+	Chest.DisplayName: Chest
+	ExampleGlobalNPC.DisplayName: Example Global N P C
+}
+
+Projectiles: {
+	BarbaraWater.DisplayName: Barbara Water
+	KaeyaSkillProjectile.DisplayName: Kaeya Skill Projectile
+	KleeChargedAttack.DisplayName: Klee Charged Attack
+	KleeNormalAttack.DisplayName: Klee Normal Attack
+	RaidenShogunSkill2Projectile.DisplayName: Raiden Shogun Skill2 Projectile
+	RaidenShogunSkillProjectile.DisplayName: Raiden Shogun Skill Projectile
+	YanfeiBurst.DisplayName: Yanfei Burst
+	YanfeiCharged.DisplayName: Yanfei Charged
+	YanfeiProjectile.DisplayName: Yanfei Projectile
+	YanfeiSkill.DisplayName: Yanfei Skill
+	CryoFriendlySwirl.DisplayName: Cryo Friendly Swirl
+	ElectroFriendlySwirl.DisplayName: Electro Friendly Swirl
+	EnergyOrb.DisplayName: Energy Orb
+	EnergyParticle.DisplayName: Energy Particle
+	FriendlyReaction.DisplayName: Friendly Reaction
+	HydroFriendlySwirl.DisplayName: Hydro Friendly Swirl
+	OverloadFriendlyProjectile.DisplayName: Overload Friendly Projectile
+	OverloadHostileProjectile.DisplayName: Overload Hostile Projectile
+	PyroFriendlySwirl.DisplayName: Pyro Friendly Swirl
+	Reaction.DisplayName: Reaction
+	Sucrouse_Ultimate.DisplayName: Sucrouse_ Ultimate
+	SuperconductFriendlyProjectile.DisplayName: Superconduct Friendly Projectile
+	SuperconductHostileProjectile.DisplayName: Superconduct Hostile Projectile
+	Wind_Attack.DisplayName: Wind_ Attack
+	DummyBook.DisplayName: Dummy Book
+	Flask.DisplayName: Flask
+	PygmyProjectile.DisplayName: Pygmy Projectile
+}

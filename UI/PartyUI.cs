@@ -98,7 +98,7 @@ namespace GenshinMod.UI
             characterPfp1 = new();
             characterPfp1.Width.Set(100, 0);
             characterPfp1.Height.Set(100, 0);
-            characterPfp1.OnClick += OnCharacter1Click;
+            characterPfp1.OnLeftClick += OnCharacter1Click;
             characterPanel1.Append(characterPfp1);
 
             characterName1 = new("Character 1");
@@ -145,7 +145,7 @@ namespace GenshinMod.UI
             activeCharacterButton1.BackgroundColor = new Color(255, 0, 0, 1);
             activeCharacterButton1.Top.Set(225f, 0);
             activeCharacterButton1.Left.Set(175f, 0);
-            activeCharacterButton1.OnClick += OnActiveCharacter1Select;
+            activeCharacterButton1.OnLeftClick += OnActiveCharacter1Select;
             characterPanel1.Append(activeCharacterButton1);
         }
 
@@ -163,7 +163,7 @@ namespace GenshinMod.UI
             characterPfp2 = new();
             characterPfp2.Width.Set(100, 0);
             characterPfp2.Height.Set(100, 0);
-            characterPfp2.OnClick += OnCharacter2Click;
+            characterPfp2.OnLeftClick += OnCharacter2Click;
             characterPanel2.Append(characterPfp2);
 
             characterName2 = new("Character 2");
@@ -210,7 +210,7 @@ namespace GenshinMod.UI
             activeCharacterButton2.BackgroundColor = new Color(255, 0, 0, 1);
             activeCharacterButton2.Top.Set(225f, 0);
             activeCharacterButton2.Left.Set(175f, 0);
-            activeCharacterButton2.OnClick += OnActiveCharacter2Select;
+            activeCharacterButton2.OnLeftClick += OnActiveCharacter2Select;
             characterPanel2.Append(activeCharacterButton2);
         }
 
@@ -228,7 +228,7 @@ namespace GenshinMod.UI
             characterPfp3 = new();
             characterPfp3.Width.Set(100, 0);
             characterPfp3.Height.Set(100, 0);
-            characterPfp3.OnClick += OnCharacter3Click;
+            characterPfp3.OnLeftClick += OnCharacter3Click;
             characterPanel3.Append(characterPfp3);
 
             characterName3 = new("Character 3");
@@ -275,7 +275,7 @@ namespace GenshinMod.UI
             activeCharacterButton3.BackgroundColor = new Color(255, 0, 0, 1);
             activeCharacterButton3.Top.Set(225f, 0);
             activeCharacterButton3.Left.Set(175f, 0);
-            activeCharacterButton3.OnClick += OnActiveCharacter3Select;
+            activeCharacterButton3.OnLeftClick += OnActiveCharacter3Select;
             characterPanel3.Append(activeCharacterButton3);
         }
 
@@ -293,7 +293,7 @@ namespace GenshinMod.UI
             characterPfp4 = new();
             characterPfp4.Width.Set(100, 0);
             characterPfp4.Height.Set(100, 0);
-            characterPfp4.OnClick += OnCharacter4Click;
+            characterPfp4.OnLeftClick += OnCharacter4Click;
             characterPanel4.Append(characterPfp4);
 
             characterName4 = new("Character 4");
@@ -340,7 +340,7 @@ namespace GenshinMod.UI
             activeCharacterButton4.BackgroundColor = new Color(255, 0, 0, 1);
             activeCharacterButton4.Top.Set(225f, 0);
             activeCharacterButton4.Left.Set(175f, 0);
-            activeCharacterButton4.OnClick += OnActiveCharacter4Select;
+            activeCharacterButton4.OnLeftClick += OnActiveCharacter4Select;
             characterPanel4.Append(activeCharacterButton4);
         }
 
@@ -395,7 +395,7 @@ namespace GenshinMod.UI
                 button.Left.Set(0, 0);
                 button.Top.Set(100, 0);
                 button.BackgroundColor = new Color(48, 51, 59);
-                button.OnClick += OnCharacterListClick;
+                button.OnLeftClick += OnCharacterListClick;
                 characterList.Add(button);
 
                 UIText text = new UIText(character.Name);

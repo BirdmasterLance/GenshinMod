@@ -117,7 +117,7 @@ namespace GenshinMod.NPCH
 
         //    return true;
         //}
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
+        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
         { // Requirements for the town NPC to spawn.
             for (int k = 0; k < 255; k++)
             {
@@ -210,7 +210,7 @@ namespace GenshinMod.NPCH
 
             }
         }
-        public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             if (firstButton)
             {
@@ -218,7 +218,7 @@ namespace GenshinMod.NPCH
 
 
 
-                shop = true;
+                //shop = true;
             }
             if (!firstButton && (Owner.HasItem(item)))
             {
@@ -256,26 +256,26 @@ namespace GenshinMod.NPCH
         }
         // Not  finished, but below is what the NPC shop contains
 
-        public override void SetupShop(Chest shop, ref int nextSlot)
-        {
-            shop.item[nextSlot++].SetDefaults(ItemID.OceanCrateHard/*ItemType < ???? ITEM FROM GENSHIN > ()*/);
-            shop.item[nextSlot].SetDefaults(ItemID.CratePotion);
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ItemID.JungleFishingCrate);
-            nextSlot++;
-            shop.item[nextSlot++].SetDefaults(ItemID.OasisCrate);/*ItemType<Items.Placeable.Furniture.ExampleWorkbench>());*/
-            shop.item[nextSlot++].SetDefaults(ItemID.FrozenCrate);/*ItemType<Items.Placeable.Furniture.ExampleChair>());*/
-            shop.item[nextSlot++].SetDefaults(ItemID.WoodenCrateHard);/*ItemType<Items.Placeable.Furniture.ExampleDoor>());*/
-            shop.item[nextSlot++].SetDefaults(ItemID.FloatingIslandFishingCrate);/*ItemType<Items.Placeable.Furniture.ExampleBed>());*/
-            shop.item[nextSlot++].SetDefaults(ItemID.Lemon);/*ItemType<Items.Placeable.Furniture.ExampleChest>());*/
-            shop.item[nextSlot++].SetDefaults();/*ItemType<ExamplePickaxe>());*/
-            shop.item[nextSlot++].SetDefaults();/*ItemType<ExampleHamaxe>());*/
+        //public override void ModifyActiveShop(string shopName, Item[] items)
+        //{
+        //    shop.item[nextSlot++].SetDefaults(ItemID.OceanCrateHard/*ItemType < ???? ITEM FROM GENSHIN > ()*/);
+        //    shop.item[nextSlot].SetDefaults(ItemID.CratePotion);
+        //    nextSlot++;
+        //    shop.item[nextSlot].SetDefaults(ItemID.JungleFishingCrate);
+        //    nextSlot++;
+        //    shop.item[nextSlot++].SetDefaults(ItemID.OasisCrate);/*ItemType<Items.Placeable.Furniture.ExampleWorkbench>());*/
+        //    shop.item[nextSlot++].SetDefaults(ItemID.FrozenCrate);/*ItemType<Items.Placeable.Furniture.ExampleChair>());*/
+        //    shop.item[nextSlot++].SetDefaults(ItemID.WoodenCrateHard);/*ItemType<Items.Placeable.Furniture.ExampleDoor>());*/
+        //    shop.item[nextSlot++].SetDefaults(ItemID.FloatingIslandFishingCrate);/*ItemType<Items.Placeable.Furniture.ExampleBed>());*/
+        //    shop.item[nextSlot++].SetDefaults(ItemID.Lemon);/*ItemType<Items.Placeable.Furniture.ExampleChest>());*/
+        //    shop.item[nextSlot++].SetDefaults();/*ItemType<ExamplePickaxe>());*/
+        //    shop.item[nextSlot++].SetDefaults();/*ItemType<ExampleHamaxe>());*/
 
-            if (Main.LocalPlayer.HasBuff(BuffID.Lifeforce))
-            {
-                shop.item[nextSlot++].SetDefaults(ItemID.HeartLantern);
-            }
-        }
+        //    if (Main.LocalPlayer.HasBuff(BuffID.Lifeforce))
+        //    {
+        //        shop.item[nextSlot++].SetDefaults(ItemID.HeartLantern);
+        //    }
+        //}
         int ChatTime = 0;
         public override void AI()
         {

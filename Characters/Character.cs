@@ -48,6 +48,7 @@ namespace GenshinMod
 
         public int baseEnergyRecharge = 0;
         public int energyRecharge = 0;
+        public int energy = 0;
 
         public int baseHealingBonus = 0;
         public int healingBonus = 0;
@@ -124,6 +125,7 @@ namespace GenshinMod
                 npc.life = life;
                 npc.lifeMax = lifeMax;
                 npc.defense = defense;
+                npc.ai[2] = energy;
                 //npc.damage = damage;
                 return npcID;
             }
@@ -336,6 +338,7 @@ namespace GenshinMod
             ["critDmg"] = value.critDmg,
             ["elementalMastery"] = value.baseElementalMastery,
             ["energyRecharge"] = value.baseEnergyRecharge,
+            ["energy"] = value.energy,
             ["healingBonus"] = value.baseHealingBonus,
             ["weapon"] = value.weapon,
             ["artifact1"] = value.artifact1,
@@ -361,6 +364,7 @@ namespace GenshinMod
             int critDmg = tag.GetInt("critDmg");
             int elementalMastery = tag.GetInt("elementalMastery");
             int energyRecharge = tag.GetInt("energyRecharge");
+            int energy = tag.GetInt("energy");
             int healingBonus = tag.GetInt("healingBonus");
             Item weapon = tag.Get<Item>("weapon");
             Item artifact1 = tag.Get<Item>("artifact1");
@@ -425,6 +429,7 @@ namespace GenshinMod
             character.baseCritDmg = critDmg;
             character.baseElementalMastery = elementalMastery;
             character.baseEnergyRecharge = energyRecharge;
+            character.energy = energy;
             character.baseHealingBonus = healingBonus;
             character.weapon = weapon;
             character.artifact1 = artifact1;
@@ -442,6 +447,9 @@ namespace GenshinMod
         public static List<string> FourStarCharacters = new();
         public static List<string> FiveStarCharacters = new();
         public static List<string> AllCharacters = new();
+
+        // Used to store the NPCTypes so we can use Contains()
+        public static List<int> CharacterNPCType = new();
 
         // A list only meant for testing characters that have been added in and are functional
         public static List<string> AddedCharacters = new();
@@ -701,6 +709,12 @@ namespace GenshinMod
 
             AllCharacters.AddRange(FourStarCharacters);
             AllCharacters.AddRange(FiveStarCharacters);
+
+            CharacterNPCType.AddRange(new int[]
+            {
+                ModContent.NPCType<Characters.Barbara.BarbaraNPC>(),
+                ModContent.NPCType<Characters.Yanfei.YanfeiNPC>()
+            });
 
             //AllCharacters.Add(Albedo);
             //AllCharacters.Add(Aloy);

@@ -51,7 +51,7 @@ namespace GenshinMod.Commands
 					modPlayer.GetPartyCharacters().Clear();
                     for (int i = 0; i < 4; i++)
                     {
-                        modPlayer.partyCharacters.Add(new Character("None"));
+                        modPlayer.GetPartyCharacters().Add(new Character("None"));
                     }
                     Main.NewText("Removed all characters");
                 }

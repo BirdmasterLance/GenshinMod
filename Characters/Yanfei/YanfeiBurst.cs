@@ -10,7 +10,7 @@ namespace GenshinMod.Characters.Yanfei
 		public override string Texture => "GenshinMod/Items/Invisible";
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Done Deal");
+			// DisplayName.SetDefault("Done Deal");
 		}
 
 		public override void SetDefaults()
@@ -69,8 +69,8 @@ namespace GenshinMod.Characters.Yanfei
 		public override string Texture => "Terraria/Images/Buff_" + BuffID.Silenced;
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Done Deal Cooldown"); // Buff display name
-			Description.SetDefault("You are unable to use Yanfei's Elemental Burst"); // Buff description
+			// DisplayName.SetDefault("Done Deal Cooldown"); // Buff display name
+			// Description.SetDefault("You are unable to use Yanfei's Elemental Burst"); // Buff description
 			Main.debuff[Type] = true;  // Is it a debuff?
 			Main.buffNoSave[Type] = false; // Causes this buff to persist when exiting and rejoining the world			
 		}

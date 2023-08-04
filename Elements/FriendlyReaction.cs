@@ -12,7 +12,7 @@ namespace GenshinMod.Elements
 		public override string Texture => "Terraria/Images/Item_" + ItemID.ChlorophyteBullet;
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Reaction");
+			// DisplayName.SetDefault("Reaction");
 		}
 
 		public override void SetDefaults()

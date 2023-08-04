@@ -13,7 +13,7 @@ namespace GenshinMod.Elements
 		public override string Texture => "GenshinMod/Items/Invisible";
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Electro Swirl");
+			// DisplayName.SetDefault("Electro Swirl");
 		}
 
 		public override void SetDefaults()
@@ -51,7 +51,7 @@ namespace GenshinMod.Elements
 		public override string Texture => "GenshinMod/Items/Invisible";
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Hydro Swirl");
+			// DisplayName.SetDefault("Hydro Swirl");
 		}
 
 		public override void SetDefaults()
@@ -89,7 +89,7 @@ namespace GenshinMod.Elements
 		public override string Texture => "GenshinMod/Items/Invisible";
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Pyro Swirl");
+			// DisplayName.SetDefault("Pyro Swirl");
 		}
 
 		public override void SetDefaults()
@@ -127,7 +127,7 @@ namespace GenshinMod.Elements
 		public override string Texture => "GenshinMod/Items/Invisible";
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Cryo Swirl");
+			// DisplayName.SetDefault("Cryo Swirl");
 		}
 
 		public override void SetDefaults()
@@ -167,7 +167,7 @@ namespace GenshinMod.Elements
 		public override string Texture => "GenshinMod/Items/Invisible";
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Overload");
+			// DisplayName.SetDefault("Overload");
 		}
 
 		public override void SetDefaults()
@@ -205,7 +205,7 @@ namespace GenshinMod.Elements
 		public override string Texture => "GenshinMod/Items/Invisible";
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Overload");
+			// DisplayName.SetDefault("Overload");
 		}
 
 		public override void SetDefaults()
@@ -243,7 +243,7 @@ namespace GenshinMod.Elements
 		public override string Texture => "GenshinMod/Items/Invisible";
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Superconduct");
+			// DisplayName.SetDefault("Superconduct");
 		}
 
 		public override void SetDefaults()
@@ -262,7 +262,7 @@ namespace GenshinMod.Elements
 			Projectile.penetrate = -1;
 		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
 			target.AddBuff(ModContent.BuffType<SuperconductBuff>(), 720);
         }
@@ -286,7 +286,7 @@ namespace GenshinMod.Elements
 		public override string Texture => "GenshinMod/Items/Invisible";
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Superconduct");
+			// DisplayName.SetDefault("Superconduct");
 		}
 
 		public override void SetDefaults()
@@ -305,7 +305,7 @@ namespace GenshinMod.Elements
 			Projectile.penetrate = -1;
 		}
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
 			target.AddBuff(ModContent.BuffType<SuperconductBuff>(), 720);
 		}

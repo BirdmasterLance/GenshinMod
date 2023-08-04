@@ -16,7 +16,7 @@ namespace GenshinMod.Items
         public override void SetStaticDefaults()
 		{
             // DisplayName.SetDefault("Swoop"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-            DisplayName.SetDefault("Flask");
+            // DisplayName.SetDefault("Flask");
         }
 
         public override void SetDefaults()

@@ -10,7 +10,7 @@ namespace GenshinMod.Characters.Yanfei
 		public override string Texture => "GenshinMod/Items/Invisible";
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Signed Edict");
+			//DisplayName.SetDefault("Signed Edict");
 		}
 
 		public override void SetDefaults()
@@ -54,19 +54,19 @@ namespace GenshinMod.Characters.Yanfei
 			base.Kill(timeLeft);
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
 		{
 			if(Projectile.ai[1] != 1)
             {
 				NPC npc = Main.npc[(int)Projectile.ai[1]];
-				npc.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>(), 600);
+				npc.AddBuff(ModContent.BuffType<ScarletSealBuff4>(), 600);
             }
 			else
             {
 				if (Main.myPlayer == Projectile.owner)
 				{
 					Player player = Main.player[Projectile.owner];
-					player.AddBuff(ModContent.BuffType<Buffs.ScarletSealBuff4>(), 600);
+					player.AddBuff(ModContent.BuffType<ScarletSealBuff4>(), 600);
 				}
 			}
 		}
@@ -91,8 +91,8 @@ namespace GenshinMod.Characters.Yanfei
 		public override string Texture => "Terraria/Images/Buff_" + BuffID.Silenced;
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Signed Edict Cooldown"); // Buff display name
-			Description.SetDefault("You are unable to use Yanfei's Skill"); // Buff description
+			//DisplayName.SetDefault("Signed Edict Cooldown"); // Buff display name
+			//Description.SetDefault("You are unable to use Yanfei's Skill"); // Buff description
 			Main.debuff[Type] = true;  // Is it a debuff?
 			Main.buffNoSave[Type] = false; // Causes this buff to persist when exiting and rejoining the world			
 		}

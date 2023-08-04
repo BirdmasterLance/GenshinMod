@@ -9,7 +9,7 @@ namespace GenshinMod.Elements
     internal class ElementProjectile : GlobalProjectile
     {
       
-        public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
         {
 
             Color OverloadColor = new Color(250, 125, 170);
@@ -41,7 +41,13 @@ namespace GenshinMod.Elements
                 {
                     target.DelBuff(target.FindBuffIndex(ModContent.BuffType<PyroBuff>()));
                     CombatText.NewText(target.getRect(), new Color(235, 197, 107), "Vaporize");
-                    damage *= 2;
+
+                    // TModLoader recommends we don't do this 
+                    // but from what I can tell, there's no better way
+                    // to modify the damage of NPC projectiles
+                    modifiers.ModifyHitInfo += (ref NPC.HitInfo hitInfo) => {
+                        hitInfo.Damage = (int)(hitInfo.Damage * 2);
+                    };
                 }
                 else
                 {
@@ -55,13 +61,19 @@ namespace GenshinMod.Elements
                 {
                     target.DelBuff(target.FindBuffIndex(ModContent.BuffType<CryoBuff>()));
                     CombatText.NewText(target.getRect(), new Color(235, 197, 107), "Melt");
-                    damage *= 2;
+
+                    modifiers.ModifyHitInfo += (ref NPC.HitInfo hitInfo) => {
+                        hitInfo.Damage = (int)(hitInfo.Damage * 2);
+                    };
                 }
                 else if (target.HasBuff(BuffID.Wet))
                 {
                     target.DelBuff(target.FindBuffIndex(BuffID.Wet));
                     CombatText.NewText(target.getRect(), new Color(235, 197, 107), "Vaporize");
-                    damage = (int)(damage * 1.5);
+                    
+                    modifiers.ModifyHitInfo += (ref NPC.HitInfo hitInfo) => {
+                        hitInfo.Damage = (int) (hitInfo.Damage * 1.5);
+                    };
                 }
                 else
                 {
@@ -75,7 +87,10 @@ namespace GenshinMod.Elements
                 {
                     target.DelBuff(target.FindBuffIndex(ModContent.BuffType<PyroBuff>()));
                     CombatText.NewText(target.getRect(), new Color(235, 197, 107), "Melt");
-                    damage = (int)(damage * 1.5);
+
+                    modifiers.ModifyHitInfo += (ref NPC.HitInfo hitInfo) => {
+                        hitInfo.Damage = (int)(hitInfo.Damage * 1.5);
+                    };
                 }
                 else
                 {
@@ -84,7 +99,7 @@ namespace GenshinMod.Elements
             }
         }
 
-        public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
         {
             Color AnemoColor = new Color(90, 240, 190);
             Color AnemoCritColor = new Color();
@@ -104,61 +119,50 @@ namespace GenshinMod.Elements
 
             if (Elements.AnemoProjectiles.Contains(projectile.type)) // Anemo
             {
-                if (!crit) UpdateColorOfRecentCombatText(AnemoColor);
+                if (!hit.Crit) UpdateColorOfRecentCombatText(AnemoColor);
                 else UpdateColorOfRecentCombatText(new Color(46, 171, 144));
             }
             else if (Elements.GeoProjectiles.Contains(projectile.type)) // Geo
             {
-                if (!crit) UpdateColorOfRecentCombatText(GeoColor);
+                if (!hit.Crit) UpdateColorOfRecentCombatText(GeoColor);
                 else UpdateColorOfRecentCombatText(new Color(250, 182, 50));
             }
             else if (Elements.ElectroProjectiles.Contains(projectile.type) 
                 || projectile.type == ModContent.ProjectileType<SuperconductFriendlyProjectile>()
                 || projectile.type == ModContent.ProjectileType<SuperconductHostileProjectile>()) // Electro
             {
-                if (!crit) UpdateColorOfRecentCombatText(ElectroColor);
+                if (!hit.Crit) UpdateColorOfRecentCombatText(ElectroColor);
                 else UpdateColorOfRecentCombatText(new Color(143, 0, 214));
             }
             else if (Elements.DendroProjectiles.Contains(projectile.type)) // Dendro
             {
-                if (!crit) UpdateColorOfRecentCombatText(DendroColor);
+                if (!hit.Crit) UpdateColorOfRecentCombatText(DendroColor);
                 else UpdateColorOfRecentCombatText(new Color(97, 204, 2));
             }
             else if (Elements.HydroProjectiles.Contains(projectile.type)) // Hydro
             {
-                if (!crit) UpdateColorOfRecentCombatText(HydroColor);
+                if (!hit.Crit) UpdateColorOfRecentCombatText(HydroColor);
                 else UpdateColorOfRecentCombatText(new Color(25, 76, 207));
             }
             else if (Elements.PyroProjectiles.Contains(projectile.type)) // Pyro
             {
-                if (!crit) UpdateColorOfRecentCombatText(PyroColor);
+                if (!hit.Crit) UpdateColorOfRecentCombatText(PyroColor);
                 else UpdateColorOfRecentCombatText(new Color(18, 0, 222));
             }
             else if (Elements.CryoProjectiles.Contains(projectile.type)) // Cryo
             {
-                if (!crit) UpdateColorOfRecentCombatText(CryoColor);
+                if (!hit.Crit) UpdateColorOfRecentCombatText(CryoColor);
                 else UpdateColorOfRecentCombatText(new Color(0, 180, 204));
             }
             else if(projectile.type == ModContent.ProjectileType<OverloadFriendlyProjectile>()
                 || projectile.type == ModContent.ProjectileType<OverloadHostileProjectile>())
             {
-                if (!crit) UpdateColorOfRecentCombatText(OverloadColor);
+                if (!hit.Crit) UpdateColorOfRecentCombatText(OverloadColor);
                 else UpdateColorOfRecentCombatText(new Color(0, 180, 204));
             }
         }
 
-        public override void OnHitPlayer(Projectile projectile, Player target, int damage, bool crit)
-        {
-            if (Elements.PyroProjectiles.Contains(projectile.type)) target.AddBuff(BuffID.Stinky, 600);
-            else if (Elements.HydroProjectiles.Contains(projectile.type)) target.AddBuff(BuffID.Wet, 600);
-            else if (Elements.ElectroProjectiles.Contains(projectile.type)) target.AddBuff(BuffID.Stinky, 600);
-            else if (Elements.CryoProjectiles.Contains(projectile.type)) target.AddBuff(ModContent.BuffType<CryoBuff>(), 600);
-            else if (Elements.DendroProjectiles.Contains(projectile.type)) target.AddBuff(BuffID.Stinky, 600);
-            else if (Elements.AnemoProjectiles.Contains(projectile.type)) target.AddBuff(BuffID.Stinky, 600);
-            else if (Elements.GeoProjectiles.Contains(projectile.type)) target.AddBuff(BuffID.Stinky, 600);
-        }
-
-        public override void OnHitPvp(Projectile projectile, Player target, int damage, bool crit)
+        public override void OnHitPlayer(Projectile projectile, Player target, Player.HurtInfo info)
         {
             if (Elements.PyroProjectiles.Contains(projectile.type)) target.AddBuff(BuffID.Stinky, 600);
             else if (Elements.HydroProjectiles.Contains(projectile.type)) target.AddBuff(BuffID.Wet, 600);

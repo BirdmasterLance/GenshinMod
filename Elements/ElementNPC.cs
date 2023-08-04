@@ -7,8 +7,7 @@ namespace GenshinMod.Elements
 {
     internal class ElementNPC : GlobalNPC
     {
-
-        public override void OnHitNPC(NPC npc, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC npc, NPC target, NPC.HitInfo hit)
         {
             if (Elements.PyroNPCs.Contains(npc.type)) target.AddBuff(BuffID.Stinky, 600);
             else if (Elements.HydroNPCs.Contains(npc.type)) target.AddBuff(BuffID.Wet, 600);
@@ -19,7 +18,7 @@ namespace GenshinMod.Elements
             else if (Elements.GeoNPCs.Contains(npc.type)) target.AddBuff(BuffID.Stinky, 600);
         }
 
-        public override void OnHitPlayer(NPC npc, Player target, int damage, bool crit)
+        public override void OnHitPlayer(NPC npc, Player target, Player.HurtInfo hurtInfo)
         {
             if (Elements.PyroNPCs.Contains(npc.type)) target.AddBuff(BuffID.Stinky, 600);
             else if (Elements.HydroNPCs.Contains(npc.type)) target.AddBuff(BuffID.Wet, 600);

@@ -32,7 +32,7 @@ namespace GenshinMod.UI
             pullButton.Left.Set(370, 0f);
             pullButton.BackgroundColor = new Color(255, 255, 255);
             pullButton.BorderColor = new Color(194, 180, 105);
-            pullButton.OnClick += WishClick;
+            pullButton.OnLeftClick += WishClick;
             pullButton.SetPadding(0);
             mainWindow.Append(pullButton);
 
@@ -50,7 +50,7 @@ namespace GenshinMod.UI
             pullButton10.BackgroundColor = new Color(255, 255, 255);
             pullButton10.BorderColor = new Color(194, 180, 105);
             pullButton10.SetPadding(0);
-            pullButton10.OnClick += WishClick10;
+            pullButton10.OnLeftClick += WishClick10;
             mainWindow.Append(pullButton10);
 
             // Text for remove button

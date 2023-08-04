@@ -16,7 +16,7 @@ namespace GenshinMod.Items.Weapons
         public override string Texture => "Terraria/Images/Item_" + ItemID.RazorbladeTyphoon;
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases Movement SPD by 10%. When in battle, gain an 8% Elemental DMG Bonus every 4s. Max 4 stacks. Lasts until the character falls or leaves combat.");
+            // Tooltip.SetDefault("Increases Movement SPD by 10%. When in battle, gain an 8% Elemental DMG Bonus every 4s. Max 4 stacks. Lasts until the character falls or leaves combat.");
         }
 
         public override void SetDefaults()

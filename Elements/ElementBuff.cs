@@ -12,8 +12,8 @@ namespace GenshinMod.Elements
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Anemo");
-			Description.SetDefault("You are affected by Anemo");
+			// DisplayName.SetDefault("Anemo");
+			// Description.SetDefault("You are affected by Anemo");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}
@@ -99,8 +99,8 @@ namespace GenshinMod.Elements
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Geo");
-			Description.SetDefault("You are affected by Geo");
+			// DisplayName.SetDefault("Geo");
+			// Description.SetDefault("You are affected by Geo");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}
@@ -184,8 +184,8 @@ namespace GenshinMod.Elements
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Electro");
-			Description.SetDefault("You are affected by Electro");
+			// DisplayName.SetDefault("Electro");
+			// Description.SetDefault("You are affected by Electro");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}
@@ -286,8 +286,8 @@ namespace GenshinMod.Elements
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Dendro");
-			Description.SetDefault("You are affected by Dendro");
+			// DisplayName.SetDefault("Dendro");
+			// Description.SetDefault("You are affected by Dendro");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}
@@ -317,8 +317,8 @@ namespace GenshinMod.Elements
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Pyro");
-			Description.SetDefault("You are affected by Pyro");
+			// DisplayName.SetDefault("Pyro");
+			// Description.SetDefault("You are affected by Pyro");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}
@@ -364,8 +364,8 @@ namespace GenshinMod.Elements
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Cryo");
-			Description.SetDefault("You are affected by Cryo");
+			// DisplayName.SetDefault("Cryo");
+			// Description.SetDefault("You are affected by Cryo");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
 		}
@@ -422,8 +422,8 @@ namespace GenshinMod.Elements
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Frozen");
-			Description.SetDefault("You can't move!");
+			// DisplayName.SetDefault("Frozen");
+			// Description.SetDefault("You can't move!");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = false;
 		}
@@ -444,8 +444,8 @@ namespace GenshinMod.Elements
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Superconduct");
-			Description.SetDefault("Reduced Defense");
+			// DisplayName.SetDefault("Superconduct");
+			// Description.SetDefault("Reduced Defense");
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = false;
 		}

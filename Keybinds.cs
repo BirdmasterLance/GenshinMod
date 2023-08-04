@@ -1,4 +1,4 @@
-﻿using GenshinMod.Buffs;
+﻿
 using GenshinMod.UI;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -19,7 +19,7 @@ namespace GenshinMod
 		public override void Load()
 		{
 			CharacterUIHotKey = KeybindLoader.RegisterKeybind(Mod, "Character Menu", "C");
-			PartyUIHotKey = KeybindLoader.RegisterKeybind(Mod, "Party Menu", "L");
+			PartyUIHotKey = KeybindLoader.RegisterKeybind(Mod, "Party Menu", "X");
 			GachaUIHotKey = KeybindLoader.RegisterKeybind(Mod, "Gacha Menu", "F3");
 			ElementalSkill = KeybindLoader.RegisterKeybind(Mod, "Elemental Skill", "E");
 			ElementalBurst = KeybindLoader.RegisterKeybind(Mod, "Elemental Burst", "Q");

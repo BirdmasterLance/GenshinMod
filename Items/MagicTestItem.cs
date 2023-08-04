@@ -11,7 +11,7 @@ namespace GenshinMod.Items
 		public override string Texture => "Terraria/Images/Item_" + ItemID.CursedFlames;
 		public override void SetStaticDefaults()
 		{
-			Tooltip.SetDefault("Test weapon for magic attacks. skills, etc");
+			// Tooltip.SetDefault("Test weapon for magic attacks. skills, etc");
 		}
 
 		public override void SetDefaults()
@@ -50,7 +50,7 @@ namespace GenshinMod.Items
 		public override string Texture => "GenshinMod/Items/Invisible";
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Dummy Book");
+			// DisplayName.SetDefault("Dummy Book");
 		}
 
 		public override void SetDefaults()

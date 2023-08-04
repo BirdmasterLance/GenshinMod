@@ -124,21 +124,21 @@ namespace GenshinMod.UI
             attributeText = new UIText("Attributes", 1.2f);
             attributeText.Top.Set(60, 0);
             attributeText.Left.Set(100, 0);
-            attributeText.OnClick += OnAttributeClick;
+            attributeText.OnLeftClick += OnAttributeClick;
             mainWindow.Append(attributeText);
 
             artifactsText = new UIText("Artifacts", 1.2f);
             artifactsText.TextColor = new Color(188, 198, 207);
             artifactsText.Top.Set(110, 0);
             artifactsText.Left.Set(100, 0);
-            artifactsText.OnClick += OnArtifactsClick;
+            artifactsText.OnLeftClick += OnArtifactsClick;
             mainWindow.Append(artifactsText);
 
             constellationText = new UIText("Constellation", 1.2f);
             constellationText.TextColor = new Color(188, 198, 207);
             constellationText.Top.Set(160, 0);
             constellationText.Left.Set(100, 0);
-            constellationText.OnClick += OnConstellationClick;
+            constellationText.OnLeftClick += OnConstellationClick;
             mainWindow.Append(constellationText);
           
             UIPanel attributePanel = new UIPanel();
@@ -156,7 +156,7 @@ namespace GenshinMod.UI
             talentText.TextColor = new Color(188, 198, 207);
             talentText.Top.Set(210, 0);
             talentText.Left.Set(100, 0);
-            talentText.OnClick += OnTalentClick;
+            talentText.OnLeftClick += OnTalentClick;
             mainWindow.Append(talentText);
 
             #region Artifact Elements
@@ -201,7 +201,7 @@ namespace GenshinMod.UI
             constellationInfoExitButton.Left.Set(205, 0);
             constellationInfoExitButton.Width.Set(20, 0);
             constellationInfoExitButton.Height.Set(20, 0);
-            constellationInfoExitButton.OnClick += (UIMouseEvent evt, UIElement listeningElement) => { constellationInfoPanel.Remove(); };
+            constellationInfoExitButton.OnLeftClick += (UIMouseEvent evt, UIElement listeningElement) => { constellationInfoPanel.Remove(); };
             constellationInfoPanel.Append(constellationInfoExitButton);
 
             constellationInfoActivateButton = new UIPanel();
@@ -210,7 +210,7 @@ namespace GenshinMod.UI
             constellationInfoActivateButton.Height.Set(50, 0);
             constellationInfoActivateButton.Top.Set(300, 0);
             constellationInfoActivateButton.HAlign = 0.5f;
-            constellationInfoActivateButton.OnClick += OnConstellationActivateClick;
+            constellationInfoActivateButton.OnLeftClick += OnConstellationActivateClick;
             constellationInfoPanel.Append(constellationInfoActivateButton);
 
             constellationInfoActivate = new UIText("Activate");
@@ -245,7 +245,7 @@ namespace GenshinMod.UI
             talentLevelUpButton.Height.Set(40, 0f);
             talentLevelUpButton.Top.Set(315, 0);
             talentLevelUpButton.HAlign = 0.5f;
-            talentLevelUpButton.OnClick += OnTalentLevelUpClick;
+            talentLevelUpButton.OnLeftClick += OnTalentLevelUpClick;
             talentInfoPanel.Append(talentLevelUpButton);
             UIText talentLevelUpText = new UIText("Level Up");
             talentLevelUpText.TextColor = new Color(160, 160, 160);
@@ -308,7 +308,7 @@ namespace GenshinMod.UI
             talentInfoExitButton.Left.Set(205, 0);
             talentInfoExitButton.Width.Set(20, 0);
             talentInfoExitButton.Height.Set(20, 0);
-            talentInfoExitButton.OnClick += (UIMouseEvent evt, UIElement listeningElement) => { talentInfoPanel.Remove(); };
+            talentInfoExitButton.OnLeftClick += (UIMouseEvent evt, UIElement listeningElement) => { talentInfoPanel.Remove(); };
             talentInfoPanel.Append(talentInfoExitButton);
 
             talentConfirmLvlUpPanel = new UIPanel();
@@ -338,7 +338,7 @@ namespace GenshinMod.UI
             talentConfirmConfirm.Height.Set(35, 0);
             talentConfirmConfirm.Top.Set(235, 0);
             talentConfirmConfirm.Left.Set(200, 0);
-            talentConfirmConfirm.OnClick += OnTalentConfirmClick;
+            talentConfirmConfirm.OnLeftClick += OnTalentConfirmClick;
             talentConfirmLvlUpPanel.Append(talentConfirmConfirm);
             UIText talentConfirmConfirmText = new UIText("Confirm");
             talentConfirmConfirmText.TextColor = new Color(160, 160, 160);
@@ -350,7 +350,7 @@ namespace GenshinMod.UI
             talentConfirmExit.Width.Set(180, 0);
             talentConfirmExit.Height.Set(35, 0);
             talentConfirmExit.Top.Set(235, 0);
-            talentConfirmExit.OnClick += (UIMouseEvent evt, UIElement listeningElement) => { talentConfirmLvlUpPanel.Remove(); };
+            talentConfirmExit.OnLeftClick += (UIMouseEvent evt, UIElement listeningElement) => { talentConfirmLvlUpPanel.Remove(); };
             talentConfirmLvlUpPanel.Append(talentConfirmExit);
             UIText talentConfirmExitText = new UIText("Exit");
             talentConfirmExitText.TextColor = new Color(160, 160, 160);
@@ -409,7 +409,7 @@ namespace GenshinMod.UI
                 button.Left.Set(0, 0f);
                 button.Top.Set(100, 0);
                 button.BackgroundColor = new Color(48, 51, 59);
-                button.OnClick += OnCharacterListSelect;
+                button.OnLeftClick += OnCharacterListSelect;
                 list.Add(button);
 
                 UIText text = new UIText(character.Name);
@@ -431,7 +431,7 @@ namespace GenshinMod.UI
                 button.Left.Set(0, 0f);
                 button.Top.Set(100, 0);
                 button.BackgroundColor = new Color(48, 51, 59);
-                button.OnClick += OnCharacterListSelect;
+                button.OnLeftClick += OnCharacterListSelect;
                 list.Add(button);
 
                 UIText text = new UIText(character.Name);
@@ -629,7 +629,7 @@ namespace GenshinMod.UI
             constellation1.Height.Set(40, 0);
             constellation1.Top.Set(30, 0);
             constellation1.Left.Set(0, 0);
-            constellation1.OnClick += OnConstellationClick1;
+            constellation1.OnLeftClick += OnConstellationClick1;
             constellationPanel.Append(constellation1);
 
             constellation2 = new UIPanel();
@@ -637,7 +637,7 @@ namespace GenshinMod.UI
             constellation2.Height.Set(40, 0);
             constellation2.Top.Set(80, 0);
             constellation2.Left.Set(20, 0);
-            constellation2.OnClick += OnConstellationClick2;
+            constellation2.OnLeftClick += OnConstellationClick2;
             constellationPanel.Append(constellation2);
 
             constellation3 = new UIPanel();
@@ -645,7 +645,7 @@ namespace GenshinMod.UI
             constellation3.Height.Set(40, 0);
             constellation3.Top.Set(130, 0);
             constellation3.Left.Set(40, 0);
-            constellation3.OnClick += OnConstellationClick3;
+            constellation3.OnLeftClick += OnConstellationClick3;
             constellationPanel.Append(constellation3);
 
             constellation4 = new UIPanel();
@@ -653,7 +653,7 @@ namespace GenshinMod.UI
             constellation4.Height.Set(40, 0);
             constellation4.Top.Set(180, 0);
             constellation4.Left.Set(40, 0);
-            constellation4.OnClick += OnConstellationClick4;
+            constellation4.OnLeftClick += OnConstellationClick4;
             constellationPanel.Append(constellation4);
 
             constellation5 = new UIPanel();
@@ -661,7 +661,7 @@ namespace GenshinMod.UI
             constellation5.Height.Set(40, 0);
             constellation5.Top.Set(230, 0);
             constellation5.Left.Set(20, 0);
-            constellation5.OnClick += OnConstellationClick5;
+            constellation5.OnLeftClick += OnConstellationClick5;
             constellationPanel.Append(constellation5);
 
             constellation6 = new UIPanel();
@@ -669,7 +669,7 @@ namespace GenshinMod.UI
             constellation6.Height.Set(40, 0);
             constellation6.Top.Set(280, 0);
             constellation6.Left.Set(0, 0);
-            constellation6.OnClick += OnConstellationClick6;
+            constellation6.OnLeftClick += OnConstellationClick6;
             constellationPanel.Append(constellation6);
 
             constellationText1 = new UIText(selectedCharacter.Constellation1, 0.85f);
@@ -925,7 +925,7 @@ namespace GenshinMod.UI
             talent1Text.TextColor = new Color(255, 255, 255);
             talent1Text.Top.Set(0, 0);
             talent1Text.Left.Set(0, 0);
-            talent1Text.OnClick += OnTalentNormalClick;
+            talent1Text.OnLeftClick += OnTalentNormalClick;
             talentPanel.Append(talent1Text);
             talent1LVL = new UIText("Lv. ", 1.1f);
             talent1LVL.TextColor = new Color(188, 198, 207);
@@ -937,7 +937,7 @@ namespace GenshinMod.UI
             talent2Text.TextColor = new Color(188, 198, 207);
             talent2Text.Top.Set(60, 0);
             talent2Text.Left.Set(0, 0);
-            talent2Text.OnClick += OnTalentSkillClick;
+            talent2Text.OnLeftClick += OnTalentSkillClick;
             talentPanel.Append(talent2Text);
             talent2LVL = new UIText("Lv. ", 1.1f);
             talent2LVL.TextColor = new Color(188, 198, 207);
@@ -949,7 +949,7 @@ namespace GenshinMod.UI
             talent3Text.TextColor = new Color(188, 198, 207);
             talent3Text.Top.Set(120, 0);
             talent3Text.Left.Set(0, 0);
-            talent3Text.OnClick += OnTalentBurstClick;
+            talent3Text.OnLeftClick += OnTalentBurstClick;
             talentPanel.Append(talent3Text);
             talent3LVL = new UIText("Lv. ", 1.1f);
             talent3LVL.TextColor = new Color(188, 198, 207);
@@ -961,7 +961,7 @@ namespace GenshinMod.UI
             talent4Text.TextColor = new Color(188, 198, 207);
             talent4Text.Top.Set(180, 0);
             talent4Text.Left.Set(0, 0);
-            talent4Text.OnClick += OnTalentAscension1Click;
+            talent4Text.OnLeftClick += OnTalentAscension1Click;
             talentPanel.Append(talent4Text);
             talent4LVL = new UIText("Lv. 1", 1.1f);
             talent4LVL.TextColor = new Color(188, 198, 207);
@@ -973,7 +973,7 @@ namespace GenshinMod.UI
             talent5Text.TextColor = new Color(188, 198, 207);
             talent5Text.Top.Set(240, 0);
             talent5Text.Left.Set(0, 0);
-            talent5Text.OnClick += OnTalentAscension2Click;
+            talent5Text.OnLeftClick += OnTalentAscension2Click;
             talentPanel.Append(talent5Text);
             talent5LVL = new UIText("Lv. 1", 1.1f);
             talent5LVL.TextColor = new Color(188, 198, 207);

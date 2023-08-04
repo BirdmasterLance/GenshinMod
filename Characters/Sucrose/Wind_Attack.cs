@@ -11,7 +11,7 @@ namespace GenshinMod.Elements
         public override string Texture => "Terraria/Images/Item_" + ItemID.ChlorophyteBullet;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wind Attack");
+            // DisplayName.SetDefault("Wind Attack");
         }
 
         public override void SetDefaults()
@@ -89,7 +89,7 @@ namespace GenshinMod.Elements
                 }
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
 
             for (int k = 0; k < 60; k++)

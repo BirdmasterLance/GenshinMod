@@ -13,7 +13,7 @@ namespace GenshinMod.Items
         public override string Texture => "Terraria/Images/Item_" + ItemID.FragmentStardust;
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Starts a domain");
+            // Tooltip.SetDefault("Starts a domain");
         }
 
         public override void SetDefaults()

@@ -115,7 +115,7 @@ namespace GenshinMod.Characters.Klee
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Kaboom!");
+			// DisplayName.SetDefault("Kaboom!");
 		}
 
 		public override void SetDefaults()
@@ -169,7 +169,12 @@ namespace GenshinMod.Characters.Klee
 
                     if (Projectile.Colliding(projRect, Main.npc[i].getRect()))
 					{
-						Main.npc[i].StrikeNPC(Projectile.damage, Projectile.knockBack, Projectile.direction, Main.rand.Next(1, 101) <= Main.player[Projectile.owner].GetCritChance(DamageClass.Magic));
+						NPC.HitInfo hitInfo = new NPC.HitInfo();
+						hitInfo.Damage = Projectile.damage;
+						hitInfo.Knockback = Projectile.knockBack;
+						hitInfo.HitDirection = Projectile.direction;
+						hitInfo.Crit = Main.rand.Next(1, 101) <= Main.player[Projectile.owner].GetCritChance(DamageClass.Magic);
+						Main.npc[i].StrikeNPC(hitInfo);
 					}
 				}
 			}
@@ -192,7 +197,7 @@ namespace GenshinMod.Characters.Klee
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Charged Kaboom!");
+			// DisplayName.SetDefault("Charged Kaboom!");
 		}
 
 		public override void SetDefaults()
@@ -239,7 +244,12 @@ namespace GenshinMod.Characters.Klee
 					
 					if (Projectile.Colliding(projRect, Main.npc[i].getRect()))
 					{
-						Main.npc[i].StrikeNPC(Projectile.damage, Projectile.knockBack, Projectile.direction, Main.rand.Next(1, 101) <= Main.player[Projectile.owner].GetCritChance(DamageClass.Magic));
+						NPC.HitInfo hitInfo = new NPC.HitInfo();
+						hitInfo.Damage = Projectile.damage;
+						hitInfo.Knockback = Projectile.knockBack;
+						hitInfo.HitDirection = Projectile.direction;
+						hitInfo.Crit = Main.rand.Next(1, 101) <= Main.player[Projectile.owner].GetCritChance(DamageClass.Magic);
+						Main.npc[i].StrikeNPC(hitInfo);
 					}
 				}
 			}

@@ -17,7 +17,7 @@ namespace Hh1.NPCH
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Regular Chest");
+            // DisplayName.SetDefault("Regular Chest");
             Main.npcFrameCount[NPC.type] = 1;
         }
 
@@ -69,7 +69,7 @@ namespace Hh1.NPCH
                 return false;
 
             // can't spawn if the sundial is active
-            if (Main.fastForwardTime)
+            if (Main.IsFastForwardingTime()/* tModPorter Note: Removed. Suggestion: IsFastForwardingTime(), fastForwardTimeToDawn or fastForwardTimeToDusk */)
                 return false;
 
             // can spawn if daytime, and between the spawn and despawn times
@@ -153,7 +153,7 @@ namespace Hh1.NPCH
             button = "Open";
         }
 
-        public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             if (firstButton)
             {

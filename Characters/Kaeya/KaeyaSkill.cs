@@ -42,7 +42,7 @@ namespace GenshinMod.Characters.Kaeya
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Frostgnaw");
+			// DisplayName.SetDefault("Frostgnaw");
 		}
 
 		public override void SetDefaults()

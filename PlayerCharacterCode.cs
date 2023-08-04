@@ -112,11 +112,11 @@ namespace GenshinMod
 
             if (elementCounts[(int) Elements.Element.Anemo] >= 2)
             {
-                Player.moveSpeed += 0.25f;
+                Player.moveSpeed += 0.1f;
             }
             if (elementCounts[(int)Elements.Element.Hydro] >= 2)
             {
-                // TODO: See how 1.4.4 modloader handles health
+                Player.statLifeMax2 = (int)(Player.statLifeMax2 * 1.25);
             }
             if (elementCounts[(int)Elements.Element.Pyro] >= 2)
             {
@@ -129,7 +129,7 @@ namespace GenshinMod
             }
             if(oneOfEachElement == 4)
             {
-                Player.statDefense = (int) (Player.statDefense * 1.25f); // How TMod recommends we do multiplicative increases
+                Player.statDefense *= 1.15f; // How TMod recommends we do multiplicative increases
             }
 
             // Calculate the stats for every character to make sure the values are always up to date
@@ -155,7 +155,7 @@ namespace GenshinMod
                 }
                 if(oneOfEachElement == 4)
                 {
-                    partyCharacters[i].defense = (int)(partyCharacters[i].defense * 1.25f);
+                    partyCharacters[i].defense = (int)(partyCharacters[i].defense * 1.15f);
                 }
             }
         }
@@ -281,6 +281,11 @@ namespace GenshinMod
             {
                 partyCharacters[slot] = characters.Find(chara => chara.Name == character);
             }
+        }
+
+        public ref List<Character> GetActiveCharacters()
+        {
+            return ref activeCharacters;
         }
 
         private bool HasPartyCharacter(string character)

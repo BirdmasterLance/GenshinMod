@@ -59,7 +59,7 @@ namespace GenshinMod.Characters.RaidenShogun
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Transcendence: Baleful Omen");
+			//DisplayName.SetDefault("Transcendence: Baleful Omen");
 		}
 
 		public override void SetDefaults()
@@ -120,7 +120,7 @@ namespace GenshinMod.Characters.RaidenShogun
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Eye of Stormy Judgment");
+			//DisplayName.SetDefault("Eye of Stormy Judgment");
 		}
 
 		public override void SetDefaults()
@@ -158,8 +158,8 @@ namespace GenshinMod.Characters.RaidenShogun
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Eye of Stormy Judgment");
-			Description.SetDefault("Your attacks unleash additional Electro damage");
+			//DisplayName.SetDefault("Eye of Stormy Judgment");
+			//Description.SetDefault("Your attacks unleash additional Electro damage");
 		}
 
         public override void Update(NPC npc, ref int buffIndex)
@@ -185,7 +185,8 @@ namespace GenshinMod.Characters.RaidenShogun
 
 	internal class RaidenShogunSkill : GlobalProjectile
     {
-        public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
+
+        public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
         {
 			if(projectile.ai[1] != -1)
             {

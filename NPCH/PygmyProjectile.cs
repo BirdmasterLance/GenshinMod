@@ -39,7 +39,7 @@ namespace GenshinMod.NPCH
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Pygmy 2");
+			// DisplayName.SetDefault("Pygmy 2");
 		}
 
 		public override void SetDefaults()

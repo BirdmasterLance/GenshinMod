@@ -91,7 +91,7 @@ namespace GenshinMod.NPCH
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hypokube");
+            // DisplayName.SetDefault("Hypokube");
             Main.npcFrameCount[Type] = 1;
 
             // By default enemies gain health and attack if hardmode is reached. this NPC should not be affected by that
@@ -142,7 +142,7 @@ namespace GenshinMod.NPCH
 
 
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             // If the NPC dies, spawn gore and play a sound
             if (Main.netMode == NetmodeID.Server)
