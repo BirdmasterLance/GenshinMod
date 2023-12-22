@@ -32,7 +32,7 @@ namespace GenshinMod.Elements
 			Projectile.penetrate = -1;
 		}
 
-		public override void Kill(int timeLeft)
+		public override void OnKill(int timeLeft)
 		{
 			for (int i = 0; i < 100; i++)
 			{
@@ -42,7 +42,7 @@ namespace GenshinMod.Elements
 				Main.dust[flameDust].fadeIn = Main.rand.NextFloat() * 1f;
 				Main.dust[flameDust].velocity *= Main.rand.NextFloat() * 20f;
 			}
-			base.Kill(timeLeft);
+			base.OnKill(timeLeft);
 		}
 	}
 
@@ -70,7 +70,7 @@ namespace GenshinMod.Elements
 			Projectile.penetrate = -1;
 		}
 
-		public override void Kill(int timeLeft)
+		public override void OnKill(int timeLeft)
 		{
 			for (int i = 0; i < 100; i++)
 			{
@@ -80,7 +80,7 @@ namespace GenshinMod.Elements
 				Main.dust[flameDust].fadeIn = Main.rand.NextFloat() * 1f;
 				Main.dust[flameDust].velocity *= Main.rand.NextFloat() * 20f;
 			}
-			base.Kill(timeLeft);
+			base.OnKill(timeLeft);
 		}
 	}
 
@@ -108,7 +108,7 @@ namespace GenshinMod.Elements
 			Projectile.penetrate = -1;
 		}
 
-		public override void Kill(int timeLeft)
+		public override void OnKill(int timeLeft)
 		{
 			for (int i = 0; i < 100; i++)
 			{
@@ -118,7 +118,7 @@ namespace GenshinMod.Elements
 				Main.dust[flameDust].fadeIn = Main.rand.NextFloat() * 1f;
 				Main.dust[flameDust].velocity *= Main.rand.NextFloat() * 20f;
 			}
-			base.Kill(timeLeft);
+			base.OnKill(timeLeft);
 		}
 	}
 
@@ -146,7 +146,7 @@ namespace GenshinMod.Elements
 			Projectile.penetrate = -1;
 		}
 
-		public override void Kill(int timeLeft)
+		public override void OnKill(int timeLeft)
 		{
 			for (int i = 0; i < 100; i++)
 			{
@@ -156,7 +156,7 @@ namespace GenshinMod.Elements
 				Main.dust[flameDust].fadeIn = Main.rand.NextFloat() * 1f;
 				Main.dust[flameDust].velocity *= Main.rand.NextFloat() * 20f;
 			}
-			base.Kill(timeLeft);
+			base.OnKill(timeLeft);
 		}
 	}
 
@@ -186,7 +186,7 @@ namespace GenshinMod.Elements
 			Projectile.penetrate = -1;
 		}
 
-		public override void Kill(int timeLeft)
+		public override void OnKill(int timeLeft)
 		{
 			for (int i = 0; i < 100; i++)
 			{
@@ -196,7 +196,7 @@ namespace GenshinMod.Elements
 				Main.dust[flameDust].fadeIn = Main.rand.NextFloat() * 1f;
 				Main.dust[flameDust].velocity *= Main.rand.NextFloat() * 20f;
 			}
-			base.Kill(timeLeft);
+			base.OnKill(timeLeft);
 		}
 	}
 
@@ -224,7 +224,7 @@ namespace GenshinMod.Elements
 			Projectile.penetrate = -1;
 		}
 
-		public override void Kill(int timeLeft)
+		public override void OnKill(int timeLeft)
 		{
 			for (int i = 0; i < 100; i++)
 			{
@@ -234,7 +234,7 @@ namespace GenshinMod.Elements
 				Main.dust[flameDust].fadeIn = Main.rand.NextFloat() * 1f;
 				Main.dust[flameDust].velocity *= Main.rand.NextFloat() * 20f;
 			}
-			base.Kill(timeLeft);
+			base.OnKill(timeLeft);
 		}
 	}
 
@@ -267,7 +267,7 @@ namespace GenshinMod.Elements
 			target.AddBuff(ModContent.BuffType<SuperconductBuff>(), 720);
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
 		{
 			for (int i = 0; i < 100; i++)
 			{
@@ -277,7 +277,7 @@ namespace GenshinMod.Elements
 				Main.dust[flameDust].fadeIn = Main.rand.NextFloat() * 1f;
 				Main.dust[flameDust].velocity *= Main.rand.NextFloat() * 20f;
 			}
-			base.Kill(timeLeft);
+			base.OnKill(timeLeft);
 		}
 	}
 
@@ -310,7 +310,7 @@ namespace GenshinMod.Elements
 			target.AddBuff(ModContent.BuffType<SuperconductBuff>(), 720);
 		}
 
-		public override void Kill(int timeLeft)
+		public override void OnKill(int timeLeft)
 		{
 			for (int i = 0; i < 100; i++)
 			{
@@ -320,7 +320,7 @@ namespace GenshinMod.Elements
 				Main.dust[flameDust].fadeIn = Main.rand.NextFloat() * 1f;
 				Main.dust[flameDust].velocity *= Main.rand.NextFloat() * 20f;
 			}
-			base.Kill(timeLeft);
+			base.OnKill(timeLeft);
 		}
 	}
 }

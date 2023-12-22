@@ -73,7 +73,7 @@ namespace GenshinMod.Characters.Yanfei
             NPC.value = 1000f;
             NPC.buffImmune[20] = true;
             NPC.buffImmune[24] = true;
-            NPC.noGravity = false;
+            NPC.noGravity = true;
             NPC.noTileCollide = false;
             NPC.dontTakeDamage = false;
             NPC.homeless = true;
@@ -169,65 +169,78 @@ namespace GenshinMod.Characters.Yanfei
             }
         }
 
+        double xf = 0;
+        int Timer = 0;
         public override void AI()
         {
-			// Might not work in multiplayer?;
-			PlayerCharacterCode modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
-			for(int i = 0; i < modPlayer.GetActiveCharacters().Count; i++)
+            Timer++;
+            if(Timer % 1 == 0)
             {
-				if (NPC.whoAmI == modPlayer.GetActiveCharacters()[i].GetNPCID())
-                {
-					modPlayer.GetActiveCharacters()[i].life = NPC.life;
-                    NPC.damage = modPlayer.GetActiveCharacters()[i].damage;
-                }
-            }
+                xf += 0.1f;
+                double fx = Math.Sin(xf);
 
-            if (NPC.target < 0 || NPC.target == 255 || Owner.dead || !Owner.active)
-            {
-                NPC.TargetClosest();
-            }
-            Player owner = Main.player[NPC.target];
-            if (!checkedOwner)
-            {
-                Owner = owner;
-                checkedOwner = true;
-            }
-            AI_026();
-            if (NPC.Distance(Owner.Center) > 1000f)
-            {
-                NPC.position = Owner.position;
-                for (int k = 0; k < /*num*/21; k++)
-                {
-                    Dust.NewDust(NPC.Center, NPC.width, NPC.height, DustID.ManaRegeneration);
-                    SoundEngine.PlaySound(SoundID.Item154);
-                }
-
-            }
-
-            if (Collision.SolidCollision(NPC.position, NPC.width, NPC.height) && Owner.Bottom.Y < NPC.Bottom.Y)
-            {
-                NPC.velocity.Y -= 0.4f;
-            }
-
-            Vector2 vector3 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-            float num36 = Owner.position.X + (float)(Owner.width / 2) - vector3.X;
-            float num37 = Owner.position.Y + (float)(Owner.height / 2) - vector3.Y;
-            //if (Projectile.type != 892 && Projectile.type != 894)
-            //{
-            num37 += (float)Main.rand.Next(-10, 21);
-            num36 += (float)Main.rand.Next(-10, 21);
-            //}
-            num36 += (float)(60 * -Owner.direction);
-            num37 -= 60f;
-            if (0 < (float)100 && Owner.velocity.Y == 0f && NPC.position.Y + (float)NPC.height <= Owner.position.Y + (float)Owner.height && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
-            {
-                NPC.ai[0] = 0f;
-                if (NPC.velocity.Y < -6f)
-                {
-                    NPC.velocity.Y = -6f;
-                }
+                NPC.velocity.Y = 1 * ((float)fx) * (16f);
+                NPC.velocity.X = ((float)1.5f);
             }
         }
+            //Main.NewText(fx);
+            //// Might not work in multiplayer?;
+            //PlayerCharacterCode modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
+            //for(int i = 0; i < modPlayer.GetActiveCharacters().Count; i++)
+            //         {
+            //	if (NPC.whoAmI == modPlayer.GetActiveCharacters()[i].GetNPCID())
+            //             {
+            //		modPlayer.GetActiveCharacters()[i].life = NPC.life;
+            //                 NPC.damage = modPlayer.GetActiveCharacters()[i].damage;
+            //             }
+            //         }
+
+            //         if (NPC.target < 0 || NPC.target == 255 || Owner.dead || !Owner.active)
+            //         {
+            //             NPC.TargetClosest();
+            //         }
+            //         Player owner = Main.player[NPC.target];
+            //         if (!checkedOwner)
+            //         {
+            //             Owner = owner;
+            //             checkedOwner = true;
+            //         }
+            //         AI_026();
+            //         if (NPC.Distance(Owner.Center) > 1000f)
+            //         {
+            //             NPC.position = Owner.position;
+            //             for (int k = 0; k < /*num*/21; k++)
+            //             {
+            //                 Dust.NewDust(NPC.Center, NPC.width, NPC.height, DustID.ManaRegeneration);
+            //                 SoundEngine.PlaySound(SoundID.Item154);
+            //             }
+
+            //         }
+
+            //         if (Collision.SolidCollision(NPC.position, NPC.width, NPC.height) && Owner.Bottom.Y < NPC.Bottom.Y)
+            //         {
+            //             NPC.velocity.Y -= 0.4f;
+            //         }
+
+            //         Vector2 vector3 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+            //         float num36 = Owner.position.X + (float)(Owner.width / 2) - vector3.X;
+            //         float num37 = Owner.position.Y + (float)(Owner.height / 2) - vector3.Y;
+            //         //if (Projectile.type != 892 && Projectile.type != 894)
+            //         //{
+            //         num37 += (float)Main.rand.Next(-10, 21);
+            //         num36 += (float)Main.rand.Next(-10, 21);
+            //         //}
+            //         num36 += (float)(60 * -Owner.direction);
+            //         num37 -= 60f;
+            //         if (0 < (float)100 && Owner.velocity.Y == 0f && NPC.position.Y + (float)NPC.height <= Owner.position.Y + (float)Owner.height && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
+            //         {
+            //             NPC.ai[0] = 0f;
+            //             if (NPC.velocity.Y < -6f)
+            //             {
+            //                 NPC.velocity.Y = -6f;
+            //             }
+            //         }
+        //}
 
         private void AI_026()
         {

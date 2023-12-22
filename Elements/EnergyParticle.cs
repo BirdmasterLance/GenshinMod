@@ -71,11 +71,11 @@ namespace GenshinMod.Elements
 			return false;
 		}
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
 
 
-			base.Kill(timeLeft);
+			base.OnKill(timeLeft);
         }
 
         public override void AI()
@@ -232,11 +232,11 @@ namespace GenshinMod.Elements
 			return false;
 		}
 
-		public override void Kill(int timeLeft)
+		public override void OnKill(int timeLeft)
 		{
 
 
-			base.Kill(timeLeft);
+			base.OnKill(timeLeft);
 		}
 
 		public override void AI()

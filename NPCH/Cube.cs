@@ -101,16 +101,17 @@ namespace GenshinMod.NPCH
             // Automatically group with other bosses
             NPCID.Sets.BossBestiaryPriority.Add(Type);
 
-            // Specify the debuffs it is immune to
-            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
-            {
-                SpecificallyImmuneTo = new int[] {
-                    BuffID.Poisoned,
+    //        // Specify the debuffs it is immune to
+    //        NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
+    //        {
+    //            SpecificallyImmuneTo = new int[] {
+    //                BuffID.Poisoned,
 
-                    BuffID.Confused // Most NPCs have this
-				}
-            };
-            NPCID.Sets.DebuffImmunitySets.Add(Type, debuffData);
+    //                BuffID.Confused // Most NPCs have this
+				//}
+    //        };
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Poisoned] = true;
+            NPCID.Sets.SpecificDebuffImmunity[Type][BuffID.Confused] = true;
         }
         public override void SetDefaults()
         {

@@ -77,7 +77,7 @@ namespace GenshinMod.Characters.Yanfei
 			}
 		}
 
-		public override void Kill(int timeLeft)
+		public override void OnKill(int timeLeft)
 		{
 			for (int i = 0; i < 25; i++)
 			{
@@ -87,7 +87,7 @@ namespace GenshinMod.Characters.Yanfei
 				Main.dust[dustnumber].fadeIn = Main.rand.NextFloat() * 1f;
 				Main.dust[dustnumber].velocity *= Main.rand.NextFloat() * 9f;
 			}
-			base.Kill(timeLeft);
+			base.OnKill(timeLeft);
 		}
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
 		{
@@ -285,7 +285,7 @@ namespace GenshinMod.Characters.Yanfei
 			}
 		}
 
-		public override void Kill(int timeLeft)
+		public override void OnKill(int timeLeft)
 		{
 			Damage();
 
@@ -299,7 +299,7 @@ namespace GenshinMod.Characters.Yanfei
 
 
 			}
-			base.Kill(timeLeft);
+			base.OnKill(timeLeft);
 		}
 
 		private void Damage()

@@ -136,7 +136,10 @@ namespace GenshinMod.Elements
 
                 ModContent.ProjectileType<ElectroFriendlySwirl>(),
                 ModContent.ProjectileType<Characters.RaidenShogun.RaidenShogunSkillProjectile>(),
-                ModContent.ProjectileType<Characters.RaidenShogun.RaidenShogunSkill2Projectile>()
+                ModContent.ProjectileType<Characters.RaidenShogun.RaidenShogunSkill2Projectile>(),
+
+                ModContent.ProjectileType<Characters.YaeMiko.YaeMikoNormal>(),
+                ModContent.ProjectileType<Characters.YaeMiko.YaeMikoChargedBolt>()
 
             });
 
@@ -238,8 +241,8 @@ namespace GenshinMod.Elements
 
                 ProjectileID.Kraken,
 
-                ModContent.ProjectileType<HydroFriendlySwirl>()
-
+                ModContent.ProjectileType<HydroFriendlySwirl>(),
+                ModContent.ProjectileType<Characters.Kokomi.KokomiNormalAttack>()
                 // ProjectileID.Muramasa
 
             });

@@ -138,7 +138,7 @@ namespace GenshinMod.Characters.RaidenShogun
 			Projectile.DamageType = DamageClass.Magic; // Projectile is a melee projectile
 		}
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
 			for (int i = 0; i < 40; i++)
 			{
@@ -190,6 +190,7 @@ namespace GenshinMod.Characters.RaidenShogun
         {
 			if(projectile.ai[1] != -1)
             {
+				if(projectile.ai[1] >= Main.npc.Length) return;
 				NPC npc = Main.npc[(int) projectile.ai[1]];
 				if (npc.HasBuff(ModContent.BuffType<RaidenShogunSkillBuff>()) && !npc.HasBuff(ModContent.BuffType<RaidenShogunSkillAttackCooldownBuff>()))
                 {

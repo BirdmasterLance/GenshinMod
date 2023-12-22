@@ -19,8 +19,8 @@ Buffs: {
 	}
 
 	RaidenShogunSkillBuff: {
-		DisplayName: Raiden Shogun Skill Buff
-		Description: Mods.GenshinMod.Buffs.RaidenShogunSkillBuff.Description
+		DisplayName: Eye of Stormy Judgment
+		Description: Your attacks unleash additional Electro damage
 	}
 
 	BrillianceBuff: {
@@ -34,22 +34,22 @@ Buffs: {
 	}
 
 	ScarletSealBuff1: {
-		DisplayName: Scarlet Seal Buff1
+		DisplayName: Scarlet Seals 1
 		Description: Mods.GenshinMod.Buffs.ScarletSealBuff1.Description
 	}
 
 	ScarletSealBuff2: {
-		DisplayName: Scarlet Seal Buff2
+		DisplayName: Scarlet Seals 2
 		Description: Mods.GenshinMod.Buffs.ScarletSealBuff2.Description
 	}
 
 	ScarletSealBuff3: {
-		DisplayName: Scarlet Seal Buff3
+		DisplayName: Scarlet Seals 3
 		Description: Mods.GenshinMod.Buffs.ScarletSealBuff3.Description
 	}
 
 	ScarletSealBuff4: {
-		DisplayName: Scarlet Seal Buff4
+		DisplayName: Scarlet Seals 4
 		Description: Mods.GenshinMod.Buffs.ScarletSealBuff4.Description
 	}
 
@@ -174,11 +174,16 @@ Items: {
 		DisplayName: Pygmy Item
 		Tooltip: ""
 	}
+
+	KokomiTestWeapon: {
+		DisplayName: Kokomi Test Weapon
+		Tooltip: ""
+	}
 }
 
 NPCs: {
-	BarbaraNPC.DisplayName: Barbara N P C
-	YanfeiNPC.DisplayName: Yanfei N P C
+	BarbaraNPC.DisplayName: Barbara
+	YanfeiNPC.DisplayName: Yanfei
 	Cube.DisplayName: Cube
 	HallowedHypostasis.DisplayName: Hallowed Hypostasis
 	Paimon.DisplayName: Paimon
@@ -192,12 +197,12 @@ Projectiles: {
 	KaeyaSkillProjectile.DisplayName: Kaeya Skill Projectile
 	KleeChargedAttack.DisplayName: Klee Charged Attack
 	KleeNormalAttack.DisplayName: Klee Normal Attack
-	RaidenShogunSkill2Projectile.DisplayName: Raiden Shogun Skill2 Projectile
-	RaidenShogunSkillProjectile.DisplayName: Raiden Shogun Skill Projectile
-	YanfeiBurst.DisplayName: Yanfei Burst
+	RaidenShogunSkill2Projectile.DisplayName: Eye of Stormy Judgment
+	RaidenShogunSkillProjectile.DisplayName: Transcendence: Baleful Omen
+	YanfeiBurst.DisplayName: Done Deal
 	YanfeiCharged.DisplayName: Yanfei Charged
 	YanfeiProjectile.DisplayName: Yanfei Projectile
-	YanfeiSkill.DisplayName: Yanfei Skill
+	YanfeiSkill.DisplayName: Signed Edict
 	CryoFriendlySwirl.DisplayName: Cryo Friendly Swirl
 	ElectroFriendlySwirl.DisplayName: Electro Friendly Swirl
 	EnergyOrb.DisplayName: Energy Orb
@@ -215,4 +220,9 @@ Projectiles: {
 	DummyBook.DisplayName: Dummy Book
 	Flask.DisplayName: Flask
 	PygmyProjectile.DisplayName: Pygmy Projectile
+	KokomiNormalAttack.DisplayName: Kokomi Normal Attack
+	YaeMikoNormal.DisplayName: Yae Miko Normal
+	YaeMikoSkill.DisplayName: Yae Miko Skill
+	YaeMikoCharged.DisplayName: Yae Miko Charged
+	YaeMikoChargedBolt.DisplayName: Yae Miko Charged Bolt
 }

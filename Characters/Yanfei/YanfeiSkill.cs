@@ -33,7 +33,7 @@ namespace GenshinMod.Characters.Yanfei
 			Projectile.ai[1] = -1;
 		}
 
-		public override void Kill(int timeLeft)
+		public override void OnKill(int timeLeft)
 		{
 			for (int i = 0; i < 50; i++)
 			{
@@ -51,7 +51,7 @@ namespace GenshinMod.Characters.Yanfei
 				Main.dust[smokeDust].velocity.X *= Main.rand.NextFloat() * 10f;
 				Main.dust[smokeDust].velocity.Y *= Main.rand.NextFloat() * 3f;
 			}
-			base.Kill(timeLeft);
+			base.OnKill(timeLeft);
 		}
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

@@ -28,8 +28,8 @@ namespace GenshinMod.Items
 			Item.value = 10000;
 			Item.rare = ItemRarityID.LightRed;
 			Item.UseSound = SoundID.Item71;			
-			Item.shoot = ModContent.ProjectileType<DummyBook>(); 
-			Item.shootSpeed = 14f; 
+			//Item.shoot = ModContent.ProjectileType<Characters.YaeMiko.YaeMikoCharged>(); 
+			//Item.shootSpeed = 14f; 
 			Item.crit = 4;
 			Item.autoReuse = false;
 			Item.channel = true;
@@ -41,6 +41,12 @@ namespace GenshinMod.Items
             //velocity = Vector2.Zero;
             //position = Main.MouseWorld;
         }
+
+        public override bool? UseItem(Player player)
+		{
+			Projectile.NewProjectile(player.GetSource_FromThis(), player.position, Vector2.Zero, ModContent.ProjectileType<Characters.YaeMiko.YaeMikoCharged>(), 50, 0, Main.myPlayer, ai0:player.direction);
+			return true;
+		}
     }
 
 	// The Charged Blaster Cannon works since the cannon itself is a projectile that contains AI for holding down the mouse button

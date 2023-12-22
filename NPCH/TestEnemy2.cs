@@ -15,8 +15,8 @@ namespace GenshinMod.NPCs
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Test Enemy 2");
-			Main.npcFrameCount[npc.type] = Main.npcFrameCount[NPCID.PossessedArmor];
+			//DisplayName.SetDefault("Test Enemy 2");
+			Main.npcFrameCount[NPC.type] = Main.npcFrameCount[NPCID.PossessedArmor];
 			//Main.npcFrameCount[NPC.type] = 9;
 		}
 
