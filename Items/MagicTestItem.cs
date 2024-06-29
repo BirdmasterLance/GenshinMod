@@ -44,7 +44,7 @@ namespace GenshinMod.Items
 
         public override bool? UseItem(Player player)
 		{
-			Projectile.NewProjectile(player.GetSource_FromThis(), player.position, Vector2.Zero, ModContent.ProjectileType<Characters.YaeMiko.YaeMikoCharged>(), 50, 0, Main.myPlayer, ai0:player.direction);
+			Projectile.NewProjectile(player.GetSource_FromThis(), player.position, Vector2.Zero, ModContent.ProjectileType<Characters.YaeMiko.YaeMikoSkill>(), 50, 0, Main.myPlayer, ai0:player.direction);
 			return true;
 		}
     }

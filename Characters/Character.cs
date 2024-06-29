@@ -1,4 +1,5 @@
 ﻿using GenshinMod.Characters;
+using GenshinMod.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,27 @@ namespace GenshinMod
         public int baseDamage = 10;
         public int damage = 10;
 
+        public int normalDamaage = 0;
+        public int skillDamage = 0;
+        public int burstDamage = 0;
+
+        public int baseAnemoDamage = 0;
+        public int anemoDamage = 0;
+        public int baseGeoDamage = 0;
+        public int geoDamage = 0;
+        public int baseElectroDamage = 0;
+        public int electroDamage = 0;
+        public int baseDendroDamage = 0;
+        public int dendroDamage = 0;
+        public int baseHydroDamage = 0;
+        public int hydroDamage = 0;
+        public int basePyroDamage = 0;
+        public int pyroDamage = 0;
+        public int baseCryoDamage = 0;
+        public int cryoDamaage = 0;
+        public int basePhysicalDamage = 0;
+        public int physicalDamage = 0;
+
         public int baseDefense = 10;
         public int defense = 10;
 
@@ -54,12 +76,8 @@ namespace GenshinMod
         public int healingBonus = 0;
 
         // Character Items
-        public Item weapon = new Item();
-        public Item artifact1 = new Item();
-        public Item artifact2 = new Item();
-        public Item artifact3 = new Item();
-        public Item artifact4 = new Item();
-        public Item artifact5 = new Item();
+        protected Item weapon;
+        protected Item[] artifacts = new Item[5];
 
         protected int npcType;
 
@@ -102,12 +120,6 @@ namespace GenshinMod
 
         public Character(string name="")
         {
-            weapon.SetDefaults(0);
-            artifact1.SetDefaults(0);
-            artifact2.SetDefaults(0);
-            artifact3.SetDefaults(0);
-            artifact4.SetDefaults(0);
-            artifact5.SetDefaults(0);
             Name = name;
         }
 
@@ -158,6 +170,30 @@ namespace GenshinMod
         public int GetPlayerID()
         {
             return playerID;
+        }
+
+        public Weapon GetWeapon()
+        {
+            if (weapon == null) return null;
+            return (Weapon) ModContent.GetModItem(weapon.type);
+        }
+
+        public void SetWeapon(Weapon newWeapon)
+        {
+            weapon = newWeapon?.Item;
+        }
+
+        // Uses the enum ArtifactType to specify which artifact we want
+        public Artifact GetArtifact(ArtifactType type)
+        {
+            if (artifacts[(int)type] == null) return null;
+            return (Artifact) ModContent.GetModItem(artifacts[(int) type].type);
+        }
+
+        // Uses the enum ArtifactType to specify which artifact we want to modify
+        public void SetArtifact(ArtifactType type, Artifact newArtifact)
+        {
+            artifacts[(int) type] = newArtifact?.Item;
         }
     }
 
@@ -340,12 +376,12 @@ namespace GenshinMod
             ["energyRecharge"] = value.baseEnergyRecharge,
             ["energy"] = value.energy,
             ["healingBonus"] = value.baseHealingBonus,
-            ["weapon"] = value.weapon,
-            ["artifact1"] = value.artifact1,
-            ["artifact2"] = value.artifact2,
-            ["artifact3"] = value.artifact3,
-            ["artifact4"] = value.artifact4,
-            ["artifact5"] = value.artifact5
+            ["weapon"] = value.GetWeapon()?.Item,
+            ["artifact1"] = value.GetArtifact(ArtifactType.Flower)?.Item,
+            ["artifact2"] = value.GetArtifact(ArtifactType.Plume)?.Item,
+            ["artifact3"] = value.GetArtifact(ArtifactType.Sands)?.Item,
+            ["artifact4"] = value.GetArtifact(ArtifactType.Goblet)?.Item,
+            ["artifact5"] = value.GetArtifact(ArtifactType.Circlet)?.Item
         };
 
         public override Character Deserialize(TagCompound tag)
@@ -431,12 +467,12 @@ namespace GenshinMod
             character.baseEnergyRecharge = energyRecharge;
             character.energy = energy;
             character.baseHealingBonus = healingBonus;
-            character.weapon = weapon;
-            character.artifact1 = artifact1;
-            character.artifact2 = artifact2;
-            character.artifact3 = artifact3;
-            character.artifact4 = artifact4;
-            character.artifact5 = artifact5;
+            character.SetWeapon((Weapon) ModContent.GetModItem(weapon.type));
+            character.SetArtifact(ArtifactType.Flower, (Artifact) ModContent.GetModItem(artifact1.type));
+            character.SetArtifact(ArtifactType.Plume, (Artifact)ModContent.GetModItem(artifact2.type));
+            character.SetArtifact(ArtifactType.Sands, (Artifact)ModContent.GetModItem(artifact3.type));
+            character.SetArtifact(ArtifactType.Goblet, (Artifact)ModContent.GetModItem(artifact4.type));
+            character.SetArtifact(ArtifactType.Circlet, (Artifact)ModContent.GetModItem(artifact5.type));
             ModifyCharacterStats.AdjustCharacterStats(character);
             return character;
         }

@@ -281,6 +281,8 @@ namespace GenshinMod.Characters.Barbara
         bool BuffUsed = false;
         public override void AI()
         {
+            // Ensures that the spawned NPC's stats
+            // are equal to the saved NPC data
             PlayerCharacterCode modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
             for (int i = 0; i < modPlayer.activeCharacters.Count; i++)
             {

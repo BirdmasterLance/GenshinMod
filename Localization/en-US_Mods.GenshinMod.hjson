@@ -179,6 +179,21 @@ Items: {
 		DisplayName: Kokomi Test Weapon
 		Tooltip: ""
 	}
+
+	MarechausseeHunterFlower4Star: {
+		DisplayName: Marechaussee Hunter Flower4 Star
+		Tooltip: ""
+	}
+
+	GildedDreamsFlower5Star: {
+		DisplayName: Gilded Dreams Flower5 Star
+		Tooltip: ""
+	}
+
+	KagurasVerity: {
+		DisplayName: Kaguras Verity
+		Tooltip: ""
+	}
 }
 
 NPCs: {

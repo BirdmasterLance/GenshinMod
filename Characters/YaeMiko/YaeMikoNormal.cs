@@ -30,6 +30,8 @@ namespace GenshinMod.Characters.YaeMiko
 			Projectile.extraUpdates = 1; // Set to above 0 if you want the projectile to update multiple time in a frame
 
 			AIType = ProjectileID.Bullet; // Act exactly like default Bullet
+
+			Projectile.ai[1] = -1;
 		}
 	}
 }

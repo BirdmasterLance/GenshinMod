@@ -30,6 +30,8 @@ namespace GenshinMod.Characters.YaeMiko
 			Projectile.ignoreWater = false;
 			Projectile.tileCollide = false; // Can the projectile collide with tiles?
 			Projectile.extraUpdates = 0; // Set to above 0 if you want the projectile to update multiple time in a frame
+
+			Projectile.ai[1] = -1;
 		}
 
 		public override void AI()
@@ -49,8 +51,8 @@ namespace GenshinMod.Characters.YaeMiko
 		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.ThunderSpearShot;
 		public override void SetDefaults()
 		{
-			Projectile.width = 20;
-			Projectile.height = 60;
+			Projectile.width = 40;
+			Projectile.height = 90;
 			Projectile.aiStyle = -1;
 			Projectile.friendly = true; // Can the projectile deal damage to enemies?
 			Projectile.hostile = false; // Can the projectile deal damage to the player?

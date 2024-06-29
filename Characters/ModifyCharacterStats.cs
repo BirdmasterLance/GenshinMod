@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GenshinMod.Items;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -7,89 +8,369 @@ namespace GenshinMod.Characters
     // Static class so we can call methods from anywhere
     static class ModifyCharacterStats
     {
-        // We're going to use default item attributes as substitures for Genshin stats
-        // Item.defense = character defense
-        // Item.damage = character elemental AND physical damage bc we havent differentiated between them yet
-        // Item.crit = character crit chance
-        // Item.healLife = character hp
-        // Item.healMana = healing bonus
-        // Item.stringColor = elemental mastery
-        // Values still needed: crit damage, energy recharge
         public static void AdjustCharacterStats(Character character)
         {
             int lifeModifier = 0;
+            double lifePercent = 0;
             int damageModifier = 0;
+            double damagePercent = 0;
             int defenseModifier = 0;
+            double defensePercent = 0;
             int critModifier = 0;
             int critDmgModifier = 0;
             int elementalMasteryModifier = 0;
             int energyRechargeModifier = 0;
             int healingBonusModifier = 0;
-            if (character.weapon != null)
+
+            int anemoDmgModifier = 0;
+            int geoDmgModifier = 0;
+            int electroDmgModifier = 0;
+            int dendroDmgModifier = 0;
+            int hydroDmgModifier = 0;
+            int pyroDmgModifier = 0;
+            int cryoDmgModifier = 0;
+            int physicalDmgModifier = 0;
+
+            Weapon weapon = character.GetWeapon();
+            Artifact flower = character.GetArtifact(ArtifactType.Flower);
+            Artifact plume = character.GetArtifact(ArtifactType.Plume);
+            Artifact sands = character.GetArtifact(ArtifactType.Sands);
+            Artifact goblet = character.GetArtifact(ArtifactType.Goblet);
+            Artifact circlet = character.GetArtifact(ArtifactType.Circlet);
+
+            if (weapon != null)
             {
-                lifeModifier += character.weapon.healLife;
-                damageModifier += character.baseDamage + character.weapon.damage;
-                defenseModifier += character.weapon.defense;
-                critModifier += character.weapon.crit;
-                elementalMasteryModifier += character.weapon.stringColor;
-                healingBonusModifier += character.weapon.healMana;
+                damageModifier += character.baseDamage + character.GetWeapon().Item.damage;
+                switch (weapon.GetMainStat())
+                {
+                    case ItemStats.DefensePercentage:
+                        defensePercent += weapon.GetMainStatValue();
+                        break;
+                    case ItemStats.AttackPercentage:
+                        damagePercent += weapon.GetMainStatValue();
+                        break;
+                    case ItemStats.ElementalMastery:
+                        elementalMasteryModifier += (int)weapon.GetMainStatValue();
+                        break;
+                    case ItemStats.EnergyRecharge:
+                        energyRechargeModifier += (int)weapon.GetMainStatValue();
+                        break;
+                    case ItemStats.PhysicalDmgBonus:
+                        physicalDmgModifier += (int)weapon.GetMainStatValue();
+                        break;
+                    case ItemStats.CritRate:
+                        critModifier += (int)weapon.GetMainStatValue();
+                        break;
+                    case ItemStats.CritDmg:
+                        critDmgModifier += (int)weapon.GetMainStatValue();
+                        break;
+                }
             }
-            if (character.artifact1 != null)
+            if (flower != null)
             {
-                lifeModifier += character.artifact1.healLife;
-                damageModifier += character.baseDamage + character.artifact1.damage;
-                defenseModifier += character.artifact1.defense;
-                critModifier += character.artifact1.crit;
-                elementalMasteryModifier += character.artifact1.stringColor;
-                healingBonusModifier += character.artifact1.healMana;
+                // Flowers always have HP as the main stat
+                lifeModifier += (int)flower.GetMainStatValue();
+                foreach((ItemStats, int) statValuePair in flower.GetSubStats())
+                {
+                    switch(statValuePair.Item1)
+                    {
+                        case ItemStats.Health:
+                            lifeModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.HealthPercentage:
+                            lifePercent += statValuePair.Item2;
+                            break;
+                        case ItemStats.Defense:
+                            defenseModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.DefensePercentage:
+                            defensePercent += statValuePair.Item2;
+                            break;
+                        case ItemStats.Attack:
+                            damageModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.AttackPercentage:
+                            damagePercent += statValuePair.Item2;
+                            break;
+                        case ItemStats.ElementalMastery:
+                            elementalMasteryModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.EnergyRecharge:
+                            energyRechargeModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.CritRate:
+                            critModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.CritDmg:
+                            critDmgModifier += statValuePair.Item2;
+                            break;
+                    }
+                }    
+
             }
-            if (character.artifact2 != null)
+            if (plume != null)
             {
-                lifeModifier += character.artifact2.healLife;
-                damageModifier += character.baseDamage + character.artifact2.damage;
-                defenseModifier += character.artifact2.defense;
-                critModifier += character.artifact2.crit;
-                elementalMasteryModifier += character.artifact2.stringColor;
-                healingBonusModifier += character.artifact2.healMana;
+                // Plumes always have ATK as the main stat
+                damageModifier += character.baseDamage + (int)plume.GetMainStatValue();
+                foreach ((ItemStats, int) statValuePair in flower.GetSubStats())
+                {
+                    switch (statValuePair.Item1)
+                    {
+                        case ItemStats.Health:
+                            lifeModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.HealthPercentage:
+                            lifePercent += statValuePair.Item2;
+                            break;
+                        case ItemStats.Defense:
+                            defenseModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.DefensePercentage:
+                            defensePercent += statValuePair.Item2;
+                            break;
+                        case ItemStats.Attack:
+                            damageModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.AttackPercentage:
+                            damagePercent += statValuePair.Item2;
+                            break;
+                        case ItemStats.ElementalMastery:
+                            elementalMasteryModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.EnergyRecharge:
+                            energyRechargeModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.CritRate:
+                            critModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.CritDmg:
+                            critDmgModifier += statValuePair.Item2;
+                            break;
+                    }
+                }
+
+
             }
-            if (character.artifact3 != null)
+            if (sands != null)
             {
-                lifeModifier += character.artifact3.healLife;
-                damageModifier += character.baseDamage + character.artifact3.damage;
-                defenseModifier += character.artifact3.defense;
-                critModifier += character.artifact3.crit;
-                elementalMasteryModifier += character.artifact3.stringColor;
-                healingBonusModifier += character.artifact3.healMana;
+                switch(sands.GetMainStat())
+                {
+                    case ItemStats.HealthPercentage:
+                        lifePercent += sands.GetMainStatValue();
+                        break;
+                    case ItemStats.DefensePercentage:
+                        defensePercent += sands.GetMainStatValue();
+                        break;
+                    case ItemStats.AttackPercentage:
+                        damagePercent += sands.GetMainStatValue();
+                        break;
+                    case ItemStats.ElementalMastery:
+                        elementalMasteryModifier += (int)sands.GetMainStatValue();
+                        break;
+                    case ItemStats.EnergyRecharge:
+                        energyRechargeModifier += (int)sands.GetMainStatValue();
+                        break;
+                }
+
+                foreach ((ItemStats, int) statValuePair in flower.GetSubStats())
+                {
+                    switch (statValuePair.Item1)
+                    {
+                        case ItemStats.Health:
+                            lifeModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.HealthPercentage:
+                            lifePercent += statValuePair.Item2;
+                            break;
+                        case ItemStats.Defense:
+                            defenseModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.DefensePercentage:
+                            defensePercent += statValuePair.Item2;
+                            break;
+                        case ItemStats.Attack:
+                            damageModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.AttackPercentage:
+                            damagePercent += statValuePair.Item2;
+                            break;
+                        case ItemStats.ElementalMastery:
+                            elementalMasteryModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.EnergyRecharge:
+                            energyRechargeModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.CritRate:
+                            critModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.CritDmg:
+                            critDmgModifier += statValuePair.Item2;
+                            break;
+                    }
+                }
             }
-            if (character.artifact4 != null)
+            if (goblet != null)
             {
-                lifeModifier += character.artifact4.healLife;
-                damageModifier += character.baseDamage + character.artifact4.damage;
-                defenseModifier += character.artifact4.defense;
-                critModifier += character.artifact4.crit;
-                elementalMasteryModifier += character.artifact4.stringColor;
-                healingBonusModifier += character.artifact4.healMana;
+                switch (goblet.GetMainStat())
+                {
+                    case ItemStats.HealthPercentage:
+                        lifePercent += goblet.GetMainStatValue();
+                        break;
+                    case ItemStats.DefensePercentage:
+                        defensePercent += goblet.GetMainStatValue();
+                        break;
+                    case ItemStats.AttackPercentage:
+                        damagePercent += goblet.GetMainStatValue();
+                        break;
+                    case ItemStats.ElementalMastery:
+                        elementalMasteryModifier += (int)goblet.GetMainStatValue();
+                        break;
+                    case ItemStats.AnemoDmgBonus:
+                        anemoDmgModifier += (int)goblet.GetMainStatValue();
+                        break;
+                    case ItemStats.GeoDmgBonus:
+                        geoDmgModifier += (int)goblet.GetMainStatValue();
+                        break;
+                    case ItemStats.ElectroDmgBonus:
+                        electroDmgModifier += (int)goblet.GetMainStatValue();
+                        break;
+                    case ItemStats.DendroDmgBonus:
+                        dendroDmgModifier += (int)goblet.GetMainStatValue();
+                        break;
+                    case ItemStats.HydroDmgBonus:
+                        hydroDmgModifier += (int)goblet.GetMainStatValue();
+                        break;
+                    case ItemStats.PyroDmgBonus:
+                        pyroDmgModifier += (int)goblet.GetMainStatValue();
+                        break;
+                    case ItemStats.CryoDmgBonus:
+                        cryoDmgModifier += (int)goblet.GetMainStatValue();
+                        break;
+                    case ItemStats.PhysicalDmgBonus:
+                        physicalDmgModifier += (int)goblet.GetMainStatValue();
+                        break;
+                }
+
+                foreach ((ItemStats, int) statValuePair in flower.GetSubStats())
+                {
+                    switch (statValuePair.Item1)
+                    {
+                        case ItemStats.Health:
+                            lifeModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.HealthPercentage:
+                            lifePercent += statValuePair.Item2;
+                            break;
+                        case ItemStats.Defense:
+                            defenseModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.DefensePercentage:
+                            defensePercent += statValuePair.Item2;
+                            break;
+                        case ItemStats.Attack:
+                            damageModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.AttackPercentage:
+                            damagePercent += statValuePair.Item2;
+                            break;
+                        case ItemStats.ElementalMastery:
+                            elementalMasteryModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.EnergyRecharge:
+                            energyRechargeModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.CritRate:
+                            critModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.CritDmg:
+                            critDmgModifier += statValuePair.Item2;
+                            break;
+                    }
+                }
             }
-            if (character.artifact5 != null)
+            if (circlet != null)
             {
-                lifeModifier += character.artifact5.healLife;
-                damageModifier += character.baseDamage + character.artifact5.damage;
-                defenseModifier += character.artifact5.defense;
-                critModifier += character.artifact5.crit;
-                elementalMasteryModifier += character.artifact5.stringColor;
-                healingBonusModifier += character.artifact5.healMana;
+                switch (circlet.GetMainStat())
+                {
+                    case ItemStats.HealthPercentage:
+                        lifePercent += circlet.GetMainStatValue();
+                        break;
+                    case ItemStats.DefensePercentage:
+                        defensePercent += circlet.GetMainStatValue();
+                        break;
+                    case ItemStats.AttackPercentage:
+                        damagePercent += circlet.GetMainStatValue();
+                        break;
+                    case ItemStats.ElementalMastery:
+                        elementalMasteryModifier += (int)circlet.GetMainStatValue();
+                        break;
+                    case ItemStats.CritRate:
+                        critModifier += (int)circlet.GetMainStatValue();
+                        break;
+                    case ItemStats.CritDmg:
+                        critDmgModifier += (int)circlet.GetMainStatValue();
+                        break;
+                    case ItemStats.HealingBonus:
+                        healingBonusModifier += (int)circlet.GetMainStatValue();
+                        break;
+                }
+
+                foreach ((ItemStats, int) statValuePair in flower.GetSubStats())
+                {
+                    switch (statValuePair.Item1)
+                    {
+                        case ItemStats.Health:
+                            lifeModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.HealthPercentage:
+                            lifePercent += statValuePair.Item2;
+                            break;
+                        case ItemStats.Defense:
+                            defenseModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.DefensePercentage:
+                            defensePercent += statValuePair.Item2;
+                            break;
+                        case ItemStats.Attack:
+                            damageModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.AttackPercentage:
+                            damagePercent += statValuePair.Item2;
+                            break;
+                        case ItemStats.ElementalMastery:
+                            elementalMasteryModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.EnergyRecharge:
+                            energyRechargeModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.CritRate:
+                            critModifier += statValuePair.Item2;
+                            break;
+                        case ItemStats.CritDmg:
+                            critDmgModifier += statValuePair.Item2;
+                            break;
+                    }
+                }
             }
 
-            float currentLifeModifier = (character.life / character.lifeMax);
-            character.lifeMax = character.baseLifeMax + lifeModifier;
+            float currentLifeModifier = character.life / character.lifeMax;
+            character.lifeMax = ((int) (character.baseLifeMax * (1 + lifePercent))) + lifeModifier;
             character.life = (int) (character.lifeMax * currentLifeModifier); // Adjust current life accordingly (based on how much health was had at a %)
-            character.damage = character.baseDamage + damageModifier;
-            character.defense = character.baseDefense + defenseModifier;
+            character.damage = ((int) (character.baseDamage * (1 + damagePercent / 100))) + damageModifier;
+            character.defense = ((int) (character.baseDefense * (1 + defensePercent / 100))) + defenseModifier;
             character.crit = character.baseCrit + critModifier;
             character.critDmg = character.baseCritDmg + critDmgModifier;
             character.elementalMastery = character.baseElementalMastery + elementalMasteryModifier;
             character.energyRecharge = character.baseEnergyRecharge + energyRechargeModifier;
             character.healingBonus = character.baseHealingBonus + healingBonusModifier;
+            character.anemoDamage = character.baseAnemoDamage + anemoDmgModifier;
+            character.geoDamage = character.baseGeoDamage + geoDmgModifier;
+            character.electroDamage = character.baseElectroDamage + electroDmgModifier;
+            character.dendroDamage = character.baseDendroDamage + dendroDmgModifier;
+            character.hydroDamage = character.baseHydroDamage + hydroDmgModifier;
+            character.pyroDamage = character.basePyroDamage + pyroDmgModifier;
+            character.cryoDamaage = character.baseCryoDamage + cryoDmgModifier;
+            character.physicalDamage = character.physicalDamage + physicalDmgModifier;
         }
     }
 
@@ -103,7 +384,13 @@ namespace GenshinMod.Characters
             {
                 if(projectile.ai[1] == character.GetNPCID()) // If a projectile shot as its ai[1] value equal to an active character's ID
                 {
-                    projectile.damage += character.damage; // Modify the damage based on the character's saved damage
+                    int appliedDamage = character.damage;
+                    Random critChance = new Random();
+                    if(critChance.Next() <= (character.crit / 100.0))
+                    {
+                        appliedDamage *= (int) (1 + (character.critDmg / 100.0));
+                    }
+                    projectile.damage += appliedDamage; // Modify the damage based on the character's saved damage
                 }
             }
         }
