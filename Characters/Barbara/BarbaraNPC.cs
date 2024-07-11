@@ -1,5 +1,4 @@
 ﻿using GenshinMod.Characters.Barbara;
-using GenshinMod.Characters.Klee;
 using GenshinMod.Elements;
 using Microsoft.Xna.Framework;
 using System;
@@ -281,8 +280,6 @@ namespace GenshinMod.Characters.Barbara
         bool BuffUsed = false;
         public override void AI()
         {
-            // Ensures that the spawned NPC's stats
-            // are equal to the saved NPC data
             PlayerCharacterCode modPlayer = Main.LocalPlayer.GetModPlayer<PlayerCharacterCode>();
             for (int i = 0; i < modPlayer.activeCharacters.Count; i++)
             {
@@ -785,7 +782,7 @@ namespace GenshinMod.Characters.Barbara
 
                             //NPC.velocity.X += 2f;
                             NPC.direction = 1;
-                            Projectile.NewProjectile(entitySource, NPC.Center, Vector2.Zero, ModContent.ProjectileType<BarbaraWater>(), NPC.damage, 0f, Main.myPlayer, ai1:NPC.whoAmI);
+                            Projectile.NewProjectile(entitySource, NPC.Center, Vector2.Zero, ModContent.ProjectileType<BarbaraWater>(), NPC.damage, 0f, Main.myPlayer, ai1: NPC.whoAmI);
                             //foreach (NPC npc in Main.npc)
                             //{
                             //    if (npc.Distance(npc.Center) > distanceFromTarget)
@@ -804,7 +801,7 @@ namespace GenshinMod.Characters.Barbara
                             //NPC.velocity.X -= 1f;
 
                             NPC.direction = -1;
-                            Projectile.NewProjectile(entitySource, NPC.Center, Vector2.Zero, ModContent.ProjectileType<BarbaraWater>(), NPC.damage, 0f, Main.myPlayer, ai1:NPC.whoAmI);
+                            Projectile.NewProjectile(entitySource, NPC.Center, Vector2.Zero, ModContent.ProjectileType<BarbaraWater>(), NPC.damage, 0f, Main.myPlayer, ai1: NPC.whoAmI);
 
                             //for (int i = 0; i < Main.maxNPCs; i++)
                             //{
@@ -1863,17 +1860,31 @@ internal class BarbaraCharm : ModBuff
 
         }
     }
+    float xvalues = 0;
     public override void Update(Player player, ref int buffIndex)
     {
+
+
+        double xf = xvalues;
+        double fx = Math.Sin(xf);
+        //Projectile[] projectiles = new Projectile[4];
+        //projectiles[0] = Projectile.NewProjectileDirect(player.GetSource_FromAI(), player.Center, new Vector2(Main.rand.NextFloat(0.1f, 0.5f), Main.rand.NextFloat(-0.1f, -0.5f)), ProjectileID.EighthNote, 0, 0f, Main.myPlayer);
+        //projectiles[1] = Projectile.NewProjectileDirect(player.GetSource_FromAI(), player.Center, new Vector2(Main.rand.NextFloat(0.1f, 0.5f), Main.rand.NextFloat(-0.1f, -0.5f)), ProjectileID.EighthNote, 0, 0f, Main.myPlayer);
         if (timer % 60 == 0)
         {
-
+            if (xvalues >= 0 && xvalues < Math.PI * 2) { xvalues++; }
+            else { xvalues = 0; }
             for (int k = 0; k < /*num*/1; k++)
             {
                 Dust.NewDust(player.Center, player.width * 100 / 50 * -1, (player.height * 100 / 50) * -1, DustID.ManaRegeneration);
             }
-            var p = Projectile.NewProjectileDirect(player.GetSource_FromAI(), player.Center, new Vector2(Main.rand.NextFloat(0.1f, 0.5f), Main.rand.NextFloat(-0.1f, -0.5f)), ProjectileID.EighthNote, 0, 0f, Main.myPlayer);
-            p.timeLeft = 30;
+            var p = Projectile.NewProjectileDirect(player.GetSource_FromAI(), player.Center, new Vector2(0f, 0f/* Main.rand.NextFloat(-0.1f, -0.5f))*/), ProjectileID.EighthNote, 0, 0f, Main.myPlayer);
+            p.timeLeft = 3000;
+
+
+
+            p.velocity.Y = ((float)fx);
+            p.velocity.X = xvalues;
             //p.width--;
             //p.height--;
 
@@ -1893,6 +1904,7 @@ internal class BarbaraCharm : ModBuff
 
 
         }
+        //xvalues++;
     }
 
     //public override 
@@ -2029,7 +2041,7 @@ internal class BarbaraWater : ModProjectile
                         {
 
 
-                            healthAmmount = Projectile.damage * 100 / 50;
+                            healthAmmount = npc.damage * 100 / 50;
                             if (npc.life + healthAmmount > npc.lifeMax)
                             {
 
@@ -2059,5 +2071,5 @@ internal class BarbaraWater : ModProjectile
 
         SearchForTargets();
     }
-
+    
 }
